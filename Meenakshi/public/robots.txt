@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://srimeenakshiglassandply.in/sitemap.xml

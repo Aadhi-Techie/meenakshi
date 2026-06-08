@@ -1,0 +1,840 @@
+/* ═══════════════════════════════════════════════════════════════
+   src/styles/globals.css
+   Sri Meenakshi — Global Stylesheet
+
+   ANNOTATION LEGEND (in comments throughout this file):
+   ✅ KEEP       — complex enough that CSS is the right tool; don't Tailwind-ify
+   🔄 TAILWIND   — replace with utility classes when the component is refactored
+   🎬 FRAMER     — replace with framer-motion when the component is refactored
+   📦 LAYER      — moved to @layer components so Tailwind can purge it correctly
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Google Fonts ─────────────────────────────────────────────
+   ✅ KEEP — font loading must stay in CSS, not JS
+   ──────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;0,800;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+/* ── Tailwind directives ──────────────────────────────────────
+   Add these three lines when Tailwind is installed.
+   Until then, comment them out and the file works standalone.
+   ──────────────────────────────────────────────────────────── */
+/* @tailwind base;       */
+/* @tailwind components; */
+/* @tailwind utilities;  */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   1. DESIGN TOKENS  (CSS Custom Properties)
+   ✅ KEEP — these feed every component; Tailwind config will
+             reference them via `extend.colors` in tailwind.config.js
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* Backgrounds — darkest to lightest */
+  --bg:  #030918;
+  --bg2: #060f22;
+  --bg3: #091527;
+  --bg4: #0d1d38;
+
+  /* Brand — orange spectrum */
+  --o:  #f97316;
+  --o2: #ea580c;
+  --o3: #ff9448;
+
+  /* Accent palette */
+  --gold: #f59e0b;
+  --sky:  #38bdf8;
+  --em:   #34d399;
+  --vi:   #a78bfa;
+  --am:   #fbbf24;
+
+  /* Neutral / slate */
+  --sl:  #94a3b8;
+  --sl2: #64748b;
+  --sl3: #475569;
+
+  /* Utility */
+  --w:   #f8fafc;
+  --gr:  #22c55e;
+  --re:  #ef4444;
+
+  /* Borders */
+  --brd: rgba(255, 255, 255, 0.07);
+
+  /* Border-radius scale */
+  --rd:  10px;
+  --rdl: 18px;
+  --rdx: 26px;
+
+  /* Box shadows */
+  --sh:  0 4px 24px rgba(0, 0, 0, 0.5);
+  --shx: 0 20px 70px rgba(0, 0, 0, 0.6);
+
+  /* Glow effects */
+  --glow:  0 0 40px rgba(249, 115, 22, 0.25);
+  --glowx: 0 0 80px rgba(249, 115, 22, 0.4);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   2. RESET & BASE
+   🔄 TAILWIND — box-sizing and body base become Tailwind's
+                 preflight layer once @tailwind base is enabled.
+                 Keep these until Tailwind is wired up.
+   ═══════════════════════════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin:     0;
+  padding:    0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family:              'Outfit', sans-serif;
+  background:               var(--bg);
+  color:                    var(--w);
+  overflow-x:               hidden;
+  -webkit-font-smoothing:   antialiased;
+  -moz-osx-font-smoothing:  grayscale;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+a {
+  text-decoration: none;
+  color:           inherit;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   3. CUSTOM SCROLLBAR
+   ✅ KEEP — webkit scrollbar styling has no Tailwind equivalent
+   ═══════════════════════════════════════════════════════════════ */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--o); border-radius: 99px; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   4. GLASS-MORPHISM SURFACE UTILITIES
+   📦 LAYER — these are used on 20+ elements; keeping as @layer
+              components lets Tailwind tree-shake unused utilities
+              but keeps the DX of a single class name.
+
+   Usage guide:
+     .g   — subtle frosted card (most cards)
+     .gd  — darker frosted surface (navbar, dropdowns)
+     .go  — orange-tinted highlight card
+   ═══════════════════════════════════════════════════════════════ */
+.g {
+  background:    rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  border:        1px solid var(--brd);
+}
+
+.gd {
+  background:    rgba(3, 9, 24, 0.88);
+  backdrop-filter: blur(26px);
+  border:        1px solid var(--brd);
+}
+
+.go {
+  background: rgba(249, 115, 22, 0.08);
+  border:     1px solid rgba(249, 115, 22, 0.22);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   5. BUTTON SYSTEM
+   ✅ KEEP — gradient backgrounds, pseudo-element-free hover states
+             and :disabled handling are cleaner in CSS than Tailwind
+             utility strings. Components use .bo and .bw directly.
+
+   .bo = "button orange" (primary CTA)
+   .bw = "button white"  (ghost / outline)
+   ═══════════════════════════════════════════════════════════════ */
+.bo {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             8px;
+  justify-content: center;
+  background:      linear-gradient(135deg, var(--o), var(--o2));
+  color:           #fff;
+  border:          none;
+  cursor:          pointer;
+  font-family:     'Outfit', sans-serif;
+  font-weight:     700;
+  border-radius:   var(--rd);
+  letter-spacing:  0.02em;
+  transition:      transform 0.28s, box-shadow 0.28s;
+}
+.bo:hover    { transform: translateY(-3px); box-shadow: var(--glowx); }
+.bo:active   { transform: translateY(-1px); }
+.bo:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+
+.bw {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             8px;
+  justify-content: center;
+  background:      transparent;
+  color:           #fff;
+  border:          1.5px solid rgba(255, 255, 255, 0.25);
+  cursor:          pointer;
+  font-family:     'Outfit', sans-serif;
+  font-weight:     600;
+  border-radius:   var(--rd);
+  transition:      all 0.28s;
+}
+.bw:hover { border-color: var(--o); color: var(--o); transform: translateY(-3px); }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   6. FORM INPUT
+   ✅ KEEP — :focus ring and ::placeholder colour need CSS variables;
+             Tailwind ring utilities don't resolve CSS vars in
+             box-shadow without extra config.
+   ═══════════════════════════════════════════════════════════════ */
+.inp {
+  width:         100%;
+  background:    rgba(255, 255, 255, 0.04);
+  border:        1px solid rgba(255, 255, 255, 0.09);
+  color:         #fff;
+  border-radius: var(--rd);
+  font-family:   'Outfit', sans-serif;
+  font-size:     14px;
+  padding:       12px 15px;
+  outline:       none;
+  transition:    border-color 0.25s, box-shadow 0.25s;
+}
+.inp:focus       { border-color: var(--o); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.13); }
+.inp::placeholder { color: var(--sl3); }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   7. BADGE  (.bdg)
+   🔄 TAILWIND — could become:
+     "inline-flex items-center gap-1 px-3 py-1 rounded-full
+      bg-orange-500/10 border border-orange-400/25
+      text-orange-300 text-[11px] font-bold tracking-widest uppercase"
+     Replacing in Step 3 (ui atoms) when SecHead is refactored.
+   ═══════════════════════════════════════════════════════════════ */
+.bdg {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             5px;
+  padding:         5px 14px;
+  border-radius:   99px;
+  background:      rgba(249, 115, 22, 0.1);
+  border:          1px solid rgba(249, 115, 22, 0.25);
+  color:           var(--o3);
+  font-size:       11px;
+  font-weight:     700;
+  letter-spacing:  0.09em;
+  text-transform:  uppercase;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   8. DECORATIVE DIVIDER
+   ✅ KEEP — radial gradient on a 1px line is one CSS rule;
+             Tailwind doesn't have a gradient-border shorthand.
+   ═══════════════════════════════════════════════════════════════ */
+.hr {
+  height:     1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(249, 115, 22, 0.45),
+    transparent
+  );
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   9. NAV LINK  (.nl)
+   ✅ KEEP — the animated underline (::after pseudo-element with
+             width transition) cannot be replicated with Tailwind
+             utilities alone. The .on active state is toggled
+             by the router in Navbar.jsx.
+   ═══════════════════════════════════════════════════════════════ */
+.nl {
+  color:          var(--sl);
+  font-size:      14px;
+  font-weight:    500;
+  cursor:         pointer;
+  transition:     color 0.2s;
+  position:       relative;
+  padding:        4px 0;
+  white-space:    nowrap;
+}
+.nl::after {
+  content:        '';
+  position:       absolute;
+  bottom:         -3px;
+  left:           0;
+  width:          0;
+  height:         2px;
+  border-radius:  1px;
+  background:     var(--o);
+  transition:     width 0.3s;
+}
+.nl:hover,
+.nl.on          { color: var(--o); }
+.nl:hover::after,
+.nl.on::after   { width: 100%; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   10. SECTION & LAYOUT HELPERS
+   🔄 TAILWIND — these are replaced with utility classes directly
+                 on the element in each component:
+       .sec  → className="py-24 px-6"
+       .wrap → className="max-w-[1240px] mx-auto"
+       .sh   → className="text-center mb-16"
+       .sh h2 → className="font-serif text-4xl lg:text-5xl font-extrabold leading-tight"
+       .sh p  → className="text-slate-400 text-base max-w-lg mx-auto leading-relaxed"
+       .sh-ln → className="w-14 h-[3px] mx-auto rounded bg-gradient-to-r from-[--o] to-[--o3]"
+
+   KEEPING these classes until all components are refactored so the
+   app does not break mid-migration.
+   ═══════════════════════════════════════════════════════════════ */
+.sec  { padding: 96px 24px; }
+.wrap { max-width: 1240px; margin: 0 auto; }
+
+.sh        { text-align: center; margin-bottom: 64px; }
+.sh h2     {
+  font-family:  'Cormorant Garamond', serif;
+  font-size:    clamp(32px, 5vw, 54px);
+  font-weight:  800;
+  line-height:  1.08;
+  color:        #fff;
+  margin:       14px 0 20px;
+  white-space:  pre-line;
+}
+.sh p      { color: var(--sl); font-size: 16px; max-width: 520px; margin: 0 auto; line-height: 1.75; }
+.sh-ln     { width: 56px; height: 3px; margin: 0 auto; border-radius: 2px; background: linear-gradient(90deg, var(--o), var(--o3)); }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   11. GRID PATTERN BACKGROUND
+   ✅ KEEP — dual background-image grid pattern; no Tailwind equivalent.
+             Applied as an overlay div inside Hero and other sections.
+   ═══════════════════════════════════════════════════════════════ */
+.gp {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.016) 1px, transparent 1px);
+  background-size: 54px 54px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   12. CARD HOVER LIFT  (.ch)
+   🔄 TAILWIND — when a component is refactored, replace with:
+     "transition-[transform,box-shadow] duration-[380ms]
+      ease-[cubic-bezier(0.23,1,0.32,1)]
+      hover:-translate-y-2.5 hover:shadow-2xl"
+   KEEPING until all card components are refactored.
+   ═══════════════════════════════════════════════════════════════ */
+.ch {
+  transition: transform 0.38s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.38s;
+}
+.ch:hover { transform: translateY(-10px); box-shadow: var(--shx); }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   13. KEYFRAME ANIMATIONS
+   ✅ KEEP — named keyframes cannot be defined in Tailwind utilities.
+             Components reference these by name via `animation:` inline
+             style OR via the helper classes below (section 14).
+   🎬 FRAMER — fadeUp, slideL, slideR, scaleIn on section reveals
+               will be replaced with framer-motion variants during
+               component refactoring (Steps 6–10). The keyframes
+               themselves can be removed once that migration is done.
+   ═══════════════════════════════════════════════════════════════ */
+@keyframes fadeUp  { from { opacity: 0; transform: translateY(32px);  } to { opacity: 1; transform: translateY(0);    } }
+@keyframes fadeIn  { from { opacity: 0; }                               to { opacity: 1; }                              }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.9);        } to { opacity: 1; transform: scale(1);         } }
+@keyframes slideL  { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: translateX(0);   } }
+@keyframes slideR  { from { opacity: 0; transform: translateX(28px);  } to { opacity: 1; transform: translateX(0);   } }
+@keyframes float   { 0%, 100% { transform: translateY(0);             } 50% { transform: translateY(-18px);          } }
+@keyframes floatS  { 0%, 100% { transform: translateY(0) scale(1);    } 50% { transform: translateY(-10px) scale(1.04); } }
+@keyframes spin    { to { transform: rotate(360deg); }                                                                   }
+@keyframes waPing  {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
+  70%      { box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); }
+}
+@keyframes pgr     { from { width: 0; } to { width: 100%; } }
+@keyframes orb     { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.25); } }
+
+/* ── Skeleton shimmer ─────────────────────────────────────────
+   New animation — drives the SkeletonCard component (Step 3).
+   ✅ KEEP — CSS keyframe with background-position is the most
+             performant shimmer technique (GPU-composited).
+   ──────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  from { background-position: -400px 0; }
+  to   { background-position:  400px 0; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   14. ANIMATION HELPER CLASSES
+   🎬 FRAMER — these CSS animation classes (fu, sl2, sr2, etc.) on
+               section-level elements will be deleted once Framer
+               Motion whileInView variants are wired up in Steps 6–10.
+               KEEPING until then to avoid visual regressions.
+   ═══════════════════════════════════════════════════════════════ */
+.fu  { animation: fadeUp   0.75s ease both; }
+.fi  { animation: fadeIn   0.5s  ease both; }
+.si  { animation: scaleIn  0.5s  ease both; }
+.sl2 { animation: slideL   0.65s ease both; }
+.sr2 { animation: slideR   0.65s ease both; }
+.flt { animation: float    5s    ease-in-out infinite; }
+.fls { animation: floatS   4s    ease-in-out infinite; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   15. HERO SLIDE VISIBILITY
+   🎬 FRAMER — .hs and .hs.on are replaced by AnimatePresence in
+               Hero.jsx (Step 6). Classes kept until then.
+   ═══════════════════════════════════════════════════════════════ */
+.hs {
+  position:       absolute;
+  inset:          0;
+  opacity:        0;
+  transition:     opacity 1.1s ease;
+  pointer-events: none;
+}
+.hs.on {
+  opacity:        1;
+  pointer-events: all;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   16. PRODUCT / GALLERY CARD
+   ✅ KEEP — .pc and .gi use CSS class-based hover on child elements
+             (.pco, .pca, .gio) which is cleaner than Tailwind's
+             group-hover when the child selector is multiple levels deep.
+   ═══════════════════════════════════════════════════════════════ */
+.pc {
+  border-radius: 20px;
+  overflow:      hidden;
+  transition:    all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor:        pointer;
+}
+.pc:hover              { transform: translateY(-10px); box-shadow: 0 0 60px rgba(249, 115, 22, 0.22); }
+.pc:hover .pco         { opacity: 1; }
+.pc:hover .pca         { transform: translateX(5px); }
+.pco                   { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(249,115,22,0.12), rgba(3,9,26,0.22)); opacity: 0; transition: opacity 0.3s; }
+.pca                   { transition: transform 0.25s; }
+
+.gi          { border-radius: 14px; overflow: hidden; cursor: pointer; position: relative; transition: transform 0.32s; }
+.gi:hover    { transform: scale(1.04); z-index: 2; }
+.gi:hover .gio { opacity: 1; }
+.gio         { position: absolute; inset: 0; background: rgba(249, 115, 22, 0.2); opacity: 0; transition: opacity 0.28s; display: flex; align-items: center; justify-content: center; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   17. TAB PANEL VISIBILITY
+   🎬 FRAMER — .ts / .ts.on are replaced by AnimatePresence +
+               motion.div in ProdPage (Step 10).
+   ═══════════════════════════════════════════════════════════════ */
+.ts     { display: none; }
+.ts.on  { display: block; animation: fadeIn 0.45s ease; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   18. DROPDOWN MENU
+   ✅ KEEP — the hover-bridge pattern (padding-top on .ddm prevents
+             the gap between trigger and menu from losing hover state)
+             is extremely tricky to replicate in Tailwind.
+   ═══════════════════════════════════════════════════════════════ */
+.dd  { position: relative; }
+.ddm {
+  position:         absolute;
+  top:              100%;
+  left:             50%;
+  transform:        translateX(-50%) scaleY(0.88);
+  transform-origin: top;
+  min-width:        200px;
+  border-radius:    14px;
+  z-index:          700;
+  opacity:          0;
+  pointer-events:   none;
+  transition:       opacity 0.22s, transform 0.22s;
+  padding-top:      10px; /* hover bridge — keeps menu reachable */
+}
+.dd:hover .ddm { opacity: 1; pointer-events: all; transform: translateX(-50%) scaleY(1); }
+.ddi           { padding: 11px 20px; cursor: pointer; font-size: 13.5px; color: var(--sl); display: flex; align-items: center; gap: 9px; transition: all 0.18s; }
+.ddi:hover     { color: var(--o); background: rgba(249, 115, 22, 0.08); }
+.ddi:first-child { border-radius: 14px 14px 0 0; }
+.ddi:last-child  { border-radius: 0 0 14px 14px; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   19. MOBILE MENU DRAWER
+   🎬 FRAMER — .mm and .mmo are replaced by motion.aside with x
+               animation + AnimatePresence in Navbar.jsx (Step 4).
+               The overlay (.mmo) becomes a motion.div with opacity.
+               KEEPING until Step 4.
+   ═══════════════════════════════════════════════════════════════ */
+.mm {
+  position:      fixed;
+  top:           0;
+  right:         -110%;
+  bottom:        0;
+  width:         min(340px, 92vw);
+  z-index:       995;
+  transition:    right 0.38s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow-y:    auto;
+  display:       flex;
+  flex-direction: column;
+}
+.mm.open  { right: 0; }
+.mmo      { position: fixed; inset: 0; z-index: 994; background: rgba(0, 0, 0, 0); pointer-events: none; transition: background 0.38s; }
+.mmo.open { background: rgba(0, 0, 0, 0.8); pointer-events: all; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   20. LIGHTBOX
+   🎬 FRAMER — .lbx entry uses scaleIn; replacing with AnimatePresence
+               + motion.div in GalleryPage (Step 9).
+   ═══════════════════════════════════════════════════════════════ */
+.lbx  {
+  position:       fixed;
+  inset:          0;
+  z-index:        9900;
+  background:     rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(16px);
+  display:        flex;
+  align-items:    center;
+  justify-content: center;
+  animation:      fadeIn 0.25s ease;
+}
+.lbxi {
+  max-width:     740px;
+  width:         93vw;
+  border-radius: var(--rdx);
+  overflow:      hidden;
+  animation:     scaleIn 0.3s ease;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   21. PAGE PROGRESS BAR
+   ✅ KEEP — the @keyframes pgr (width 0→100%) animation on a fixed
+             element is neater in CSS than in JS/Tailwind.
+   ═══════════════════════════════════════════════════════════════ */
+.pb {
+  position:   fixed;
+  top:        0;
+  left:       0;
+  height:     3px;
+  z-index:    9999;
+  background: linear-gradient(90deg, var(--o), var(--o3), var(--gold));
+  animation:  pgr 0.48s ease forwards;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   22. MICRO-COMPONENT UTILITIES
+   These tiny utilities are used on 5+ elements each.
+   Keeping as classes is more readable than repeating Tailwind strings.
+   ✅ KEEP
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Form label */
+.lbl {
+  font-size:      12px;
+  font-weight:    700;
+  color:          var(--sl2);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display:        block;
+  margin-bottom:  6px;
+}
+
+/* Form validation error */
+.ferr { font-size: 11.5px; color: var(--re); margin-top: 4px; }
+
+/* Feature chip (inside product cards) */
+.fc {
+  display:     inline-flex;
+  align-items: center;
+  gap:         6px;
+  padding:     6px 13px;
+  border-radius: 99px;
+  font-size:   12.5px;
+  background:  rgba(255, 255, 255, 0.04);
+  border:      1px solid rgba(255, 255, 255, 0.08);
+  color:       var(--sl);
+}
+
+/* Pill tab button (product page tabs) */
+.tb {
+  padding:       9px 22px;
+  border-radius: 99px;
+  font-size:     13px;
+  font-weight:   700;
+  cursor:        pointer;
+  transition:    all 0.25s;
+  font-family:   'Outfit', sans-serif;
+  border:        1.5px solid rgba(255, 255, 255, 0.09);
+  color:         var(--sl);
+  background:    rgba(255, 255, 255, 0.04);
+}
+.tb.on {
+  background:   linear-gradient(135deg, var(--o), var(--o2));
+  color:        #fff;
+  border-color: transparent;
+}
+
+/* Gallery filter button */
+.gfb {
+  padding:       8px 20px;
+  border-radius: 99px;
+  font-size:     12.5px;
+  font-weight:   700;
+  cursor:        pointer;
+  transition:    all 0.25s;
+  font-family:   'Outfit', sans-serif;
+  border:        1.5px solid rgba(255, 255, 255, 0.09);
+  color:         var(--sl);
+  background:    rgba(255, 255, 255, 0.04);
+}
+.gfb.on {
+  background:   rgba(249, 115, 22, 0.14);
+  border-color: rgba(249, 115, 22, 0.35);
+  color:        var(--o3);
+}
+
+/* Large serif number (stat displays) */
+.sn {
+  font-family: 'Cormorant Garamond', serif;
+  font-size:   54px;
+  font-weight: 800;
+  color:       var(--o);
+  line-height: 1;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   23. SKELETON LOADER  (new — used by SkeletonCard component)
+   ✅ KEEP — CSS shimmer is GPU-composited; cannot replicate
+             background-position animation in Tailwind without
+             a custom plugin.
+   ═══════════════════════════════════════════════════════════════ */
+.skeleton-base {
+  background:          rgba(255, 255, 255, 0.06);
+  border-radius:       var(--rd);
+  overflow:            hidden;
+  position:            relative;
+}
+
+.skeleton-base::after {
+  content:             '';
+  position:            absolute;
+  inset:               0;
+  background:          linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 40%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.06) 60%,
+    transparent 100%
+  );
+  background-size:     800px 100%;
+  animation:           shimmer 1.6s ease-in-out infinite;
+}
+
+/* Skeleton shape helpers — composed in SkeletonCard.jsx */
+.sk-img  { width: 100%; aspect-ratio: 3/2; }
+.sk-line { height: 14px; margin-bottom: 10px; }
+.sk-line.w-full { width: 100%; }
+.sk-line.w-3-4  { width: 75%; }
+.sk-line.w-1-2  { width: 50%; }
+.sk-line.w-1-4  { width: 25%; }
+.sk-btn  { height: 40px; width: 100%; margin-top: 8px; border-radius: var(--rd); }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   24. RESPONSIVE VISIBILITY UTILITIES
+   🔄 TAILWIND — replace with hidden/flex/block + breakpoint prefix:
+       .xl  → hidden xl:flex   (or xl:block, xl:grid)
+       .md  → hidden md:block
+       .mob → xl:hidden
+       .sm  → hidden sm:block
+
+   KEEPING until Navbar and Hero are Tailwind-refactored (Steps 4, 6).
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) { .xl  { display: none !important; } }
+@media (max-width: 768px)  { .md  { display: none !important; } }
+@media (min-width: 1081px) { .mob { display: none !important; } }
+@media (max-width: 520px)  { .sm  { display: none !important; } }
+
+/* Responsive overrides — also replaced per-component with Tailwind */
+@media (max-width: 768px) {
+  .sec       { padding: 72px 20px; }
+  .sh h2     { font-size: 28px !important; }
+  .sn        { font-size: 42px; }
+}
+@media (max-width: 520px) {
+  .sec       { padding: 56px 16px !important; }
+}
+/* ═══════════════════════════════════════════════════════════════
+   25. LIGHT THEME OVERRIDES (THE MAGIC!)
+   ═══════════════════════════════════════════════════════════════ */
+[data-theme='light'] {
+  --bg:  #f8fafc; /* சாஃப்ட்டான வெள்ளை பின்னணி */
+  --bg2: #f1f5f9;
+  --bg3: #e2e8f0;
+  --bg4: #cbd5e1;
+
+  --w:   #0f172a; /* எழுத்துகள் கருப்பாக மாறும் */
+  --sl:  #334155;
+  --sl2: #475569;
+  --sl3: #64748b;
+
+  --brd: rgba(0, 0, 0, 0.08); /* லைட் பார்டர் */
+}
+
+/* Light Mode-க்கான பிரத்யேக மாற்றங்கள் */
+[data-theme='light'] .g { background: rgba(255, 255, 255, 0.7); box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+[data-theme='light'] .gd { background: rgba(241, 245, 249, 0.9); }
+[data-theme='light'] .sh h2, 
+[data-theme='light'] .mm .nl { color: #0f172a; }
+[data-theme='light'] .inp { color: #0f172a; background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
+[data-theme='light'] .bw { color: #0f172a; border-color: rgba(0,0,0,0.15); }
+[data-theme='light'] .bw:hover { color: var(--o); border-color: var(--o); }
+
+[data-theme='light'] h1, 
+[data-theme='light'] h2, 
+[data-theme='light'] h3, 
+[data-theme='light'] p, 
+[data-theme='light'] span {
+  color: var(--w) !important;
+}
+/* ═══════════════════════════════════════════════════════════════
+   26. GEMINI AI RADIANT ANIMATION
+   ═══════════════════════════════════════════════════════════════ */
+@keyframes radiantGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* எழுத்துகளுக்கான Gemini எஃபெக்ட் */
+.gemini-text {
+  background: linear-gradient(270deg, #4285f4, #9b72cb, #d96570, #f9ab00, #4285f4);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: radiantGlow 6s ease infinite;
+}
+
+/* பேக்ரவுண்டிற்கான Gemini எஃபெக்ட் */
+.gemini-bg {
+  background: linear-gradient(270deg, rgba(66, 133, 244, 0.05), rgba(155, 114, 203, 0.05), rgba(249, 171, 0, 0.05), rgba(66, 133, 244, 0.05));
+  background-size: 300% 300%;
+  animation: radiantGlow 8s ease infinite;
+}
+/* மொபைலில் கன்டென்ட் வெளியே வராமல் தடுக்க */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+#root {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* பட்டன்களின் பேடிங் மற்றும் சைஸை மொபைலுக்கு ஏற்ப சுருக்க */
+.wrap {
+  width: 100%;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  box-sizing: border-box;
+}
+
+
+/* Contact.css */
+.contact-section {
+  padding: 80px 24px;
+}
+
+.contact-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: stretch;
+}
+
+.contact-info-col {
+  flex: 1 1 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-form-col {
+  flex: 2 1 500px;
+  padding: 40px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 24px;
+  transition: all 0.4s ease;
+}
+
+.contact-form-col:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(255,115,0,0.05);
+  border-color: rgba(255,255,255,0.1);
+}
+
+.input-row {
+  display: flex;
+  gap: 20px;
+}
+
+.input-group {
+  flex: 1;
+}
+
+.action-btns-row {
+  display: flex;
+  gap: 12px;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 40px 16px;
+  }
+  
+  .contact-form-col {
+    padding: 24px; /* Reduced padding for mobile */
+  }
+
+  .input-row {
+    flex-direction: column; /* Stack inputs vertically */
+    gap: 16px;
+  }
+
+  .action-btns-row {
+    flex-direction: column; /* Stack action buttons vertically */
+  }
+}
