@@ -106,8 +106,25 @@ export default function CategoryPage({ id, go, t }) {
                     )}
 
                     <div style={{ padding: 20 }}>
-                      <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--w)", marginBottom: 8 }}>{item.name}</h3>
-                      <p style={{ color: "var(--sl3)", fontSize: 13.5, lineHeight: 1.6, marginBottom: 16 }}>{item.description}</p>
+                      {/* 🌟 1. Title Capitalize மாற்றம் 🌟 */}
+                      <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--w)", marginBottom: 8, textTransform: "capitalize" }}>
+                        {item.name}
+                      </h3>
+                      
+                      {/* 🌟 2 & 3. Text Color & Line Clamp மாற்றம் 🌟 */}
+                      <p style={{ 
+                        color: "#cbd5e1", // பிரகாசமான நிறம்
+                        fontSize: 13.5, 
+                        lineHeight: 1.6, 
+                        marginBottom: 16,
+                        display: "-webkit-box",
+                        WebkitLineClamp: 3, // 3 வரிகளுக்கு மேல் கட் செய்யப்படும்
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis"
+                      }}>
+                        {item.description}
+                      </p>
                       
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
                         {item.price && <div style={{ fontSize: 16, fontWeight: 800, color: "var(--o)" }}>{item.price}</div>}

@@ -3,8 +3,6 @@ import { supabase } from '../../supabase';
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
-
-// 📝 Translation Dictionary - Orey idathula rendu language-um iruku
 const tData = {
   en: {
     visit_us: "Visit Us",
@@ -27,7 +25,8 @@ const tData = {
     error_required: "❌ Name, Phone and Message are required!",
     status_sending: "⏳ Sending enquiry...",
     status_success: "✅ Enquiry Sent! Opening WhatsApp...",
-    error_failed: "❌ Error"
+    error_failed: "❌ Error",
+    find_us: "Find Us on Map" 
   },
   ta: {
     visit_us: "முகவரி",
@@ -50,11 +49,12 @@ const tData = {
     error_required: "❌ பெயர், போன் எண் மற்றும் கருத்து கட்டாயம் தேவை!",
     status_sending: "⏳ விசாரணை அனுப்பப்படுகிறது...",
     status_success: "✅ விசாரணை அனுப்பப்பட்டது! வாட்ஸ்அப் திறக்கப்படுகிறது...",
-    error_failed: "❌ பிழை ஏற்பட்டது"
+    error_failed: "❌ பிழை ஏற்பட்டது",
+    find_us: "எங்கள் இடம் (Map)" 
   }
 };
 
-export default function Contact({ currentLang = 'ta' }) { // default-ah 'ta' (Tamil) nu vechruken, English venum na 'en' nu mathikalam
+export default function Contact({ currentLang = 'ta' }) {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', interest: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
@@ -62,7 +62,6 @@ export default function Contact({ currentLang = 'ta' }) { // default-ah 'ta' (Ta
   const adminWhatsAppNumbers = ["91 9940504234"]; 
   const [randomAdminWhatsApp] = useState(() => adminWhatsAppNumbers[Math.floor(Math.random() * adminWhatsAppNumbers.length)]);
 
-  // Local helper function to get translated text
   const t = (key) => {
     return tData[currentLang]?.[key] || tData['en']?.[key] || key;
   };
@@ -100,14 +99,8 @@ export default function Contact({ currentLang = 'ta' }) { // default-ah 'ta' (Ta
   };
 
   const cardStyle = {
-    padding: 24, 
-    background: "rgba(255,255,255,0.03)", 
-    border: "1px solid rgba(255,255,255,0.05)", 
-    borderRadius: 16, 
-    display: "flex", 
-    gap: 16, 
-    alignItems: "flex-start",
-    cursor: "default"
+    padding: 24, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", 
+    borderRadius: 16, display: "flex", gap: 16, alignItems: "flex-start", cursor: "default"
   };
 
   const inputStyle = {
@@ -122,13 +115,19 @@ export default function Contact({ currentLang = 'ta' }) { // default-ah 'ta' (Ta
   };
 
   return (
-    <section id="contact" className="contact-section" style={{ background: "var(--bg)", position: "relative", overflow: "hidden" }}>
+    <section id="contact" className="contact-section" style={{ background: "var(--bg)", position: "relative", overflow: "hidden", padding: "80px 0" }}>
       <div style={{ position: "absolute", top: "20%", left: "-10%", width: 400, height: 400, background: "var(--o)", filter: "blur(200px)", opacity: 0.08, borderRadius: "50%", pointerEvents: "none" }} />
       
-      <div className="contact-wrap">
+      <div className="contact-wrap" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", gap: "40px", flexWrap: "wrap" }}>
         
         {/* Left Column - Info Cards */}
-        <div className="contact-info-col">
+        <div className="contact-info-col" style={{ flex: "1 1 350px", display: "flex", flexDirection: "column", gap: "20px" }}>
+          
+          <Helmet>
+            <title>Contact Sri Meenakshi Traders | Perambur, Chennai</title>
+            <meta name="description" content="Visit Sri Meenakshi Traders in Perambur, Chennai. Get directions, contact number, and WhatsApp details for wholesale glass, plywood, and UPVC inquiries." />
+          </Helmet>
+
           <div style={cardStyle}>
             <div style={{ padding: 12, background: "rgba(255,115,0,0.1)", borderRadius: 12, color: "var(--o)" }}><MapPin size={20} /></div>
             <div>
@@ -161,14 +160,9 @@ export default function Contact({ currentLang = 'ta' }) { // default-ah 'ta' (Ta
             </div>
           </div>
           
-          <Helmet>
-            <title>Contact Sri Meenakshi Traders | Perambur, Chennai</title>
-            <meta name="description" content="Visit Sri Meenakshi Traders in Perambur, Chennai. Get directions, contact number, and WhatsApp details for wholesale glass, plywood, and UPVC inquiries." />
-          </Helmet>
-
           {/* Action Buttons */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: "auto", paddingBottom: "20px" }}>
-            <div className="action-btns-row">
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: "8px" }}>
+            <div className="action-btns-row" style={{ display: "flex", gap: "10px" }}>
               <a href={`tel:+${randomAdminWhatsApp}`} style={{ flex: 1, padding: "14px", background: "var(--o)", borderRadius: 12, color: "#fff", textDecoration: "none", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, fontWeight: 700 }}>
                 <Phone size={18} /> {t('call_now')}
               </a>
@@ -180,55 +174,94 @@ export default function Contact({ currentLang = 'ta' }) { // default-ah 'ta' (Ta
               <MessageCircle size={18} /> {t('whatsapp_us')}
             </a>
           </div>
+
+          {/* 🌟 உங்கள் கடையின் ஒரிஜினல் இமேஜ் 🌟 */}
+          <div style={{ 
+            flex: 1, 
+            marginTop: "16px", 
+            borderRadius: "16px", 
+            overflow: "hidden", 
+            border: "1px solid rgba(255,255,255,0.05)", 
+            position: "relative", 
+            minHeight: "180px", 
+            background: `url(/assets/About-Image.png) center/cover no-repeat` 
+          }}>
+             <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,0.9), transparent)", padding: "30px 20px 20px" }}>
+                <h4 style={{ color: "#fff", margin: 0, fontSize: 18, fontFamily: "'Cormorant Garamond', serif" }}>
+                  {currentLang === 'ta' ? "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Sree Meenakshi Glass & Plywoods"}
+                </h4>
+                <p style={{ color: "var(--sl3)", fontSize: 13, margin: "5px 0 0 0" }}>
+                  {currentLang === 'ta' ? "2007 முதல் உங்கள் நம்பிக்கைக்குரிய நிறுவனம்." : "Quality you can trust, since 2007."}
+                </p>
+             </div>
+          </div>
+
         </div>
 
-        {/* Right Column - Form */}
-        <div className="contact-form-col">
-          <h3 style={{ fontSize: 28, fontWeight: 700, color: "var(--w)", fontFamily: "'Cormorant Garamond', serif", marginBottom: 32 }}>
-            {t('send_enquiry')}
-          </h3>
+        {/* Right Column - Form & Map */}
+        <div className="contact-form-col" style={{ flex: "1 1 500px", display: "flex", flexDirection: "column", gap: "40px" }}>
+          
+          {/* Contact Form */}
+          <div style={{ background: "rgba(255,255,255,0.02)", padding: "32px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)" }}>
+            <h3 style={{ fontSize: 28, fontWeight: 700, color: "var(--w)", fontFamily: "'Cormorant Garamond', serif", marginBottom: 32 }}>
+              {t('send_enquiry')}
+            </h3>
 
-          <form onSubmit={handleEnquirySubmit} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            
-            <div className="input-row">
-              <div className="input-group">
-                <label style={labelStyle}>{t('full_name')}</label>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} required style={inputStyle} />
+            <form onSubmit={handleEnquirySubmit} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              <div className="input-row" style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+                <div className="input-group" style={{ flex: "1 1 200px" }}>
+                  <label style={labelStyle}>{t('full_name')}</label>
+                  <input type="text" name="name" value={formData.name} onChange={handleChange} required style={inputStyle} />
+                </div>
+                <div className="input-group" style={{ flex: "1 1 200px" }}>
+                  <label style={labelStyle}>{t('email_address')}</label>
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} style={inputStyle} />
+                </div>
               </div>
-              <div className="input-group">
-                <label style={labelStyle}>{t('email_address')}</label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} style={inputStyle} />
-              </div>
-            </div>
 
-            <div className="input-row">
-              <div className="input-row-group" style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                <label style={labelStyle}>{t('phone_number')}</label>
-                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required style={inputStyle} />
+              <div className="input-row" style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+                <div className="input-group" style={{ flex: "1 1 200px" }}>
+                  <label style={labelStyle}>{t('phone_number')}</label>
+                  <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required style={inputStyle} />
+                </div>
+                <div className="input-group" style={{ flex: "1 1 200px" }}>
+                  <label style={labelStyle}>{t('product_interest')}</label>
+                  <input type="text" name="interest" value={formData.interest} onChange={handleChange} style={inputStyle} />
+                </div>
               </div>
-              <div className="input-row-group" style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                <label style={labelStyle}>{t('product_interest')}</label>
-                <input type="text" name="interest" value={formData.interest} onChange={handleChange} style={inputStyle} />
+
+              <div>
+                <label style={labelStyle}>{t('your_message')}</label>
+                <textarea name="message" value={formData.message} onChange={handleChange} rows="4" required style={{...inputStyle, resize: "none"}}></textarea>
               </div>
-            </div>
 
-            <div>
-              <label style={labelStyle}>{t('your_message')}</label>
-              <textarea name="message" value={formData.message} onChange={handleChange} rows="5" required style={{...inputStyle, resize: "none"}}></textarea>
-            </div>
+              {statusMessage && (
+                <div style={{ padding: "12px 16px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 14, color: statusMessage.includes('❌') ? '#ef4444' : 'var(--o)' }}>
+                  {statusMessage}
+                </div>
+              )}
 
-            {statusMessage && (
-              <div style={{ padding: "12px 16px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 14, color: statusMessage.includes('❌') ? '#ef4444' : 'var(--o)' }}>
-                {statusMessage}
-              </div>
-            )}
+              <button type="submit" disabled={loading} className="bo" style={{ padding: 16, fontSize: 16, borderRadius: 12, fontWeight: 700, display: "flex", justifyContent: "center", alignItems: "center", gap: 10, cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1, border: "none", color: "#fff", background: "var(--o)" }}>
+                <Send size={18} /> {loading ? t('sending') : t('send_message')}
+              </button>
+            </form>
+          </div>
 
-            <button type="submit" disabled={loading} className="bo" style={{ padding: 16, fontSize: 16, borderRadius: 12, fontWeight: 700, display: "flex", justifyContent: "center", alignItems: "center", gap: 10, cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1, border: "none", color: "#fff", background: "var(--o)" }}>
-              <Send size={18} /> {loading ? t('sending') : t('send_message')}
-            </button>
-          </form>
+          {/* 🌟 Google Maps Embed - Cleaned up version 🌟 */}
+          <div style={{ width: "100%", height: "350px", borderRadius: "24px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.05)" }}>
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6051.081892017348!2d80.22710297770998!3d13.121689200000018!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ab93a27e75%3A0x3d0ff2ecdb2bf1c1!2sSree%20Meenakshi%20Glasses%20and%20Plywoods!5e1!3m2!1sen!2sin!4v1780918986429!5m2!1sen!2sin" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen="" 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Sri Meenakshi Glass And Plywoods Traders Location"
+            ></iframe>
+          </div>
+
         </div>
-
       </div>
     </section>
   );

@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import './styles/globals.css';
 import { LANG } from './constants/translations';
 import { PageBar, Loader } from './components/ui';
-import { Navbar, Footer, FloatWA } from './components/layout';
+import { Navbar, Footer } from './components/layout';
 
 import Hero from './components/sections/Hero';
 import About from './components/sections/About';
@@ -17,7 +17,7 @@ import LoginPage from './pages/LoginPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import Admin from './pages/Admin';      
-
+import { MessageCircle } from 'lucide-react';
 // --- Page Wrappers ---
 const AboutPage   = ({  t }) => <div style={{ paddingTop: 72 }}><PageBar /><About t={t} /></div>;
 const ServicesPage= ({ t }) => <div style={{ paddingTop: 72 }}><PageBar /><Services t={t} /></div>;
@@ -89,14 +89,40 @@ export default function App() {
     return <HomePage go={go} t={t} lang={lang} />;
   };
 
-  if (loading) return <Loader done={() => setLoading(false)} />;
+ if (loading) return <Loader done={() => setLoading(false)} />;
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }}>
       {!noChrome && <Navbar page={page} go={go} lang={lang} setLang={setLang} t={t} />}
       <main>{renderPage()}</main>
       {!noChrome && <Footer go={go} t={t} />}
-      <FloatWA t={t} />
+      
+      <a 
+        href="https://wa.me/919940504234" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        style={{
+          position: 'fixed',
+          bottom: '30px',
+          right: '30px',
+          backgroundColor: '#25D366',
+          color: 'white',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          zIndex: 9999,
+          transition: 'transform 0.3s ease',
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        aria-label="Chat with us on WhatsApp"
+      >
+        <MessageCircle size={32} />
+      </a>
     </div>
   );
 }
