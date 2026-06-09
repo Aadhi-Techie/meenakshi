@@ -147,6 +147,7 @@ export default function Admin({ go }) {
         setImageFile(file); // Fallback to original if conversion fails
         setStatusMessage('⚠️ Optimization failed, using original image.');
       }
+      
     }
   };
 
@@ -304,9 +305,11 @@ const prompt = `
       
       setDescription(responseText.trim());
       setStatusMessage('✅ AI Description generated successfully!');
-    } catch (error) {
-      console.error("AI Error:", error);
-      setStatusMessage("❌ AI Error: " + error.message);
+    } // Admin.jsx -ல் உள்ள catch பிளாக்கை இப்படி வைத்திருந்தால் இந்த பெரிய error வராது:
+catch (error) {
+  console.error("AI Error:", error);
+  setStatusMessage("⚠️ AI சர்வர் தற்சமயம் பிஸியாக உள்ளது. சிறிது நேரம் கழித்து முயற்சிக்கவும் அல்லது நீங்களே டைப் செய்யவும்.");
+
     } finally {
       setIsGenerating(false);
     }
