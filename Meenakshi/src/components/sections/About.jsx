@@ -1,8 +1,9 @@
 import React from 'react';
-import { ArrowRight, Award, ShieldCheck, Zap, Handshake, Star } from 'lucide-react';
+import { ArrowRight, Award, ShieldCheck, Zap, Handshake, Star, Store } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+
 export default function About({ go, t }) {
-  // நீங்கள் காட்ட விரும்பும் கடையின் பட லிங்க்
+  // நீங்கள் காட்ட விரும்பும் கடையின் பட லிங்க் (assets-ல் இந்த இமேஜ் இருப்பதை உறுதி செய்யவும்)
   const shopImageUrl = "/assets/About-Image.png";
 
   // மொழி கண்டறிதல் (தமிழ் அல்லது ஆங்கிலம்)
@@ -47,7 +48,7 @@ export default function About({ go, t }) {
     },
     { 
       icon: <Handshake size={24} color="var(--o)" aria-hidden="true" />, 
-      title: isTamil ? "தனிப்பயனாக்கப்பட்ட சேவை" : "Personalised Service", 
+      title: isTamil ? "تனிப்பயனாக்கப்பட்ட சேவை" : "Personalised Service", 
       desc: isTamil ? "அளவீடு முதல் டெலிவரி வரை, எங்கள் நிபுணர்கள் உங்களுடன் இருப்பார்கள்." : "From measurement to delivery, our experts are with you at every step." 
     },
     { 
@@ -81,17 +82,24 @@ export default function About({ go, t }) {
             style={{ 
               background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", 
               borderRadius: 24, overflow: "hidden", transition: "transform 0.1s ease-out", 
-              transformStyle: "preserve-3d", boxShadow: "0 20px 40px rgba(0,0,0,0.3)"
+              transformStyle: "preserve-3d", boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+              position: "relative"
             }}
           >
             {/* Image Part - SEO Alt text updated */}
-            <div style={{ height: 250, position: "relative" }}>
+            <div style={{ height: 280, position: "relative" }}>
               <img 
                 src={shopImageUrl} 
                 alt="Sri Meenakshi Glass And Plywoods Traders Showroom - Premium Glass, Plywood, UPVC and Aluminium Suppliers in Perambur, Chennai" 
                 style={{ width: "100%", height: "100%", objectFit: "cover" }} 
               />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.9), transparent)" }} />
+              
+              {/* 🌟 20+ Years Badge Inside Image */}
+              <div style={{ position: "absolute", top: 20, right: 24, background: "var(--o)", color: "#fff", padding: "8px 16px", borderRadius: 10, fontWeight: 700, display: "flex", alignItems: "center", gap: 6, fontSize: 12, boxShadow: "0 4px 12px rgba(255,115,0,0.3)", transform: "translateZ(25px)" }}>
+                <Store size={14} /> {isTamil ? "20+ ஆண்டுகள் அனுபவம்" : "20+ Years Excellence"}
+              </div>
+
               <div style={{ position: "absolute", bottom: 20, left: 24, transform: "translateZ(30px)" }}>
                 <h3 style={{ fontSize: 24, fontWeight: 800, color: "var(--w)", fontFamily: "'Cormorant Garamond', serif", marginBottom: 4 }}>Sri Meenakshi Glass And Plywoods Traders</h3>
                 <p style={{ color: "var(--sl3)", fontSize: 13 }}>Perambur, Chennai - 600011<br/>Tamil Nadu, India</p>
@@ -105,7 +113,7 @@ export default function About({ go, t }) {
             {/* Stats Grid Part */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", background: "rgba(0,0,0,0.4)", borderTop: "1px solid rgba(255,255,255,0.05)", transform: "translateZ(20px)" }}>
               {[
-                { val: "17+", lbl: isTamil ? "ஆண்டுகள்" : "YRS" },
+                { val: "20+", lbl: isTamil ? "ஆண்டுகள்" : "YRS" },
                 { val: "2000+", lbl: isTamil ? "வாடிக்கையாளர்கள்" : "CLIENTS" },
                 { val: "500+", lbl: isTamil ? "பொருட்கள்" : "SKUS" },
                 { val: "5000+", lbl: isTamil ? "ப்ராஜெக்ட்கள்" : "PROJECTS" }
@@ -139,17 +147,20 @@ export default function About({ go, t }) {
         {/* ================= RIGHT COLUMN: Content & Features ================= */}
         <div style={{ flex: "1 1 500px", animation: "fadeUp 1s ease forwards" }}>
           
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 24 }}>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", background: "rgba(255, 115, 0, 0.1)", border: "1px solid rgba(255, 115, 0, 0.2)", borderRadius: 100, color: "var(--o)", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>
               {t.abBdg || (isTamil ? "எங்கள் கதை" : "Our Story")}
             </div>
             
-            {/* Trust Badges */}
+            {/* 🌟 Trust Badges (ISI + GST + Google Reviews) */}
             <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.2)", borderRadius: 100, color: "#10b981", fontSize: 12, fontWeight: 700 }}>
-              <ShieldCheck size={14} aria-hidden="true" /> {isTamil ? "ISI சான்றிதழ்" : "ISI Certified"}
+              <ShieldCheck size={14} aria-hidden="true" /> {isTamil ? "அங்கீகரிக்கப்பட்ட டீலர்" : "Authorized Dealer"}
+            </div>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", background: "rgba(56, 189, 248, 0.1)", border: "1px solid rgba(56, 189, 248, 0.2)", borderRadius: 100, color: "#38bdf8", fontSize: 12, fontWeight: 700 }}>
+              <Award size={14} aria-hidden="true" /> {isTamil ? "GST பதிவுபெற்ற நிறுவனம்" : "GST Registered"}
             </div>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", background: "rgba(234, 179, 8, 0.1)", border: "1px solid rgba(234, 179, 8, 0.2)", borderRadius: 100, color: "#eab308", fontSize: 12, fontWeight: 700 }}>
-              <Star size={14} fill="#eab308" aria-hidden="true" /> {isTamil ? "4.9 / 5 கூகுள் ரிவியூஸ்" : "4.9 / 5 Google Reviews"}
+              <Star size={14} fill="#eab308" aria-hidden="true" /> {isTamil ? "4.9 கூகுள் ரேட்டிங்" : "4.9 Google Reviews"}
             </div>
           </div>
           
@@ -159,7 +170,10 @@ export default function About({ go, t }) {
           </h2>
           
           <p style={{ color: "var(--sl3)", fontSize: 16, lineHeight: 1.8, marginBottom: 40 }}>
-            {t.abP}
+            {t.abP || (isTamil ? 
+              "சென்னை பெரம்பூரில் கடந்த 20 ஆண்டுகளுக்கும் மேலாக தரமான கன்ஸ்ட்ரக்ஷன் மற்றும் இன்டீரியர் பொருட்களை வழங்கி வரும் முன்னணி நிறுவனம். வாடிக்கையாளர்களுக்கு சிறந்த சேவையை அசல் தயாரிப்புகள் மூலம் வழங்குவதே எங்களின் முதன்மை நோக்கம்." : 
+              "For over 20 years, Sri Meenakshi Traders has been Chennai's benchmark for premium quality building materials. We provide authorized wholesale supplies with absolute transparency and market-best standards.")
+            }
           </p>
           
           {/* Features 2x2 Grid with 3D Animation */}

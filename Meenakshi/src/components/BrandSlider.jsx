@@ -1,5 +1,5 @@
 import React from 'react';
-import './BrandSlider.css'; // இதற்கான CSS கீழே உள்ளது
+import './BrandSlider.css';
 
 const brands = [
   { name: "Saint-Gobain", logo: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Saint-Gobain_logo.svg" },
@@ -11,14 +11,32 @@ const brands = [
 
 const BrandSlider = () => {
   return (
-    <div className="brand-slider-container py-8 bg-gray-50">
-      <h3 className="text-center text-2xl font-bold mb-6 text-gray-800">Our Trusted Brands</h3>
-      <div className="slider-track-container">
+    <div style={{ background: "var(--bg)", padding: "60px 0", borderTop: "1px solid var(--brd)", borderBottom: "1px solid var(--brd)" }}>
+      <h3 style={{ textAlign: "center", textTransform: "uppercase", letterSpacing: "2px", fontSize: "14px", color: "var(--sl)", fontWeight: 700, marginBottom: "40px" }}>
+        Authorized Dealers For
+      </h3>
+      
+      <div className="brand-slider-container">
         <div className="slider-track">
-          {/* அனிமேஷனுக்காக இரண்டு முறை லோகோக்களை லூப் செய்கிறோம் */}
           {[...brands, ...brands].map((brand, index) => (
-            <div key={index} className="slide-item">
-              <img src={brand.logo} alt={brand.name} className="brand-logo" />
+            <div key={index} className="slide-item" style={{ 
+              background: "#fff", 
+              borderRadius: "12px", 
+              padding: "15px 30px", 
+              margin: "0 15px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "80px",
+              minWidth: "200px",
+              boxShadow: "0 4px 15px rgba(0,0,0,0.2)"
+            }}>
+              <img 
+                src={brand.logo} 
+                alt={brand.name} 
+                className="brand-logo" 
+                style={{ maxHeight: "40px", maxWidth: "100%", objectFit: "contain" }}
+              />
             </div>
           ))}
         </div>
