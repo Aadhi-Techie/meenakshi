@@ -116,8 +116,8 @@ export default function GalleryCategoryPage({ id, go, t }) {
         <Helmet>
           <title>
             {activeFilter === "All" 
-              ? "Our Projects & Gallery | Sri Meenakshi Traders" 
-              : `${activeFilter} Projects & Gallery | Sri Meenakshi Traders`}
+              ? "Our Projects & Gallery | Sri Meenakshi Glass And Plywoods Traders" 
+              : `${activeFilter} Projects & Gallery | Sri Meenakshi Glass And Plywoods Traders`}
           </title>
           <meta name="description" content={`View our premium collection of ${activeFilter === "All" ? "toughened glass, UPVC profiles, plywoods, and modular kitchen hardware" : activeFilter}. See the exceptional quality of Sri Meenakshi Traders.`} />
         </Helmet>

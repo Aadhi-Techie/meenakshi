@@ -75,7 +75,7 @@ export default function CategoryPage({ id, go, t }) {
         </h1>
 
         <Helmet>
-          <title>{catName} | Sri Meenakshi Traders</title>
+          <title>Sri Meenakshi Glass And Plywoods Traders</title>
         </Helmet>
 
         {varieties.length === 0 ? (

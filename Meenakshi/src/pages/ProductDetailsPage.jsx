@@ -75,9 +75,9 @@ export default function ProductDetailsPage({ id, go, t }) {
       
       {/* 🌟 Dynamic SEO Tags ஆரம்பம் 🌟 */}
       <Helmet>
-        <title>{product.name} | Sri Meenakshi Traders Chennai</title>
-        <meta name="description" content={`Buy high-quality ${product.name} at Sri Meenakshi Traders. ${product.description}`} />
-        <meta property="og:title" content={`${product.name} - Sri Meenakshi Traders`} />
+        <title>{product.name} | Sri Meenakshi Glass And Plywoods Traders</title>
+        <meta name="description" content={`Buy high-quality ${product.name} at Sri Meenakshi Glass And Plywoods Traders. ${product.description}`} />
+        <meta property="og:title" content={`${product.name} - Sri Meenakshi Glass And Plywoods Traders`} />
         <meta property="og:image" content={product.image_url} />
       </Helmet>
       {/* 🌟 Dynamic SEO Tags முடிவு 🌟 */}
