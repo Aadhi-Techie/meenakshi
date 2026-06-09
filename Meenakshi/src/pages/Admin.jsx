@@ -3,6 +3,7 @@ import { supabase } from '../supabase';
 import { PageBar, Loader } from '../components/ui';
 import { LogIn, PlusCircle, Image, CheckCircle, LogOut, Edit, Trash2, X, ArrowLeft, Package, MessageSquare, Wand2, Loader2 } from 'lucide-react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { Helmet } from 'react-helmet-async';
 
 //  Dynamic 3-Tier Category Data Structure 
 const CATEGORY_DATA = {
@@ -45,7 +46,7 @@ const CATEGORY_DATA = {
   }
 };
 
-// 🌟 Image Compressor & WebP Converter Logic 🌟
+// Image Compressor & WebP Converter Logic
 const compressAndConvertToWebP = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -57,7 +58,6 @@ const compressAndConvertToWebP = (file) => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
 
-        // Max Width for Website Images (Keep quality high, reduce unnecessary massive sizes)
         const MAX_WIDTH = 1200; 
         let width = img.width;
         let height = img.height;
@@ -71,10 +71,8 @@ const compressAndConvertToWebP = (file) => {
         canvas.height = height;
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Convert to WebP format with 80% quality (0.8)
         canvas.toBlob((blob) => {
           if (blob) {
-            // Get original file name without extension and append .webp
             const originalName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
             const newFile = new File([blob], `${originalName}.webp`, {
               type: 'image/webp',
@@ -116,7 +114,7 @@ export default function Admin({ go }) {
   const [thickness, setThickness] = useState('');
   const [description, setDescription] = useState('');
   const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(''); // Added Preview State
+  const [imagePreview, setImagePreview] = useState(''); 
   
   const [customSub, setCustomSub] = useState('');
   const [customType, setCustomType] = useState('');
@@ -129,11 +127,9 @@ export default function Admin({ go }) {
   const [loadingData, setLoadingData] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  // 🌟 Handle Image Upload & Auto Convert to WebP 🌟
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Show instant preview
       setImagePreview(URL.createObjectURL(file));
       setStatusMessage('⏳ Optimizing Image to WebP...');
 
@@ -144,10 +140,9 @@ export default function Admin({ go }) {
         setTimeout(() => setStatusMessage(''), 3000);
       } catch (err) {
         console.error("Compression Error:", err);
-        setImageFile(file); // Fallback to original if conversion fails
+        setImageFile(file); 
         setStatusMessage('⚠️ Optimization failed, using original image.');
       }
-      
     }
   };
 
@@ -247,17 +242,7 @@ export default function Admin({ go }) {
     setStatusMessage('');
   };
 
-  const fileToGenerativePart = async (file) => {
-    const base64EncodedDataPromise = new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result.split(',')[1]);
-      reader.readAsDataURL(file);
-    });
-    return {
-      inlineData: { data: await base64EncodedDataPromise, mimeType: file.type },
-    };
-  };
-
+  // 🌟 AI Description Generation Logic 🌟
   const generateDescription = async () => {
     if (!name || !category) {
       setStatusMessage('❌ Please enter Product Name and Main Category to generate description!');
@@ -271,12 +256,14 @@ export default function Admin({ go }) {
       if (!apiKey) throw new Error("Google Gemini API Key is missing in .env");
 
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash-lite" });
+      
+      // 🌟 மீண்டும் சரியான லேட்டஸ்ட் மாடலுக்கே மாற்றிவிட்டோம் 🌟
+      const model = genAI.getGenerativeModel({ model: "gemini-3.1-pro" });
 
       const finalSubcategory = subcategory === 'Custom / Other' ? customSub : subcategory;
       const finalType = productType === 'Custom / Other' ? customType : productType;
 
-const prompt = `
+      const prompt = `
         You are a professional copywriter for "Sri Meenakshi Traders" in Perambur, Chennai. 
         We are the leading traders of premium glass, plywood, UPVC, and interior hardware.
         
@@ -293,23 +280,16 @@ const prompt = `
         5. Do NOT use hashtags or emojis.
         6. Write it in simple English so Indian customers can easily understand.
       `;
-      let aiInput = [prompt];
 
-      if (imageFile) {
-        const imagePart = await fileToGenerativePart(imageFile);
-        aiInput.push(imagePart);
-      }
-
-      const result = await model.generateContent(aiInput);
+      // 🌟 மின்னல் வேகத்தில் வேலை செய்ய வெறும் டெக்ஸ்ட் ப்ராம்ட் மட்டும் அனுப்புகிறோம் 🌟
+      const result = await model.generateContent(prompt);
       const responseText = await result.response.text();
       
       setDescription(responseText.trim());
       setStatusMessage('✅ AI Description generated successfully!');
-    } // Admin.jsx -ல் உள்ள catch பிளாக்கை இப்படி வைத்திருந்தால் இந்த பெரிய error வராது:
-catch (error) {
-  console.error("AI Error:", error);
-  setStatusMessage("❌ AI generation failed. Please try again.");
-
+    } catch (error) {
+      console.error("AI Error:", error);
+      setStatusMessage(`❌ Error: ${error.message}`);
     } finally {
       setIsGenerating(false);
     }
@@ -439,7 +419,7 @@ catch (error) {
     setSize(product.size || '');
     setThickness(product.thickness || '');
     setDescription(product.description || '');
-    setImagePreview(product.image_url || ''); // Set existing image preview
+    setImagePreview(product.image_url || ''); 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -470,6 +450,10 @@ catch (error) {
 
   return (
     <div style={{ paddingTop: 72, background: "var(--bg)", minHeight: "100vh", color: "var(--w)" }}>
+      <Helmet>
+        <title>Admin Dashboard | Sri Meenakshi Glass & Plywoods Traders</title>
+      </Helmet>
+      
       <PageBar />
       <div className="wrap" style={{ padding: "40px 24px" }}>
         
@@ -514,7 +498,6 @@ catch (error) {
               </div>
             </div>
 
-            {/* 🌟 TABS BUTTONS 🌟 */}
             <div style={{ display: "flex", gap: 16, marginBottom: 32, borderBottom: "1px solid var(--brd)", paddingBottom: 16 }}>
               <button 
                 onClick={() => setActiveTab('products')} 
@@ -531,7 +514,6 @@ catch (error) {
               </button>
             </div>
 
-            {/* ================= PRODUCTS TAB ================= */}
             {activeTab === 'products' && (
               <div style={{ animation: "fadeUp .4s ease" }}>
                 <form onSubmit={handleSubmit} className="g" style={{ padding: 32, borderRadius: 16, display: "flex", flexDirection: "column", gap: 20, marginBottom: 40, border: editingId ? "1px solid var(--o)" : "1px solid var(--brd)" }}>
@@ -615,7 +597,6 @@ catch (error) {
                     </div>
                   </div>
 
-                  {/* 🌟 AI Description Section 🌟 */}
                   <div>
                     <label style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", fontSize: 13, color: "var(--sl3)", marginBottom: 6, fontWeight: 600 }}>
                       <span>Product Description</span>
@@ -642,7 +623,6 @@ catch (error) {
                     ></textarea>
                   </div>
 
-                  {/* 🌟 Improved Image Upload UI with Preview 🌟 */}
                   <div style={{ background: "rgba(255,255,255,0.01)", border: "1px dashed var(--brd)", padding: 20, borderRadius: 12, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
                     {imagePreview ? (
                       <img src={imagePreview} alt="Preview" style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 12, border: "2px solid var(--o)" }} />
@@ -703,7 +683,6 @@ catch (error) {
               </div>
             )}
 
-            {/* ================= ENQUIRIES TAB ================= */}
             {activeTab === 'enquiries' && (
               <div className="g" style={{ padding: 24, borderRadius: 16, animation: "fadeUp .4s ease" }}>
                 <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 20, borderBottom: "1px solid var(--brd)", paddingBottom: 12 }}>Customer Enquiries</h2>
@@ -746,7 +725,6 @@ catch (error) {
               </div>
             )}
 
-            {/* Success Modal */}
             {showSuccessModal && (
               <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 9999, backdropFilter: "blur(8px)" }}>
                 <div className="g" style={{ maxWidth: 450, width: "100%", padding: 40, borderRadius: 24, textAlign: "center", border: "1px solid var(--o)" }}>
