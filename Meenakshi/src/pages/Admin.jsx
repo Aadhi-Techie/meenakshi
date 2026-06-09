@@ -4,7 +4,7 @@ import { PageBar, Loader } from '../components/ui';
 import { LogIn, PlusCircle, Image, CheckCircle, LogOut, Edit, Trash2, X, ArrowLeft, Package, MessageSquare, Wand2, Loader2 } from 'lucide-react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// 🌟 Dynamic 3-Tier Category Data Structure 🌟
+//  Dynamic 3-Tier Category Data Structure 
 const CATEGORY_DATA = {
   Glass: {
     Interior: ["Toughened Glass", "Laminated Glass", "Frosted Glass", "Decorative / Art Glass", "Clear Glass", "Mirrors"],

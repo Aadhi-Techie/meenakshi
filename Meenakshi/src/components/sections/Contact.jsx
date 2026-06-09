@@ -14,7 +14,7 @@ const tData = {
     call_now: "Call Now",
     send_sms: "Send SMS",
     whatsapp_us: "WhatsApp Us",
-    send_enquiry: "Send an Enquiry",
+    send_enquiry: "Sri Meenakshi Glass & Plywoods Traders - Send an Enquiry",
     full_name: "Full Name *",
     email_address: "Email Address",
     phone_number: "Phone Number *",
@@ -38,7 +38,7 @@ const tData = {
     call_now: "இப்போதே அழைக்க",
     send_sms: "எஸ்.எம்.எஸ் அனுப்ப",
     whatsapp_us: "வாட்ஸ்அப் செய்ய",
-    send_enquiry: "விசாரணை அனுப்பவும்",
+    send_enquiry: "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ் டிரேடர்ஸ் - விசாரணை",
     full_name: "முழு பெயர் *",
     email_address: "மின்னஞ்சல் முகவரி",
     phone_number: "தொலைபேசி எண் *",
@@ -85,7 +85,7 @@ export default function Contact({ currentLang = 'ta' }) {
       if (dbError) throw dbError;
       
       setStatusMessage(t('status_success'));
-      const whatsappText = `Hi Sri Meenakshi Traders,\n\nNew Enquiry from Website:\n\n👤 *Name:* ${formData.name}\n📞 *Phone:* ${formData.phone}\n📧 *Email:* ${formData.email || 'N/A'}\n🎯 *Interest:* ${formData.interest || 'N/A'}\n💬 *Message:* ${formData.message}`;
+      const whatsappText = `Hi Sri Meenakshi Glass & Plywoods Traders,\n\nNew Enquiry from Website:\n\n👤 *Name:* ${formData.name}\n📞 *Phone:* ${formData.phone}\n📧 *Email:* ${formData.email || 'N/A'}\n🎯 *Interest:* ${formData.interest || 'N/A'}\n💬 *Message:* ${formData.message}`;
       const whatsappUrl = `https://wa.me/${randomAdminWhatsApp}?text=${encodeURIComponent(whatsappText)}`;
       
       setFormData({ name: '', email: '', phone: '', interest: '', message: '' });
@@ -124,7 +124,7 @@ export default function Contact({ currentLang = 'ta' }) {
         <div className="contact-info-col" style={{ flex: "1 1 350px", display: "flex", flexDirection: "column", gap: "20px" }}>
           
           <Helmet>
-            <title>Contact Sri Meenakshi Traders | Perambur, Chennai</title>
+            <title>Contact | Sri Meenakshi Glass & Plywoods Traders | Perambur</title>
             <meta name="description" content="Visit Sri Meenakshi Traders in Perambur, Chennai. Get directions, contact number, and WhatsApp details for wholesale glass, plywood, and UPVC inquiries." />
           </Helmet>
 
@@ -203,7 +203,7 @@ export default function Contact({ currentLang = 'ta' }) {
           
           {/* Contact Form */}
           <div style={{ background: "rgba(255,255,255,0.02)", padding: "32px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)" }}>
-            <h3 style={{ fontSize: 28, fontWeight: 700, color: "var(--w)", fontFamily: "'Cormorant Garamond', serif", marginBottom: 32 }}>
+            <h3 style={{ fontSize: 24, fontWeight: 700, color: "var(--w)", fontFamily: "'Cormorant Garamond', serif", marginBottom: 32 }}>
               {t('send_enquiry')}
             </h3>
 
