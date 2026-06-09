@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { PageBar, Loader } from '../components/ui';
 import { LogIn, PlusCircle, Image, CheckCircle, LogOut, Edit, Trash2, X, ArrowLeft, Package, MessageSquare, Wand2, Loader2 } from 'lucide-react';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Helmet } from 'react-helmet-async';
+import { GoogleGenerativeAI } from '@google/generative-ai'; // 🌟 Gemini பேக்கேஜ் மீண்டும் இணைக்கப்பட்டுள்ளது 🌟
 
 //  Dynamic 3-Tier Category Data Structure 
 const CATEGORY_DATA = {
@@ -242,54 +242,63 @@ export default function Admin({ go }) {
     setStatusMessage('');
   };
 
-  // 🌟 AI Description Generation Logic 🌟
+  // 🌟 DUAL API FALLBACK LOGIC (GROQ First -> GEMINI Second) 🌟
   const generateDescription = async () => {
     if (!name || !category) {
-      setStatusMessage('❌ Please enter Product Name and Main Category to generate description!');
+      setStatusMessage('❌ Please enter Product Name and Main Category!');
       return;
     }
 
     setIsGenerating(true);
     setStatusMessage('⏳ AI is writing the description...');
+    
+    const finalSubcategory = subcategory === 'Custom / Other' ? customSub : subcategory;
+    const finalType = productType === 'Custom / Other' ? customType : productType;
+    const prompt = `You are a professional copywriter for "Sri Meenakshi Traders" in Perambur, Chennai. We are the leading traders of premium glass, plywood, UPVC, and interior hardware.
+    Product Name: ${name}
+    Category: ${category}
+    Subcategory: ${finalSubcategory || 'General'}
+    Type: ${finalType || 'General'}
+    Task: Write a highly attractive, professional product description in exactly 2 or 3 sentences. Highlight quality, durability, and aesthetics. Mention that we are the best choice in Chennai. Include a subtle call to action like "Visit our showroom in Perambur". No emojis or hashtags. Write in simple English.`;
+
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      if (!apiKey) throw new Error("Google Gemini API Key is missing in .env");
+      // 🚀 ATTEMPT 1: Try with GROQ API (Lightning Fast)
+      const groqKey = import.meta.env.VITE_GROQ_API_KEY;
+      if (!groqKey) throw new Error("Groq key missing");
 
-      const genAI = new GoogleGenerativeAI(apiKey);
+      const groqResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${groqKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ model: "llama3-8b-8192", messages: [{ role: "user", content: prompt }] })
+      });
+
+      if (!groqResponse.ok) throw new Error("Groq API Failed");
+      const groqData = await groqResponse.json();
       
-      // 🌟 மீண்டும் சரியான லேட்டஸ்ட் மாடலுக்கே மாற்றிவிட்டோம் 🌟
-      const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
-
-      const finalSubcategory = subcategory === 'Custom / Other' ? customSub : subcategory;
-      const finalType = productType === 'Custom / Other' ? customType : productType;
-
-      const prompt = `
-        You are a professional copywriter for "Sri Meenakshi Traders" in Perambur, Chennai. 
-        We are the leading traders of premium glass, plywood, UPVC, and interior hardware.
-        
-        Product Name: ${name}
-        Category: ${category}
-        Subcategory: ${finalSubcategory || 'General'}
-        Type: ${finalType || 'General'}
-        
-        Task: 
-        1. Write a highly attractive, professional product description in exactly 2 or 3 sentences. 
-        2. Highlight quality, durability, and aesthetics. 
-        3. Mention that we are the best choice in Chennai for this product.
-        4. Include a subtle call to action like "Visit our showroom in Perambur".
-        5. Do NOT use hashtags or emojis.
-        6. Write it in simple English so Indian customers can easily understand.
-      `;
-
-      // 🌟 மின்னல் வேகத்தில் வேலை செய்ய வெறும் டெக்ஸ்ட் ப்ராம்ட் மட்டும் அனுப்புகிறோம் 🌟
-      const result = await model.generateContent(prompt);
-      const responseText = await result.response.text();
-      
-      setDescription(responseText.trim());
+      setDescription(groqData.choices[0].message.content.trim());
       setStatusMessage('✅ AI Description generated successfully!');
-    } catch (error) {
-      console.error("AI Error:", error);
-      setStatusMessage(`❌ Error: ${error.message}`);
+      
+    } catch (groqError) {
+      console.warn("Groq failed, switching to Gemini...", groqError.message);
+      
+      // 🛡️ ATTEMPT 2: Fallback to GEMINI API if Groq fails
+      try {
+        const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
+        if (!geminiKey) throw new Error("Gemini API key is missing");
+
+        const genAI = new GoogleGenerativeAI(geminiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+        
+        const geminiResult = await model.generateContent(prompt);
+        const geminiText = await geminiResult.response.text();
+        
+        setDescription(geminiText.trim());
+        setStatusMessage('✅ AI Description generated successfully!');
+
+      } catch (geminiError) {
+        console.error("Both APIs Failed:", geminiError);
+        setStatusMessage("⚠️ AI Service is temporarily busy. Please try again or type manually.");
+      }
     } finally {
       setIsGenerating(false);
     }
