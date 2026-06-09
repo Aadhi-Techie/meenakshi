@@ -258,7 +258,7 @@ export default function Admin({ go }) {
       const genAI = new GoogleGenerativeAI(apiKey);
       
       // 🌟 மீண்டும் சரியான லேட்டஸ்ட் மாடலுக்கே மாற்றிவிட்டோம் 🌟
-      const model = genAI.getGenerativeModel({ model: "gemini-3.1-pro" });
+      const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
 
       const finalSubcategory = subcategory === 'Custom / Other' ? customSub : subcategory;
       const finalType = productType === 'Custom / Other' ? customType : productType;
