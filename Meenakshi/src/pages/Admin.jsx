@@ -271,7 +271,7 @@ export default function Admin({ go }) {
       if (!apiKey) throw new Error("Google Gemini API Key is missing in .env");
 
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
       const finalSubcategory = subcategory === 'Custom / Other' ? customSub : subcategory;
       const finalType = productType === 'Custom / Other' ? customType : productType;
@@ -502,7 +502,7 @@ catch (error) {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 32, borderBottom: "1px solid var(--brd)", paddingBottom: 16, flexWrap: "wrap", gap: 16 }}>
               <div>
                 <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 38, fontWeight: 800 }}>Welcome Admin</h1>
-                <p style={{ color: "var(--sl3)", fontSize: 14 }}>Manage Sri Meenakshi Traders Database</p>
+                <p style={{ color: "var(--sl3)", fontSize: 14 }}>Manage Sri Meenakshi Glass And Plywoods Traders Database</p>
               </div>
               <div style={{ display: "flex", gap: 12 }}>
                 <button className="bw" onClick={() => go('home')} style={{ padding: "10px 16px", color: "var(--w)", borderRadius: 8, display: "flex", alignItems: "center", gap: 8 }}>
