@@ -88,18 +88,18 @@ export default function About({ go, t }) {
             <div style={{ height: 250, position: "relative" }}>
               <img 
                 src={shopImageUrl} 
-                alt="Sri Meenakshi Traders Showroom - Premium Glass, Plywood, UPVC and Aluminium Suppliers in Perambur, Chennai" 
+                alt="Sri Meenakshi Glass And Plywoods Traders Showroom - Premium Glass, Plywood, UPVC and Aluminium Suppliers in Perambur, Chennai" 
                 style={{ width: "100%", height: "100%", objectFit: "cover" }} 
               />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.9), transparent)" }} />
               <div style={{ position: "absolute", bottom: 20, left: 24, transform: "translateZ(30px)" }}>
-                <h3 style={{ fontSize: 24, fontWeight: 800, color: "var(--w)", fontFamily: "'Cormorant Garamond', serif", marginBottom: 4 }}>Sri Meenakshi Traders</h3>
+                <h3 style={{ fontSize: 24, fontWeight: 800, color: "var(--w)", fontFamily: "'Cormorant Garamond', serif", marginBottom: 4 }}>Sri Meenakshi Glass And Plywoods Traders</h3>
                 <p style={{ color: "var(--sl3)", fontSize: 13 }}>Perambur, Chennai - 600011<br/>Tamil Nadu, India</p>
               </div>
             </div>
             <Helmet>
               <title> Sri Meenakshi Glass And Plywoods Traders</title>
-              <meta name="description" content="Discover the legacy of Sri Meenakshi Traders. With over 20 years of excellence, we are Chennai's most trusted wholesale dealer for premium glass and plywoods." />
+              <meta name="description" content="Discover the legacy of Sri Meenakshi Glass And Plywoods Traders. With over 20 years of excellence, we are Chennai's most trusted wholesale dealer for premium glass and plywoods." />
             </Helmet>
 
             {/* Stats Grid Part */}

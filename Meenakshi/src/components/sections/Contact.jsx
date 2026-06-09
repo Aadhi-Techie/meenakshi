@@ -125,7 +125,7 @@ export default function Contact({ currentLang = 'ta' }) {
           
           <Helmet>
             <title> Sri Meenakshi Glass & Plywoods Traders | Perambur</title>
-            <meta name="description" content="Visit Sri Meenakshi Traders in Perambur, Chennai. Get directions, contact number, and WhatsApp details for wholesale glass, plywood, and UPVC inquiries." />
+            <meta name="description" content="Visit Sri Meenakshi Glass And Plywoods Traders in Perambur, Chennai. Get directions, contact number, and WhatsApp details for wholesale glass, plywood, and UPVC inquiries." />
           </Helmet>
 
           <div style={cardStyle}>

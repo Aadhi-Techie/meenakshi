@@ -254,7 +254,7 @@ export default function Admin({ go }) {
     
     const finalSubcategory = subcategory === 'Custom / Other' ? customSub : subcategory;
     const finalType = productType === 'Custom / Other' ? customType : productType;
-    const prompt = `You are a professional copywriter for "Sri Meenakshi Traders" in Perambur, Chennai. We are the leading traders of premium glass, plywood, UPVC, and interior hardware.
+    const prompt = `You are a professional copywriter for "Sri Meenakshi Glass And Plywoods Traders" in Perambur, Chennai. We are the leading traders of premium glass, plywood, UPVC, and interior hardware.
     Product Name: ${name}
     Category: ${category}
     Subcategory: ${finalSubcategory || 'General'}

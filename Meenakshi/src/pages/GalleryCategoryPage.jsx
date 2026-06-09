@@ -119,7 +119,7 @@ export default function GalleryCategoryPage({ id, go, t }) {
               ? "Our Projects & Gallery | Sri Meenakshi Glass And Plywoods Traders" 
               : `${activeFilter} Projects & Gallery | Sri Meenakshi Glass And Plywoods Traders`}
           </title>
-          <meta name="description" content={`View our premium collection of ${activeFilter === "All" ? "toughened glass, UPVC profiles, plywoods, and modular kitchen hardware" : activeFilter}. See the exceptional quality of Sri Meenakshi Traders.`} />
+          <meta name="description" content={`View our premium collection of ${activeFilter === "All" ? "toughened glass, UPVC profiles, plywoods, and modular kitchen hardware" : activeFilter}. See the exceptional quality of Sri Meenakshi Glass And Plywoods Traders.`} />
         </Helmet>
         {/* 🌟 Image Grid from Supabase 🌟 */}
         {filteredImages.length === 0 ? (
