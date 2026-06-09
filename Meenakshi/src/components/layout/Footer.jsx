@@ -91,10 +91,10 @@ export default function Footer({ go, t }) {
               {isTamil ? "எங்கள் கிளைகள்" : "Our Branches"}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 }}>
-              <a href="YOUR_MAP_LINK_1" target="_blank" rel="noopener noreferrer" style={branchButtonStyle} onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.1)"} onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.05)"}>
+              <a href="https://maps.app.goo.gl/78uYFBgwiX9KH27c8" target="_blank" rel="noopener noreferrer" style={branchButtonStyle} onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.1)"} onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.05)"}>
                 <MapPin size={16}/> {isTamil ? "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்" : "Sri Meenakshi Glass & Plywood"}
               </a>
-              <a href="YOUR_MAP_LINK_2" target="_blank" rel="noopener noreferrer" style={branchButtonStyle} onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.1)"} onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.05)"}>
+              <a href="https://maps.app.goo.gl/DsMgqTztD1HzqeSc8" target="_blank" rel="noopener noreferrer" style={branchButtonStyle} onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.1)"} onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.05)"}>
                 <MapPin size={16}/> {isTamil ? "ஸ்ரீ ஆதிதனலட்சுமி கிளாஸ் & பிளைவுட்ஸ்" : "Sree Adhidhanalakshi Glass & Plywoods"}
               </a>
             </div>
