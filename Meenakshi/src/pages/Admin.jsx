@@ -308,7 +308,7 @@ const prompt = `
     } // Admin.jsx -ல் உள்ள catch பிளாக்கை இப்படி வைத்திருந்தால் இந்த பெரிய error வராது:
 catch (error) {
   console.error("AI Error:", error);
-  setStatusMessage("⚠️ AI சர்வர் தற்சமயம் பிஸியாக உள்ளது. சிறிது நேரம் கழித்து முயற்சிக்கவும் அல்லது நீங்களே டைப் செய்யவும்.");
+  setStatusMessage("❌ AI generation failed. Please try again.");
 
     } finally {
       setIsGenerating(false);
