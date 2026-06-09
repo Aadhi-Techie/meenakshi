@@ -271,7 +271,7 @@ export default function Admin({ go }) {
       if (!apiKey) throw new Error("Google Gemini API Key is missing in .env");
 
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash-lite" });
 
       const finalSubcategory = subcategory === 'Custom / Other' ? customSub : subcategory;
       const finalType = productType === 'Custom / Other' ? customType : productType;
