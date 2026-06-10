@@ -284,7 +284,7 @@ export default function Admin({ go }) {
       // 🛡️ ATTEMPT 2: Fallback to GEMINI API if Groq fails
       try {
         const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
-        if (!geminiKey) throw new Error("Gemini API key is missing");
+        if (!geminiKey) throw new Error("Gemini API key is missing", { cause: groqError });
 
         const genAI = new GoogleGenerativeAI(geminiKey);
         const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });

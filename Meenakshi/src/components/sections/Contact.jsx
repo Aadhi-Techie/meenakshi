@@ -15,18 +15,25 @@ const tData = {
     send_sms: "Send SMS",
     whatsapp_us: "WhatsApp Us",
     send_enquiry: "Sri Meenakshi Glass & Plywoods Traders - Send an Enquiry",
-    full_name: "Full Name *",
+    full_name: "Full Name",
     email_address: "Email Address",
-    phone_number: "Phone Number *",
+    phone_number: "Phone Number",
     product_interest: "Product Interest",
-    your_message: "Your Message *",
+    your_message: "Your Message",
     send_message: "Send Message",
     sending: "Sending...",
     error_required: "❌ Name, Phone and Message are required!",
     status_sending: "⏳ Sending enquiry...",
     status_success: "✅ Enquiry Sent! Opening WhatsApp...",
     error_failed: "❌ Error",
-    find_us: "Find Us on Map" 
+    find_us: "Find Us on Map",
+    
+    // Placeholders (English)
+    ph_name: "e.g. Raj Kumar",
+    ph_email: "e.g. raj@gmail.com",
+    ph_phone: "e.g. 9876543210",
+    ph_interest: "e.g. Toughened Glass, Plywood",
+    ph_message: "Tell us about your requirement..."
   },
   ta: {
     visit_us: "முகவரி",
@@ -39,18 +46,25 @@ const tData = {
     send_sms: "எஸ்.எம்.எஸ் அனுப்ப",
     whatsapp_us: "வாட்ஸ்அப் செய்ய",
     send_enquiry: "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ் டிரேடர்ஸ் - விசாரணை",
-    full_name: "முழு பெயர் *",
+    full_name: "முழு பெயர்",
     email_address: "மின்னஞ்சல் முகவரி",
-    phone_number: "தொலைபேசி எண் *",
+    phone_number: "தொலைபேசி எண்",
     product_interest: "தேவைப்படும் தயாரிப்பு",
-    your_message: "உங்கள் கருத்து *",
+    your_message: "உங்கள் கருத்து",
     send_message: "மெசேஜ் அனுப்பவும்",
     sending: "அனுப்பப்படுகிறது...",
     error_required: "❌ பெயர், போன் எண் மற்றும் கருத்து கட்டாயம் தேவை!",
     status_sending: "⏳ விசாரணை அனுப்பப்படுகிறது...",
     status_success: "✅ விசாரணை அனுப்பப்பட்டது! வாட்ஸ்அப் திறக்கப்படுகிறது...",
     error_failed: "❌ பிழை ஏற்பட்டது",
-    find_us: "எங்கள் இடம் (Map)" 
+    find_us: "எங்கள் இடம் (Map)",
+
+    // Placeholders (Tamil)
+    ph_name: "உதா: ராஜ் குமார்",
+    ph_email: "உதா: raj@gmail.com",
+    ph_phone: "உதா: 9876543210",
+    ph_interest: "உதா: 12mm கிளாஸ், பிளைவுட்",
+    ph_message: "உங்கள் தேவையை இங்கே எழுதவும்..."
   }
 };
 
@@ -59,7 +73,7 @@ export default function Contact({ currentLang = 'ta' }) {
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   
-  const adminWhatsAppNumbers = ["91 9940504234"]; 
+  const adminWhatsAppNumbers = ["919940504234"]; 
   const [randomAdminWhatsApp] = useState(() => adminWhatsAppNumbers[Math.floor(Math.random() * adminWhatsAppNumbers.length)]);
 
   const t = (key) => {
@@ -104,18 +118,31 @@ export default function Contact({ currentLang = 'ta' }) {
   };
 
   const inputStyle = {
-    width: "100%", padding: "14px 16px", background: "rgba(0,0,0,0.3)", 
-    border: "1px solid rgba(255,255,255,0.05)", borderRadius: 12, 
-    color: "#fff", fontSize: 14, outline: "none", boxSizing: "border-box"
+    width: "100%", padding: "14px 16px", background: "rgba(0,0,0,0.5)", 
+    border: "1px solid rgba(255,255,255,0.15)", borderRadius: 12, 
+    color: "#ffffff", fontSize: 15, fontWeight: 500, outline: "none", boxSizing: "border-box"
   };
 
   const labelStyle = {
-    fontSize: 12, color: "var(--sl3)", fontWeight: 700, letterSpacing: 1, 
+    fontSize: 13, color: "#cbd5e1", fontWeight: 700, letterSpacing: 1, 
     textTransform: "uppercase", display: "block", marginBottom: 8 
   };
 
   return (
     <section id="contact" className="contact-section" style={{ background: "var(--bg)", position: "relative", overflow: "hidden", padding: "80px 0" }}>
+      
+      {/* CSS for Bright Placeholder Text */}
+      <style>{`
+        .custom-input::placeholder {
+          color: #9ca3af;
+          opacity: 1;
+        }
+        .custom-input:focus {
+          border-color: var(--o) !important;
+          background: rgba(0,0,0,0.7) !important;
+        }
+      `}</style>
+
       <div style={{ position: "absolute", top: "20%", left: "-10%", width: 400, height: 400, background: "var(--o)", filter: "blur(200px)", opacity: 0.08, borderRadius: "50%", pointerEvents: "none" }} />
       
       <div className="contact-wrap" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", gap: "40px", flexWrap: "wrap" }}>
@@ -210,29 +237,29 @@ export default function Contact({ currentLang = 'ta' }) {
             <form onSubmit={handleEnquirySubmit} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               <div className="input-row" style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
                 <div className="input-group" style={{ flex: "1 1 200px" }}>
-                  <label style={labelStyle}>{t('full_name')}</label>
-                  <input type="text" name="name" value={formData.name} onChange={handleChange} required style={inputStyle} />
+                  <label style={labelStyle}>{t('full_name')} <span style={{color: '#ef4444'}}>*</span></label>
+                  <input type="text" name="name" className="custom-input" placeholder={t('ph_name')} value={formData.name} onChange={handleChange} required style={inputStyle} />
                 </div>
                 <div className="input-group" style={{ flex: "1 1 200px" }}>
                   <label style={labelStyle}>{t('email_address')}</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleChange} style={inputStyle} />
+                  <input type="email" name="email" className="custom-input" placeholder={t('ph_email')} value={formData.email} onChange={handleChange} style={inputStyle} />
                 </div>
               </div>
 
               <div className="input-row" style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
                 <div className="input-group" style={{ flex: "1 1 200px" }}>
-                  <label style={labelStyle}>{t('phone_number')}</label>
-                  <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required style={inputStyle} />
+                  <label style={labelStyle}>{t('phone_number')} <span style={{color: '#ef4444'}}>*</span></label>
+                  <input type="tel" name="phone" className="custom-input" placeholder={t('ph_phone')} value={formData.phone} onChange={handleChange} required style={inputStyle} />
                 </div>
                 <div className="input-group" style={{ flex: "1 1 200px" }}>
                   <label style={labelStyle}>{t('product_interest')}</label>
-                  <input type="text" name="interest" value={formData.interest} onChange={handleChange} style={inputStyle} />
+                  <input type="text" name="interest" className="custom-input" placeholder={t('ph_interest')} value={formData.interest} onChange={handleChange} style={inputStyle} />
                 </div>
               </div>
 
               <div>
-                <label style={labelStyle}>{t('your_message')}</label>
-                <textarea name="message" value={formData.message} onChange={handleChange} rows="4" required style={{...inputStyle, resize: "none"}}></textarea>
+                <label style={labelStyle}>{t('your_message')} <span style={{color: '#ef4444'}}>*</span></label>
+                <textarea name="message" className="custom-input" placeholder={t('ph_message')} value={formData.message} onChange={handleChange} rows="4" required style={{...inputStyle, resize: "none"}}></textarea>
               </div>
 
               {statusMessage && (
@@ -247,7 +274,7 @@ export default function Contact({ currentLang = 'ta' }) {
             </form>
           </div>
 
-          {/* 🌟 Google Maps Embed - Cleaned up version 🌟 */}
+          {/* 🌟 Google Maps Embed 🌟 */}
           <div style={{ width: "100%", height: "350px", borderRadius: "24px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.05)" }}>
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6051.081892017348!2d80.22710297770998!3d13.121689200000018!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ab93a27e75%3A0x3d0ff2ecdb2bf1c1!2sSree%20Meenakshi%20Glasses%20and%20Plywoods!5e1!3m2!1sen!2sin!4v1780918986429!5m2!1sen!2sin" 

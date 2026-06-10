@@ -55,34 +55,39 @@ export default function Services({ go, t }) {
       {/* Background glow aesthetic */}
       <div style={{ position: "absolute", top: "20%", left: "-10%", width: 400, height: 400, background: "#38bdf8", filter: "blur(200px)", opacity: 0.05, borderRadius: "50%", pointerEvents: "none" }} />
       
-      <div className="wrap" style={{ display: "flex", flexWrap: "wrap", gap: 60 }}>
+      <div className="wrap" style={{ display: "flex", flexDirection: "column", gap: 48 }}>
         
-        {/* Left Content (Text) */}
-        <div style={{ flex: "1 1 350px", animation: "fadeUp 0.8s ease forwards" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", background: "rgba(56, 189, 248, 0.1)", border: "1px solid rgba(56, 189, 248, 0.2)", borderRadius: 100, color: "#38bdf8", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 24 }}>
-            {t.svBdg || (isTamil ? "சேவைகள்" : "Services")}
+        {/* 🌟 TOP SECTION: Header (Title, Desc & Buttons side by side on desktop) */}
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 32, width: "100%" }}>
+          
+          <div style={{ flex: "1 1 450px" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", background: "rgba(56, 189, 248, 0.1)", border: "1px solid rgba(56, 189, 248, 0.2)", borderRadius: 100, color: "#38bdf8", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 20 }}>
+              {t.svBdg || (isTamil ? "சேவைகள்" : "Services")}
+            </div>
+            
+            <h2 id="services-heading" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px, 4vw, 44px)", fontWeight: 800, lineHeight: 1.2, color: "var(--w)", marginBottom: 16, whiteSpace: "pre-line" }}>
+              {t.svH || (isTamil ? "முழுமையான கட்டிட\nபொருட்கள் சேவைகள்" : "End-to-End Building\nMaterial Services")}
+            </h2>
+            
+            <p style={{ color: "var(--sl3)", fontSize: 16, lineHeight: 1.7, margin: 0, maxWidth: 550 }}>
+              {t.svP || (isTamil ? "பிரீமியம் கண்ணாடி, பிளைவுட், UPVC சிஸ்டம்ஸ் மற்றும் அலுமினியப் பொருட்களின் முன்னணி சப்ளையர்." : "Chennai's primary traders of premium glass, plywood, UPVC systems, and architectural aluminium.")}
+            </p>
           </div>
-          
-          <h2 id="services-heading" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(36px, 5vw, 48px)", fontWeight: 800, lineHeight: 1.2, color: "var(--w)", marginBottom: 24, whiteSpace: "pre-line" }}>
-            {t.svH || (isTamil ? "முழுமையான கட்டிட\nபொருட்கள் சேவைகள்" : "End-to-End Building\nMaterial Services")}
-          </h2>
-          
-          <p style={{ color: "var(--sl3)", fontSize: 16, lineHeight: 1.8, marginBottom: 40, maxWidth: 450 }}>
-            {t.svP || (isTamil ? "பிரீமியம் கண்ணாடி, பிளைவுட், UPVC சிஸ்டம்ஸ் மற்றும் அலுமினியப் பொருட்களின் முன்னணி சப்ளையர்." : "Chennai's primary traders of premium glass, plywood, UPVC systems, and architectural aluminium.")}
-          </p>
-          
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-            <button className="bo" aria-label={t.hBtn1 || "Explore Collections"} onClick={() => go('category-glass')} style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12, display: "flex", alignItems: "center", gap: 8, fontWeight: 700 }}>
+
+          {/* Buttons Group on Top Right */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 16, marginBottom: 8 }}>
+            <button className="bo" aria-label={t.hBtn1 || "Explore Collections"} onClick={() => go('category-glass')} style={{ padding: "14px 28px", fontSize: 15, borderRadius: 12, display: "flex", alignItems: "center", gap: 8, fontWeight: 700, border: "none", color: "#fff", background: "var(--o)", cursor: "pointer" }}>
               {t.hBtn1 || (isTamil ? "தயாரிப்புகளை காண்க" : "Explore Collections")} <ArrowRight size={18} aria-hidden="true" />
             </button>
-            <a href={WA} target="_blank" rel="noopener noreferrer" aria-label={t.wa || "WhatsApp Us"} style={{ padding: "16px 32px", fontSize: 16, background: "rgba(255,255,255,0.03)", border: "1px solid var(--brd)", borderRadius: 12, color: "var(--w)", display: "flex", alignItems: "center", gap: 8, textDecoration: "none", fontWeight: 600, transition: "background 0.2s" }} onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.08)"} onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.03)"}>
+            <a href={WA} target="_blank" rel="noopener noreferrer" aria-label={t.wa || "WhatsApp Us"} style={{ padding: "14px 28px", fontSize: 15, background: "rgba(255,255,255,0.03)", border: "1px solid var(--brd)", borderRadius: 12, color: "var(--w)", display: "flex", alignItems: "center", gap: 8, textDecoration: "none", fontWeight: 600, transition: "background 0.2s" }} onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.08)"} onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.03)"}>
               <MessageCircle size={18} color="#25d366" aria-hidden="true" /> {t.wa || (isTamil ? "WhatsApp" : "Chat on WhatsApp")}
             </a>
           </div>
+
         </div>
 
-        {/* Right Content (Services Grid with IMAGES instead of Icons) */}
-        <div style={{ flex: "2 1 500px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 24, animation: "fadeUp 1s ease forwards" }}>
+        {/* 🌟 BOTTOM SECTION: Full Width Cards Grid (Beautiful 3-Column Layout) */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24, width: "100%" }}>
           {servicesList.map(p => (
             <div key={p.id} 
               role="button"
@@ -98,7 +103,7 @@ export default function Services({ go, t }) {
               style={{ 
                 background: "rgba(255,255,255,0.02)", 
                 border: "1px solid var(--brd)", 
-                padding: 30, 
+                padding: 28, 
                 borderRadius: 20, 
                 display: "flex", 
                 flexDirection: "column", 
@@ -129,7 +134,7 @@ export default function Services({ go, t }) {
                   <ArrowRight size={14} aria-hidden="true" />
                 </div>
               </div>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--w)", fontFamily: "'Cormorant Garamond', serif" }}>{p.name}</h3>
+              <h3 style={{ fontSize: 19, fontWeight: 700, color: "var(--w)", fontFamily: "'Cormorant Garamond', serif" }}>{p.name}</h3>
               <p style={{ fontSize: 13.5, color: "var(--sl3)", lineHeight: 1.6, marginTop: -8 }}>
                 {isTamil ? "வீடுகள் மற்றும் வணிக தேவைகளுக்கான சிறந்த தயாரிப்புகள்." : "Premium collections for all residential & commercial requirements."}
               </p>
