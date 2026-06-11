@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import './styles/globals.css';
 import { LANG } from './constants/translations';
 import { PageBar, Loader } from './components/ui';
@@ -16,12 +16,12 @@ import GalleryCategoryPage from './pages/GalleryCategoryPage';
 import LoginPage from './pages/LoginPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import SearchResultsPage from './pages/SearchResultsPage';
-import Admin from './pages/Admin';      
+import Admin from './pages/Admin';       
 import { MessageCircle } from 'lucide-react';
+
 // --- Page Wrappers ---
 const AboutPage   = ({  t }) => <div style={{ paddingTop: 72 }}><PageBar /><About t={t} /></div>;
 const ServicesPage= ({ t }) => <div style={{ paddingTop: 72 }}><PageBar /><Services t={t} /></div>;
-
 
 // மாற்றம் 1: ContactPage-ல் lang-ஐ வாங்கியுள்ளேன்
 const ContactPage = ({ t, lang }) => <div style={{ paddingTop: 72 }}><PageBar /><Contact t={t} currentLang={lang} /></div>;
@@ -40,20 +40,45 @@ const HomePage    = ({ go, t, lang }) => (
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [history, setHistory] = useState(["home"]); // Navigation History Stack
+  
+  // Namma custom stack history theva illa, ippo window.history use panrom
+  const [page, setPage] = useState('home'); 
   const [lang, setLang] = useState("en");
 
-  const page = history[history.length - 1]; // Current page
   const t = LANG[lang];
 
-  const go = useCallback((p) => {
-    setHistory(prev => [...prev, p]);
+  // 🌟 PUTHUSA ADD PANNA VENDIYA KODE (Browser Back Button Support) 🌟
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      // Browser back button amukkumbothu history-la enna page iruko anga pogum
+      if (event.state && event.state.page) {
+        setPage(event.state.page);
+      } else {
+        setPage('home'); // ethuvum illana home
+      }
+    };
+
+    window.addEventListener('popstate', handleBackButton);
+
+    // Initial load appo current page-ah history la vachikiraom
+    if (!window.history.state) {
+      window.history.replaceState({ page: 'home' }, '');
+    }
+
+    return () => window.removeEventListener('popstate', handleBackButton);
+  }, []);
+
+  const go = useCallback((newPage) => {
+    setPage(newPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
+    
+    // Namma React page maarumbothu Browser history-laiyum update panrom
+    window.history.pushState({ page: newPage }, ''); 
   }, []);
 
   const goBack = useCallback(() => {
-    setHistory(prev => (prev.length > 1 ? prev.slice(0, -1) : prev));
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Ippo goBack() function direct ah browser oda native back function ah koopidum
+    window.history.back(); 
   }, []);
 
   const noChrome = ["login", "signup", "admin"].includes(page);
