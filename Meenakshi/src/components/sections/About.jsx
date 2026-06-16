@@ -48,7 +48,7 @@ export default function About({ go, t }) {
     },
     { 
       icon: <Handshake size={24} color="var(--o)" aria-hidden="true" />, 
-      title: isTamil ? "تனிப்பயனாக்கப்பட்ட சேவை" : "Personalised Service", 
+      title: isTamil ? "தனிப்பயனாக்கப்பட்ட சேவை" : "Personalised Service", 
       desc: isTamil ? "அளவீடு முதல் டெலிவரி வரை, எங்கள் நிபுணர்கள் உங்களுடன் இருப்பார்கள்." : "From measurement to delivery, our experts are with you at every step." 
     },
     { 
@@ -102,7 +102,7 @@ export default function About({ go, t }) {
 
               <div style={{ position: "absolute", bottom: 20, left: 24, transform: "translateZ(30px)" }}>
                 <h3 style={{ fontSize: 24, fontWeight: 800, color: "var(--w)", fontFamily: "'Cormorant Garamond', serif", marginBottom: 4 }}>Sri Meenakshi Glass And Plywoods Traders</h3>
-                <p style={{ color: "var(--sl3)", fontSize: 13 }}>Perambur, Chennai - 600011<br/>Tamil Nadu, India</p>
+                <p style={{ color: "var(--sl3)", fontSize: 13 }}>No:26/23, Sathiya Narayanan Street, Perambur, Chennai - 600011<br/>Tamil Nadu, India</p>
               </div>
             </div>
             <Helmet>
@@ -157,7 +157,7 @@ export default function About({ go, t }) {
               <ShieldCheck size={14} aria-hidden="true" /> {isTamil ? "அங்கீகரிக்கப்பட்ட டீலர்" : "Authorized Dealer"}
             </div>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", background: "rgba(56, 189, 248, 0.1)", border: "1px solid rgba(56, 189, 248, 0.2)", borderRadius: 100, color: "#38bdf8", fontSize: 12, fontWeight: 700 }}>
-              <Award size={14} aria-hidden="true" /> {isTamil ? "GST பதிவுபெற்ற நிறுவனம்" : "GST Registered"}
+              <Award size={14} aria-hidden="true" /> {isTamil ? "GSTIN: 338UWPMD566N1ZW" : "GSTIN: 338UWPMD566N1ZW"}
             </div>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", background: "rgba(234, 179, 8, 0.1)", border: "1px solid rgba(234, 179, 8, 0.2)", borderRadius: 100, color: "#eab308", fontSize: 12, fontWeight: 700 }}>
               <Star size={14} fill="#eab308" aria-hidden="true" /> {isTamil ? "4.9 கூகுள் ரேட்டிங்" : "4.9 Google Reviews"}
@@ -171,7 +171,7 @@ export default function About({ go, t }) {
           
           <p style={{ color: "var(--sl3)", fontSize: 16, lineHeight: 1.8, marginBottom: 40 }}>
             {t.abP || (isTamil ? 
-              "சென்னை பெரம்பூரில் கடந்த 20 ஆண்டுகளுக்கும் மேலாக தரமான கன்ஸ்ட்ரக்ஷன் மற்றும் இன்டீரியர் பொருட்களை வழங்கி வரும் முன்னணி நிறுவனம். வாடிக்கையாளர்களுக்கு சிறந்த சேவையை அசல் தயாரிப்புகள் மூலம் வழங்குவதே எங்களின் முதன்மை நோக்கம்." : 
+              "சென்னை பெரம்பூரில் கடந்த 20 ஆண்டுகளுக்கும் மேலாக தரமான கንஸ்ட்ரக்ஷன் மற்றும் இன்டீரியர் பொருட்களை வழங்கி வரும் முன்னணி நிறுவனம். வாடிக்கையாளர்களுக்கு சிறந்த சேவையை அசல் தயாரிப்புகள் மூலம் வழங்குவதே எங்களின் முதன்மை நோக்கம்." : 
               "For over 20 years, Sri Meenakshi Traders has been Chennai's benchmark for premium quality building materials. We provide authorized wholesale supplies with absolute transparency and market-best standards.")
             }
           </p>

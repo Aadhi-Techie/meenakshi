@@ -1,4 +1,4 @@
-import { MessageCircle, ShieldCheck, CreditCard, Banknote, MapPin } from 'lucide-react';
+import { MessageCircle, ShieldCheck, CreditCard, Banknote, MapPin, Award } from 'lucide-react';
 import { PROD_LIST as PL } from '../../constants/data';
 import { WA } from '../../constants/config';
 
@@ -39,8 +39,15 @@ export default function Footer({ go, t }) {
                 ? "வணிக மற்றும் வீடுகளுக்கான பிரீமியம் கண்ணாடி, பிளைவுட் மற்றும் அலுமினியப் பொருட்களின் முன்னணி சப்ளையர்." 
                 : "Chennai's premier traders of premium glass, plywood, and architectural aluminium."}
             </p>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px", background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.2)", color: "#10b981", borderRadius: 6, fontSize: 12, fontWeight: 700 }}>
-              <ShieldCheck size={14} aria-hidden="true" /> {isTamil ? "தொடக்கம் 2007" : "Est. 2007"}
+            
+            {/* 🌟 Badges (Est. 2007 + GST Number added here) */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px", background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.2)", color: "#10b981", borderRadius: 6, fontSize: 12, fontWeight: 700 }}>
+                <ShieldCheck size={14} aria-hidden="true" /> {isTamil ? "தொடக்கம் 2007" : "Est. 2007"}
+              </div>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px", background: "rgba(56, 189, 248, 0.1)", border: "1px solid rgba(56, 189, 248, 0.2)", color: "#38bdf8", borderRadius: 6, fontSize: 12, fontWeight: 700 }}>
+                <Award size={14} aria-hidden="true" /> GSTIN: 338UWPMD566N1ZW
+              </div>
             </div>
 
             {/* Social Media Icons Restored */}

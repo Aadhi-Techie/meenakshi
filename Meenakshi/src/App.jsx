@@ -18,23 +18,25 @@ import ProductDetailsPage from './pages/ProductDetailsPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import Admin from './pages/Admin';       
 import { MessageCircle } from 'lucide-react';
+import BrandSlider from './components/BrandSlider'; // 🌟 சரியான இம்போர்ட்!
 
 // --- Page Wrappers ---
-const AboutPage   = ({  t }) => <div style={{ paddingTop: 72 }}><PageBar /><About t={t} /></div>;
+const AboutPage   = ({ go,  t }) => <div style={{ paddingTop: 72 }}><PageBar /><About go={go} t={t} /></div>;
 const ServicesPage= ({ t }) => <div style={{ paddingTop: 72 }}><PageBar /><Services t={t} /></div>;
 
 // மாற்றம் 1: ContactPage-ல் lang-ஐ வாங்கியுள்ளேன்
-const ContactPage = ({ t, lang }) => <div style={{ paddingTop: 72 }}><PageBar /><Contact t={t} currentLang={lang} /></div>;
+const ContactPage = ({go, t, lang }) => <div style={{ paddingTop: 72 }}><PageBar /><Contact t={t} currentLang={lang} /></div>;
 
-// மாற்றம் 2: HomePage-ல் lang-ஐ வாங்கியுள்ளேன்
+// மாற்றம் 2: HomePage-ல் lang-ஐ வாங்கியுள்ளேன் (இங்குதான் BrandSlider ஆட் செய்யப்பட்டுள்ளது!)
 const HomePage    = ({ go, t, lang }) => (
   <>
     <Hero go={go} t={t} />
-    <About t={t} />
+    <BrandSlider t={t} /> {/* 🌟 இதோ இங்க ஆட் பண்ணிட்டோம்! */}
+    <About go={go} t={t} />
     <Services t={t} />
     <GalleryPreview go={go} t={t} />
     <Testimonials t={t} />
-    <Contact t={t} currentLang={lang} />
+    <Contact go={go} t={t} currentLang={lang} />
   </>
 );
 
