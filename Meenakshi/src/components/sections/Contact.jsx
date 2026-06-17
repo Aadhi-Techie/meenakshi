@@ -73,7 +73,7 @@ export default function Contact({ currentLang = 'ta' }) {
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   
-  const adminWhatsAppNumbers = ["919940504234"]; 
+  const adminWhatsAppNumbers = ["919884822999"]; 
   const [randomAdminWhatsApp] = useState(() => adminWhatsAppNumbers[Math.floor(Math.random() * adminWhatsAppNumbers.length)]);
 
   const t = (key) => {

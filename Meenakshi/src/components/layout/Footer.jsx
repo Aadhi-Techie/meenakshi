@@ -40,7 +40,8 @@ export default function Footer({ go, t }) {
                 : "Chennai's premier traders of premium glass, plywood, and architectural aluminium."}
             </p>
             
-            {/* 🌟 Badges (Est. 2007 + GST Number added here) */}
+            {/* 🌟 B
+            adges (Est. 2007 + GST Number added here) */}
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px", background: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.2)", color: "#10b981", borderRadius: 6, fontSize: 12, fontWeight: 700 }}>
                 <ShieldCheck size={14} aria-hidden="true" /> {isTamil ? "தொடக்கம் 2007" : "Est. 2007"}

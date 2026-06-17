@@ -49,7 +49,7 @@ export default function App() {
 
   const t = LANG[lang];
 
-  // 🌟 PUTHUSA ADD PANNA VENDIYA KODE (Browser Back Button Support) 🌟
+  //  (Browser Back Button Support) 
   useEffect(() => {
     const handleBackButton = (event) => {
       // Browser back button amukkumbothu history-la enna page iruko anga pogum
@@ -125,7 +125,7 @@ export default function App() {
       {!noChrome && <Footer go={go} t={t} />}
       
       <a 
-        href="https://wa.me/919940504234" 
+        href="https://wa.me/919884822999" 
         target="_blank" 
         rel="noopener noreferrer"
         style={{
