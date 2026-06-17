@@ -125,7 +125,7 @@ export default function App() {
       {!noChrome && <Footer go={go} t={t} />}
       
       <a 
-        href="https://wa.me/919884822999" 
+        href="https://api.whatsapp.com/send?phone=919790923750" 
         target="_blank" 
         rel="noopener noreferrer"
         style={{

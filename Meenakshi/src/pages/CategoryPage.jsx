@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, Package, MessageCircle } from 'lucide-react';
 import { PageBar, Loader } from '../components/ui';
 import { PROD_LIST as PL } from '../constants/data';
-import { WA } from '../constants/config';
 import { supabase } from '../supabase'; 
 import { Helmet } from 'react-helmet-async';
 
@@ -10,13 +9,13 @@ export default function CategoryPage({ id, go, t }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // மொழி கண்டறிதல் (தமிழ் அல்லது ஆங்கிலம்)
+  // Check language (Tamil or English)
   const isTamil = t?.nav?.home === "முகப்பு";
 
   const pData = PL.find(x => x.id === id);
   const catName = pData ? pData.name : id?.charAt(0).toUpperCase() + id?.slice(1);
 
-  // மொழிக்கு ஏற்ற வார்த்தைகள்
+  // Internationalization text setup
   const textBack = isTamil ? "முகப்புக்குத் திரும்பு" : "Back to Home";
   const textCollections = isTamil ? "கலெக்‌ஷன்ஸ்" : "Collections";
   const textNoProducts = isTamil ? "இந்தப் பிரிவில் இன்னும் பொருட்கள் சேர்க்கப்படவில்லை." : "No products have been added to this category yet.";
@@ -66,6 +65,7 @@ export default function CategoryPage({ id, go, t }) {
       <PageBar />
       <div className="wrap" style={{ padding: "60px 24px" }}>
         
+        {/* Navigation Button */}
         <button className="bw" onClick={() => go("home")} style={{ padding: "8px 16px", marginBottom: 30 }}>
           <ChevronLeft size={16} /> {textBack}
         </button>
@@ -89,61 +89,80 @@ export default function CategoryPage({ id, go, t }) {
               <h2 style={{ fontSize: 24, fontWeight: 700, color: "var(--o)", borderBottom: "1px solid var(--brd)", paddingBottom: 12, marginBottom: 24 }}>{v}</h2>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 24 }}>
                 
-                {products.filter(p => (p.subcategory ? p.subcategory.trim() : defaultSub) === v).map(item => (
+                {products.filter(p => (p.subcategory ? p.subcategory.trim() : defaultSub) === v).map(item => {
                   
-                  <div key={item.id} className="g ch" onClick={() => go(`product-${item.id}`)} style={{ borderRadius: 16, overflow: "hidden", border: "1px solid var(--brd)", cursor: "pointer" }}>
-                    
-                    {item.image_url ? (
-                      <img 
-                        src={item.image_url} 
-                        alt={item.name}
-                        style={{ width: "100%", height: 240, objectFit: "cover" }}
-                      />
-                    ) : (
-                      <div style={{ width: "100%", height: 240, background: "var(--bg2)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--sl3)" }}>
-                        {textNoImage}
-                      </div>
-                    )}
+                  // 🌟 1. தற்போதைய வெப்சைட்டின் பேஸ் URL-ஐ எடுக்கிறோம்
+                  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+                  // 🌟 2. இந்த குறிப்பிட்ட ப்ராடக்ட்டுக்கான நேரடி லிங்க்கை உருவாக்குகிறோம்
+                  const itemUrl = `${baseUrl}/product-${item.id}`;
+                  
+                  // 🌟 3. வாட்ஸ்அப்பில் ஓனருக்குப் போக வேண்டிய மெசேஜ் ஃபார்மட்
+                  const rawWaMessage = `Hi Sri Meenakshi Glass & Plywoods,\n\nI am interested in this product. Please share more details and pricing.\n\n📦 *Product:* ${item.name}\n📄 *Category:* ${item.category || 'N/A'}\n\n🔗 *Product Link:* \n${itemUrl}`;
+                  const waMessage = encodeURIComponent(rawWaMessage);
+                  
+                  // 🌟 4. மொபைல் மற்றும் பிசி இரண்டிலும் 100% வேலை செய்யும் அதிகாரப்பூர்வ வாட்ஸ்அப் ஏபிஐ லிங்க் (நம்பருடன்)
+                  const whatsappLink = `https://api.whatsapp.com/send?phone=919790923750&text=${waMessage}`;
 
-                    <div style={{ padding: 20 }}>
-                      {/* 🌟 1. Title Capitalize மாற்றம் 🌟 */}
-                      <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--w)", marginBottom: 8, textTransform: "capitalize" }}>
-                        {item.name}
-                      </h3>
+                  return (
+                    <div key={item.id} className="g ch" onClick={() => go(`product-${item.id}`)} style={{ borderRadius: 16, overflow: "hidden", border: "1px solid var(--brd)", cursor: "pointer" }}>
                       
-                      {/* 🌟 2 & 3. Text Color & Line Clamp மாற்றம் 🌟 */}
-                      <p style={{ 
-                        color: "#cbd5e1", // பிரகாசமான நிறம்
-                        fontSize: 13.5, 
-                        lineHeight: 1.6, 
-                        marginBottom: 16,
-                        display: "-webkit-box",
-                        WebkitLineClamp: 3, // 3 வரிகளுக்கு மேல் கட் செய்யப்படும்
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis"
-                      }}>
-                        {item.description}
-                      </p>
-                      
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                        {item.price && <div style={{ fontSize: 16, fontWeight: 800, color: "var(--o)" }}>{item.price}</div>}
-                        {item.size && <div style={{ fontSize: 12, color: "var(--sl)", padding: "2px 8px", background: "rgba(255,255,255,0.05)", borderRadius: 4 }}>{item.size}</div>}
-                      </div>
-                      
-                      <div style={{ display: "flex", gap: 10 }}>
-                        <div className="bo" style={{ flex: 1, padding: "10px", fontSize: 13, borderRadius: 8, textAlign: "center", fontWeight: 600 }}>
-                          {textViewDetails}
+                      {item.image_url ? (
+                        <img 
+                          src={item.image_url} 
+                          alt={item.name}
+                          style={{ width: "100%", height: 240, objectFit: "cover" }}
+                        />
+                      ) : (
+                        <div style={{ width: "100%", height: 240, background: "var(--bg2)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--sl3)" }}>
+                          {textNoImage}
+                        </div>
+                      )}
+
+                      <div style={{ padding: 20 }}>
+                        <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--w)", marginBottom: 8, textTransform: "capitalize" }}>
+                          {item.name}
+                        </h3>
+                        
+                        <p style={{ 
+                          color: "#cbd5e1", // Bright clear color for scannability
+                          fontSize: 13.5, 
+                          lineHeight: 1.6, 
+                          marginBottom: 16,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 3, 
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis"
+                        }}>
+                          {item.description}
+                        </p>
+                        
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                          {item.price && <div style={{ fontSize: 16, fontWeight: 800, color: "var(--o)" }}>{item.price}</div>}
+                          {item.size && <div style={{ fontSize: 12, color: "var(--sl)", padding: "2px 8px", background: "rgba(255,255,255,0.05)", borderRadius: 4 }}>{item.size}</div>}
                         </div>
                         
-                        <a href={WA} target="_blank" rel="noopener noreferrer" className="bw" onClick={(e) => e.stopPropagation()} style={{ padding: "10px", borderRadius: 8, color: "#22c55e", borderColor: "rgba(34,197,94,.3)", display: "flex", alignItems: "center" }}>
-                          <MessageCircle size={16} />
-                        </a>
+                        <div style={{ display: "flex", gap: 10 }}>
+                          <div className="bo" style={{ flex: 1, padding: "10px", fontSize: 13, borderRadius: 8, textAlign: "center", fontWeight: 600 }}>
+                            {textViewDetails}
+                          </div>
+                          
+                          {/* 🌟 அப்டேட் செய்யப்பட்ட வாட்ஸ்அப் பட்டன் 🌟 */}
+                          <a 
+                            href={whatsappLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="bw" 
+                            onClick={(e) => e.stopPropagation()} // கார்டு கிளிக் ஆவதைத் தடுக்கிறது
+                            style={{ padding: "10px", borderRadius: 8, color: "#22c55e", borderColor: "rgba(34,197,94,.3)", display: "flex", alignItems: "center" }}
+                          >
+                            <MessageCircle size={16} />
+                          </a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-
-                ))}
+                  );
+                })}
               </div>
             </div>
           ))

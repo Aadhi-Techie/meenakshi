@@ -78,7 +78,7 @@ export default function ProductDetailsPage({ id, go, t }) {
   const waMessage = encodeURIComponent(rawWaMessage);
   
   // Generate the final WhatsApp link with the updated admin phone number
-  const whatsappLink = `https://wa.me/919884822999?text=${waMessage}`;
+  const whatsappLink = `https://api.whatsapp.com/send?phone=919790923750&text=${waMessage}`;
 
   return (
     <div style={{ paddingTop: 72, background: "var(--bg)", minHeight: "100vh" }}>
