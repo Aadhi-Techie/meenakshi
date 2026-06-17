@@ -40,36 +40,39 @@ const HomePage    = ({ go, t, lang }) => (
   </>
 );
 
+const getInitialPage = () => {
+  const path = window.location.pathname.replace(/^\/+/, ''); // முன்னால் உள்ள '/' ஐ நீக்க
+  return path ? path : 'home'; // லிங்க் காலியாக இருந்தால் 'home'
+};
+
 export default function App() {
   const [loading, setLoading] = useState(true);
   
-  // Namma custom stack history theva illa, ippo window.history use panrom
-  const [page, setPage] = useState('home'); 
+  // 🌟 2. 'home'-க்கு பதிலாக getInitialPage() பயன்படுத்துகிறோம்
+  const [page, setPage] = useState(getInitialPage()); 
   const [lang, setLang] = useState("en");
 
   const t = LANG[lang];
 
-  //  (Browser Back Button Support) 
   useEffect(() => {
     const handleBackButton = (event) => {
-      // Browser back button amukkumbothu history-la enna page iruko anga pogum
       if (event.state && event.state.page) {
         setPage(event.state.page);
       } else {
-        setPage('home'); // ethuvum illana home
+        setPage(getInitialPage());
       }
     };
 
     window.addEventListener('popstate', handleBackButton);
 
-    // Initial load appo current page-ah history la vachikiraom
+    // Initial load-ல் சரியான பக்கத்தை history-ல் வைக்கிறோம்
     if (!window.history.state) {
-      window.history.replaceState({ page: 'home' }, '');
+      window.history.replaceState({ page: getInitialPage() }, '');
     }
 
     return () => window.removeEventListener('popstate', handleBackButton);
   }, []);
-
+  
   const go = useCallback((newPage) => {
     setPage(newPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
