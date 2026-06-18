@@ -158,9 +158,9 @@ export default function CategoryPage({ id, go, t }) {
                                 if (navigator.share) {
                                   // மொபைலில் Native Share Menu ஓபன் ஆகும்
                                   await navigator.share({
-                                    title: `${item.name} | Sri Meenakshi Traders`,
-                                    text: `Check out this premium product from Sri Meenakshi Glass & Plywoods: ${item.name}`,
-                                    url: itemUrl
+                                    title: `${item.name} | Sri Meenakshi Glass & Plywoods`,
+                                    text: `Check out this premium product from Sri Meenakshi Glass & Plywoods: ${item.name}*\n\n🔗 *Link:* ${itemUrl}`,
+                                    
                                   });
                                 } else {
                                   // கம்ப்யூட்டரில் ஷேர் சப்போர்ட் இல்லை என்றால் லிங்கை காப்பி செய்யும்
