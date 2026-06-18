@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, Package, MessageCircle } from 'lucide-react';
+import { ChevronLeft, Package, MessageCircle, Share2 } from 'lucide-react';
 import { PageBar, Loader } from '../components/ui';
 import { PROD_LIST as PL } from '../constants/data';
 import { supabase } from '../supabase'; 
@@ -100,7 +100,7 @@ export default function CategoryPage({ id, go, t }) {
                   const rawWaMessage = `Hi Sri Meenakshi Glass & Plywoods,\n\nI am interested in this product. Please share more details and pricing.\n\n📦 *Product:* ${item.name}\n📄 *Category:* ${item.category || 'N/A'}\n\n🔗 *Product Link:* \n${itemUrl}`;
                   const waMessage = encodeURIComponent(rawWaMessage);
                   
-                  // 🌟 4. மொபைல் மற்றும் பிசி இரண்டிலும் 100% வேலை செய்யும் அதிகாரப்பூர்வ வாட்ஸ்அப் ஏபிஐ லிங்க் (நம்பருடன்)
+                  // 🌟 4. மொபைல் மற்றும் பிசி இரண்டிலும் 100% வேலை செய்யும் அதிகாரப்பூர்வ வாட்ஸ்அப் ஏபிஐ லிங்க்
                   const whatsappLink = `https://api.whatsapp.com/send?phone=919790923750&text=${waMessage}`;
 
                   return (
@@ -124,7 +124,7 @@ export default function CategoryPage({ id, go, t }) {
                         </h3>
                         
                         <p style={{ 
-                          color: "#cbd5e1", // Bright clear color for scannability
+                          color: "#cbd5e1", 
                           fontSize: 13.5, 
                           lineHeight: 1.6, 
                           marginBottom: 16,
@@ -142,22 +142,55 @@ export default function CategoryPage({ id, go, t }) {
                           {item.size && <div style={{ fontSize: 12, color: "var(--sl)", padding: "2px 8px", background: "rgba(255,255,255,0.05)", borderRadius: 4 }}>{item.size}</div>}
                         </div>
                         
+                        {/* 🌟 பட்டன்கள் பகுதி 🌟 */}
                         <div style={{ display: "flex", gap: 10 }}>
+                          
+                          {/* 1. View Details */}
                           <div className="bo" style={{ flex: 1, padding: "10px", fontSize: 13, borderRadius: 8, textAlign: "center", fontWeight: 600 }}>
                             {textViewDetails}
                           </div>
                           
-                          {/* 🌟 அப்டேட் செய்யப்பட்ட வாட்ஸ்அப் பட்டன் 🌟 */}
+                          {/* 🌟 2. புதிய Share பட்டன் 🌟 */}
+                          <button 
+                            onClick={async (e) => {
+                              e.stopPropagation(); // கார்டு கிளிக் ஆவதைத் தடுக்கும்
+                              try {
+                                if (navigator.share) {
+                                  // மொபைலில் Native Share Menu ஓபன் ஆகும்
+                                  await navigator.share({
+                                    title: `${item.name} | Sri Meenakshi Traders`,
+                                    text: `Check out this premium product from Sri Meenakshi Glass & Plywoods: ${item.name}`,
+                                    url: itemUrl
+                                  });
+                                } else {
+                                  // கம்ப்யூட்டரில் ஷேர் சப்போர்ட் இல்லை என்றால் லிங்கை காப்பி செய்யும்
+                                  await navigator.clipboard.writeText(itemUrl);
+                                  alert(isTamil ? "லிங்க் காப்பி செய்யப்பட்டது!" : "Link copied to clipboard!");
+                                }
+                              } catch (error) {
+                                console.log("Error sharing:", error);
+                              }
+                            }}
+                            className="bw" 
+                            style={{ padding: "10px", borderRadius: 8, color: "var(--w)", border: "1px solid var(--brd)", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center" }}
+                            title={isTamil ? "பகிரவும்" : "Share"}
+                          >
+                            <Share2 size={16} />
+                          </button>
+
+                          {/* 3. WhatsApp Enquiry */}
                           <a 
                             href={whatsappLink} 
                             target="_blank" 
                             rel="noopener noreferrer" 
                             className="bw" 
-                            onClick={(e) => e.stopPropagation()} // கார்டு கிளிக் ஆவதைத் தடுக்கிறது
+                            onClick={(e) => e.stopPropagation()} 
                             style={{ padding: "10px", borderRadius: 8, color: "#22c55e", borderColor: "rgba(34,197,94,.3)", display: "flex", alignItems: "center" }}
+                            title="WhatsApp"
                           >
                             <MessageCircle size={16} />
                           </a>
+                          
                         </div>
                       </div>
                     </div>
