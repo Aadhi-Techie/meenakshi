@@ -29,47 +29,36 @@
              reference them via `extend.colors` in tailwind.config.js
    ═══════════════════════════════════════════════════════════════ */
 :root {
-  /* Backgrounds — darkest to lightest */
+  /* Backgrounds */
   --bg:  #030918;
   --bg2: #060f22;
   --bg3: #091527;
   --bg4: #0d1d38;
 
-  /* Brand — orange spectrum */
+  /* Brand */
   --o:  #f97316;
   --o2: #ea580c;
   --o3: #ff9448;
 
-  /* Accent palette */
-  --gold: #f59e0b;
-  --sky:  #38bdf8;
-  --em:   #34d399;
-  --vi:   #a78bfa;
-  --am:   #fbbf24;
-
-  /* Neutral / slate */
-  --sl:  #94a3b8;
-  --sl2: #64748b;
-  --sl3: #475569;
+  /* 🌟 Text Colors - Dark Mode 🌟 */
+  --w:   #ffffff;        /* தலைப்புகள் (Pure White) */
+  --sl:  #cbd5e1;        /* விளக்கங்கள்/Paragraph (Bright Slate) */
+  --sl2: #94a3b8;        /* Sub-headings (Medium Slate) */
+  --sl3: #64748b;        /* Small text (Muted Slate) */
 
   /* Utility */
-  --w:   #f8fafc;
   --gr:  #22c55e;
   --re:  #ef4444;
 
   /* Borders */
   --brd: rgba(255, 255, 255, 0.07);
 
-  /* Border-radius scale */
+  /* Radius, Shadows, Glows ... (அப்படியே இருக்கும்) */
   --rd:  10px;
   --rdl: 18px;
   --rdx: 26px;
-
-  /* Box shadows */
   --sh:  0 4px 24px rgba(0, 0, 0, 0.5);
   --shx: 0 20px 70px rgba(0, 0, 0, 0.6);
-
-  /* Glow effects */
   --glow:  0 0 40px rgba(249, 115, 22, 0.25);
   --glowx: 0 0 80px rgba(249, 115, 22, 0.4);
 }
@@ -697,35 +686,27 @@ a {
    25. LIGHT THEME OVERRIDES (THE MAGIC!)
    ═══════════════════════════════════════════════════════════════ */
 [data-theme='light'] {
-  --bg:  #f8fafc; /* சாஃப்ட்டான வெள்ளை பின்னணி */
-  --bg2: #f1f5f9;
-  --bg3: #e2e8f0;
-  --bg4: #cbd5e1;
+  --bg:  #f8fafc; /* மெயின் பேக்ரவுண்ட் */
+  --bg2: #ffffff; /* கார்டுகளின் பேக்ரவுண்ட் */
+  --bg3: #f1f5f9;
+  --bg4: #e2e8f0;
 
-  --w:   #0f172a; /* எழுத்துகள் கருப்பாக மாறும் */
-  --sl:  #334155;
-  --sl2: #475569;
-  --sl3: #64748b;
+  /* 🌟 Text Colors - Light Mode 🌟 */
+  --w:   #0f172a; /* தலைப்புகள் (Dark Navy) */
+  --sl:  #334155; /* விளக்கங்கள்/Paragraph (Dark Grey) */
+  --sl2: #475569; /* Sub-headings (Medium Grey) */
+  --sl3: #64748b; /* Small text (Slate) */
 
   --brd: rgba(0, 0, 0, 0.08); /* லைட் பார்டர் */
 }
 
-/* Light Mode-க்கான பிரத்யேக மாற்றங்கள் */
-[data-theme='light'] .g { background: rgba(255, 255, 255, 0.7); box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
-[data-theme='light'] .gd { background: rgba(241, 245, 249, 0.9); }
-[data-theme='light'] .sh h2, 
-[data-theme='light'] .mm .nl { color: #0f172a; }
-[data-theme='light'] .inp { color: #0f172a; background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
-[data-theme='light'] .bw { color: #0f172a; border-color: rgba(0,0,0,0.15); }
+/* Light Mode Specific Overrides */
+[data-theme='light'] .g { background: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+[data-theme='light'] .gd { background: rgba(241, 245, 249, 0.95); }
+[data-theme='light'] .inp { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
+[data-theme='light'] .bw { color: var(--w); border-color: rgba(0,0,0,0.15); }
 [data-theme='light'] .bw:hover { color: var(--o); border-color: var(--o); }
 
-[data-theme='light'] h1, 
-[data-theme='light'] h2, 
-[data-theme='light'] h3, 
-[data-theme='light'] p, 
-[data-theme='light'] span {
-  color: var(--w) !important;
-}
 /* ═══════════════════════════════════════════════════════════════
    26. GEMINI AI RADIANT ANIMATION
    ═══════════════════════════════════════════════════════════════ */
