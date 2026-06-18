@@ -158,9 +158,9 @@ export default function ProductDetailsPage({ id, go, t }) {
 
             {/* Call to Action (CTA) Buttons */}
             <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-              <button className="bo" onClick={() => go("contact")} style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12, flex: 1, display: "flex", justifyContent: "center", gap: 10 }}>
-                <CheckCircle size={20} /> {isTamil ? "ஆம்! எனக்கு விருப்பம்" : "Yes! I am Interested"}
-              </button>
+              <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="bo" style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12, flex: 1, display: "flex", justifyContent: "center", gap: 10, textDecoration: "none" }}>
+                 <CheckCircle size={20} /> {isTamil ? "ஆம்! எனக்கு விருப்பம்" : "Yes! I am Interested"}
+              </a>
               
               {/* WhatsApp Enquiry Button */}
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="bw" 
