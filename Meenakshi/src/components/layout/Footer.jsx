@@ -17,7 +17,17 @@ const baseIconStyle = {
 export default function Footer({ go, t }) {
   const isTamil = t.nav?.home === "முகப்பு";
   const currentYear = new Date().getFullYear();
+const handleWhatsAppClick = () => {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag('event', 'whatsapp_click', {
+      'event_category': 'Engagement',
+      'event_label': 'WhatsApp Chat Initiated',
+      'value': 1
+    });
+    console.log("WhatsApp click event sent to Google Analytics");
+  }
 
+};
   return (
     <footer role="contentinfo" aria-label="Site Footer" style={{ background: "var(--bg)", borderTop: "1px solid var(--brd)", paddingTop: 80, paddingBottom: 30 }}>
       <div className="wrap" style={{ padding: "0 24px" }}>
@@ -88,7 +98,7 @@ export default function Footer({ go, t }) {
             <div style={{ color: "var(--sl3)", fontSize: 13.5, marginBottom: 4 }}>{t.footer?.wk || "Mon - Sat: 9:00 AM - 8:00 PM"}</div>
             <div style={{ color: "var(--sl3)", fontSize: 13.5, marginBottom: 16 }}>{t.footer?.su || "Sunday: 9:00 AM - 2:00 PM"}</div>
             
-            <a href={WA} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "var(--w)", fontWeight: 700, fontSize: 13.5, textDecoration: "none" }}>
+            <a href={WA} target="_blank" rel="noopener noreferrer" onClick={handleWhatsAppClick} style={{ display: "inline-flex", alignItems: "center", gap: 7, color: "var(--w)", fontWeight: 700, fontSize: 13.5, textDecoration: "none" }}>
               <MessageCircle size={15} color="#25d366" /> {t.wa || "Chat on WhatsApp"}
             </a>
           </address>

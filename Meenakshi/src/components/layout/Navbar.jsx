@@ -36,8 +36,10 @@ const handleWhatsAppClick = () => {
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag('event', 'whatsapp_click', {
       'event_category': 'Engagement',
-      'event_label': 'WhatsApp Chat Initiated'
+      'event_label': 'WhatsApp Chat Initiated',
+      'value': 1
     });
+    console.log("WhatsApp click event sent to Google Analytics");
   }
 };
   return (
