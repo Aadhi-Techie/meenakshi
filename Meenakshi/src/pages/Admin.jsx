@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { PageBar, Loader } from '../components/ui';
 import { LogIn, PlusCircle, Image, CheckCircle, LogOut, Edit, Trash2, X, ArrowLeft, Package, MessageSquare, Wand2, Loader2 } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+
 import { GoogleGenerativeAI } from '@google/generative-ai'; // 🌟 Gemini பேக்கேஜ் மீண்டும் இணைக்கப்பட்டுள்ளது 🌟
 
 //  Dynamic 3-Tier Category Data Structure 
@@ -459,9 +459,7 @@ export default function Admin({ go }) {
 
   return (
     <div style={{ paddingTop: 72, background: "var(--bg)", minHeight: "100vh", color: "var(--w)" }}>
-      <Helmet>
-        <title>Admin Dashboard | Sri Meenakshi Glass & Plywoods Traders</title>
-      </Helmet>
+      
       
       <PageBar />
       <div className="wrap" style={{ padding: "40px 24px" }}>

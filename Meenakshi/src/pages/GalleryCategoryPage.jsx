@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, Maximize2, X, Image as ImageIcon } from 'lucide-react';
 import { PageBar, Loader } from '../components/ui';
 import { supabase } from '../supabase';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async'; // SEO மேம்பாட்டிற்கான பேக்கேஜ்
 export default function GalleryCategoryPage({ id, go, t }) {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -114,11 +114,7 @@ export default function GalleryCategoryPage({ id, go, t }) {
          
         {/* 🌟 Dynamic SEO Tags 🌟 */}
         <Helmet>
-          <title>
-            {activeFilter === "All" 
-              ? "Our Projects & Gallery | Sri Meenakshi Glass And Plywoods Traders" 
-              : `${activeFilter} Projects & Gallery | Sri Meenakshi Glass And Plywoods Traders`}
-          </title>
+          
           <meta name="description" content={`View our premium collection of ${activeFilter === "All" ? "toughened glass, UPVC profiles, plywoods, and modular kitchen hardware" : activeFilter}. See the exceptional quality of Sri Meenakshi Glass And Plywoods Traders.`} />
         </Helmet>
         {/* 🌟 Image Grid from Supabase 🌟 */}

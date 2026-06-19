@@ -151,7 +151,7 @@ export default function Contact({ currentLang = 'ta' }) {
         <div className="contact-info-col" style={{ flex: "1 1 350px", display: "flex", flexDirection: "column", gap: "20px" }}>
           
           <Helmet>
-            <title> Sri Meenakshi Glass & Plywoods Traders | Perambur</title>
+            
             <meta name="description" content="Visit Sri Meenakshi Glass And Plywoods Traders in Perambur, Chennai. Get directions, contact number, and WhatsApp details for wholesale glass, plywood, and UPVC inquiries." />
           </Helmet>
 

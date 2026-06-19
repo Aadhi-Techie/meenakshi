@@ -106,7 +106,7 @@ export default function About({ go, t }) {
               </div>
             </div>
             <Helmet>
-              <title> Sri Meenakshi Glass And Plywoods Traders</title>
+       
               <meta name="description" content="Discover the legacy of Sri Meenakshi Glass And Plywoods Traders. With over 20 years of excellence, we are Chennai's most trusted wholesale dealer for premium glass and plywoods." />
             </Helmet>
 

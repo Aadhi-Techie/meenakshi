@@ -3,7 +3,7 @@ import { ChevronLeft, Package, MessageCircle, Share2 } from 'lucide-react';
 import { PageBar, Loader } from '../components/ui';
 import { PROD_LIST as PL } from '../constants/data';
 import { supabase } from '../supabase'; 
-import { Helmet } from 'react-helmet-async';
+
 
 export default function CategoryPage({ id, go, t }) {
   const [products, setProducts] = useState([]);
@@ -74,9 +74,7 @@ export default function CategoryPage({ id, go, t }) {
           {catName} {textCollections}
         </h1>
 
-        <Helmet>
-          <title>Sri Meenakshi Glass And Plywoods Traders</title>
-        </Helmet>
+       
 
         {varieties.length === 0 ? (
           <div className="g" style={{ textAlign: "center", padding: "80px 20px", color: "var(--sl3)", fontSize: 16, borderRadius: 16, border: "1px dashed var(--brd)" }}>
