@@ -9,6 +9,14 @@ export default function FloatWA({ t }) {
     const x = setTimeout(() => setTip(false), 4000); 
     return () => clearTimeout(x); 
   }, []);
+  const handleWhatsAppClick = () => {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag('event', 'whatsapp_click', {
+      'event_category': 'Engagement',
+      'event_label': 'WhatsApp Chat Initiated'
+    });
+  }
+};
 
   return (
     <div style={{ position: "fixed", bottom: 28, right: 28, zIndex: 9990, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10 }}>
@@ -32,6 +40,7 @@ export default function FloatWA({ t }) {
         rel="noopener noreferrer"
         aria-label={t.wa || "Chat with us on WhatsApp"}
         aria-describedby={tip ? "wa-tooltip" : undefined}
+        onClick={handleWhatsAppClick}
         onMouseEnter={() => setTip(true)} 
         onMouseLeave={() => setTip(false)}
         onFocus={e => {

@@ -32,7 +32,14 @@ export default function Navbar({ page, go, lang, setLang, t }) {
   
   const { theme, toggleTheme } = useTheme();
   const NAV_H = 72;
-
+const handleWhatsAppClick = () => {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag('event', 'whatsapp_click', {
+      'event_category': 'Engagement',
+      'event_label': 'WhatsApp Chat Initiated'
+    });
+  }
+};
   return (
     <>
       <header>
@@ -110,7 +117,7 @@ export default function Navbar({ page, go, lang, setLang, t }) {
               </button>
               
               {/* WhatsApp Button */}
-              <a href={WA} target="_blank" rel="noopener noreferrer" style={{ width: 37, height: 37, borderRadius: 9, background: "linear-gradient(135deg,#25d366,#128c7e)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--w)" }}>
+              <a href={WA} target="_blank" rel="noopener noreferrer" onClick={handleWhatsAppClick}         style={{ width: 37, height: 37, borderRadius: 9, background: "linear-gradient(135deg,#25d366,#128c7e)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--w)" }}>
                 <MessageCircle size={17} />
               </a>
             </div>

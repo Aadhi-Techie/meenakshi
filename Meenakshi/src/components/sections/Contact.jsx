@@ -127,7 +127,14 @@ export default function Contact({ currentLang = 'ta' }) {
     fontSize: 13, color: "#cbd5e1", fontWeight: 700, letterSpacing: 1, 
     textTransform: "uppercase", display: "block", marginBottom: 8 
   };
-
+const handleWhatsAppClick = () => {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag('event', 'whatsapp_click', {
+      'event_category': 'Engagement',
+      'event_label': 'WhatsApp Chat Initiated'
+    });
+  }
+};
   return (
     <section id="contact" className="contact-section" style={{ background: "var(--bg)", position: "relative", overflow: "hidden", padding: "80px 0" }}>
       
@@ -197,7 +204,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 <MessageCircle size={18} /> {t('send_sms')}
               </a>
             </div>
-            <a href={`https://wa.me/${randomAdminWhatsApp}`} target="_blank" rel="noopener noreferrer" style={{ width: "100%", padding: "14px", background: "linear-gradient(to right, #10b981, #059669)", borderRadius: 12, color: "#fff", textDecoration: "none", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, fontWeight: 700 }}>
+            <a href={`https://wa.me/${randomAdminWhatsApp}`} target="_blank" rel="noopener noreferrer" onClick={handleWhatsAppClick} style={{ width: "100%", padding: "14px", background: "linear-gradient(to right, #10b981, #059669)", borderRadius: 12, color: "#fff", textDecoration: "none", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, fontWeight: 700 }}>
               <MessageCircle size={18} /> {t('whatsapp_us')}
             </a>
           </div>
