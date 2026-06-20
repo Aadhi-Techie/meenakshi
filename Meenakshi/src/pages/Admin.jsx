@@ -451,13 +451,14 @@ export default function Admin({ go }) {
     }
   };
 
-  // 🌟 NEW FUNCTION: Toggle Enquiry Status 🌟
-  const handleToggleStatus = async (id, currentStatus) => {
+  // 🌟 Dropdown-kaga modified status handler 🌟
+  const handleToggleStatus = async (id, currentStatus, chosenStatus = null) => {
     try {
-      const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
+      // Direct assignment if chosen via select dropdown, else fallback to toggle
+      const newStatus = chosenStatus ? chosenStatus : (currentStatus === 'completed' ? 'pending' : 'completed');
       const { error } = await supabase.from('enquiries').update({ status: newStatus }).eq('id', id);
       if (error) throw error;
-      fetchData(); // Refresh list to show updated status
+      fetchData(); 
     } catch (err) {
       alert("Error updating status: " + err.message);
     }
@@ -467,8 +468,6 @@ export default function Admin({ go }) {
 
   return (
     <div style={{ paddingTop: 72, background: "var(--bg)", minHeight: "100vh", color: "var(--w)" }}>
-      
-      
       <PageBar />
       <div className="wrap" style={{ padding: "40px 24px" }}>
         
@@ -700,7 +699,7 @@ export default function Admin({ go }) {
               </div>
             )}
 
-            {/* 🌟 CUSTOMER ENQUIRIES SECTION 🌟 */}
+            {/* 🌟 CUSTOMER ENQUIRIES SECTION WITH DROPDOWN OPTION 🌟 */}
             {activeTab === 'enquiries' && (
               <div className="g" style={{ padding: 24, borderRadius: 16, animation: "fadeUp .4s ease" }}>
                 <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 20, borderBottom: "1px solid var(--brd)", paddingBottom: 12 }}>Customer Enquiries</h2>
@@ -713,7 +712,7 @@ export default function Admin({ go }) {
                           <th style={{ padding: "12px 8px" }}>Customer Info</th>
                           <th style={{ padding: "12px 8px" }}>Interest</th>
                           <th style={{ padding: "12px 8px" }}>Message</th>
-                          <th style={{ padding: "12px 8px", textAlign: "center" }}>Status</th>
+                          <th style={{ padding: "12px 8px", textAlign: "center" }}>Status Option</th>
                           <th style={{ padding: "12px 8px", textAlign: "right" }}>Actions</th>
                         </tr>
                       </thead>
@@ -734,46 +733,36 @@ export default function Admin({ go }) {
                             
                             <td style={{ padding: "12px 8px", fontSize: 13, color: "var(--sl3)", maxWidth: 250 }}>{enq.message || '-'}</td>
                             
+                            {/* 🌟 Status Dropdown Block 🌟 */}
                             <td style={{ padding: "12px 8px", textAlign: "center" }}>
-                              {enq.status === 'completed' ? (
-                                <span style={{ background: "rgba(34, 197, 94, 0.1)", color: "#22c55e", padding: "4px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>Completed</span>
-                              ) : (
-                                <span style={{ background: "rgba(234, 179, 8, 0.1)", color: "#eab308", padding: "4px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>Pending</span>
-                              )}
+                              <select 
+                                value={enq.status || 'pending'} 
+                                onChange={(e) => handleToggleStatus(enq.id, enq.status, e.target.value)} 
+                                style={{ 
+                                  background: enq.status === 'completed' ? "#14532d" : "#713f12", 
+                                  color: enq.status === 'completed' ? "#4ade80" : "#fef08a", 
+                                  border: "1px solid rgba(255,255,255,0.1)", 
+                                  padding: "6px 12px", 
+                                  borderRadius: 8, 
+                                  fontSize: 13, 
+                                  fontWeight: 600, 
+                                  outline: "none", 
+                                  cursor: "pointer" 
+                                }}
+                              >
+                                <option value="pending" style={{ background: "#121214", color: "#fff" }}>⏳ Pending</option>
+                                <option value="completed" style={{ background: "#121214", color: "#fff" }}>✅ Completed</option>
+                              </select>
                             </td>
 
                             <td style={{ padding: "12px 8px", textAlign: "right" }}>
-                              <div style={{ display: "flex", gap: 12, justifyContent: "flex-end", alignItems: "center" }}>
-                                
-                                {/* 🌟 Dropdown Option Select for Status 🌟 */}
-                                <select 
-                                  value={enq.status || 'pending'} 
-                                  onChange={() => handleToggleStatus(enq.id, enq.status)} // இது தானாகவே ஸ்டேட்டஸை மாற்றிவிடும்
-                                  style={{ 
-                                    background: enq.status === 'completed' ? "#14532d" : "#713f12", 
-                                    color: enq.status === 'completed' ? "#4ade80" : "#fef08a", 
-                                    border: "1px solid rgba(255,255,255,0.1)", 
-                                    padding: "6px 12px", 
-                                    borderRadius: 8, 
-                                    fontSize: 13, 
-                                    fontWeight: 600, 
-                                    outline: "none", 
-                                    cursor: "pointer" 
-                                  }}
-                                >
-                                  <option value="pending" style={{ background: "#121214", color: "#fff" }}>⏳ Pending</option>
-                                  <option value="completed" style={{ background: "#121214", color: "#fff" }}>✅ Completed</option>
-                                </select>
-
-                                {/* Delete Button */}
-                                <button 
-                                  onClick={() => handleDeleteEnquiry(enq.id)} 
-                                  title="Delete"
-                                  style={{ background: "rgba(239, 68, 68, 0.1)", color: "#ef4444", border: "none", padding: "8px 12px", borderRadius: 6, cursor: "pointer", display: "flex", alignItems: "center" }}
-                                >
-                                  <Trash2 size={16} />
-                                </button>
-                              </div>
+                              <button 
+                                onClick={() => handleDeleteEnquiry(enq.id)} 
+                                title="Delete"
+                                style={{ background: "rgba(239, 68, 68, 0.1)", color: "#ef4444", border: "none", padding: "8px 12px", borderRadius: 6, cursor: "pointer" }}
+                              >
+                                <Trash2 size={16} />
+                              </button>
                             </td>
                           </tr>
                         ))}
