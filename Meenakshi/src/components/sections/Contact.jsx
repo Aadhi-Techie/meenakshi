@@ -91,12 +91,29 @@ export default function Contact({ currentLang = 'ta' }) {
     try {
       setLoading(true);
       setStatusMessage(t('status_sending'));
+      
+      // 1. Supabase Database Insert
       const { error: dbError } = await supabase.from('enquiries').insert([{
         name: formData.name.trim(), 
         phone: formData.phone.trim(), 
         message: `Email: ${formData.email} | Interest: ${formData.interest}\n\n${formData.message.trim()}`
       }]);
       if (dbError) throw dbError;
+
+      // 2. Web3Forms Email Setup (இது மட்டும் புதிதாக சேர்க்கப்பட்டது)
+      await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: "baec8202-6a45-4d3a-b5a1-57258449c864", // <-- உங்களது Access Key-ஐ இங்கே போடவும்
+          subject: `New Enquiry from ${formData.name.trim()} - Sri Meenakshi Glass`,
+          name: formData.name.trim(),
+          email: formData.email.trim() || "No email provided",
+          phone: formData.phone.trim(),
+          interest: formData.interest.trim() || "General Enquiry",
+          message: formData.message.trim()
+        })
+      });
       
       setStatusMessage(t('status_success'));
       const whatsappText = `Hi Sri Meenakshi Glass & Plywoods Traders,\n\nNew Enquiry from Website:\n\n👤 *Name:* ${formData.name}\n📞 *Phone:* ${formData.phone}\n📧 *Email:* ${formData.email || 'N/A'}\n🎯 *Interest:* ${formData.interest || 'N/A'}\n💬 *Message:* ${formData.message}`;
@@ -127,16 +144,18 @@ export default function Contact({ currentLang = 'ta' }) {
     fontSize: 13, color: "#cbd5e1", fontWeight: 700, letterSpacing: 1, 
     textTransform: "uppercase", display: "block", marginBottom: 8 
   };
-const handleWhatsAppClick = () => {
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag('event', 'whatsapp_click', {
-      'event_category': 'Engagement',
-      'event_label': 'WhatsApp Chat Initiated',
-      'value': 1
-    });
-    console.log("WhatsApp click event sent to Google Analytics");
-  }
-};
+  
+  const handleWhatsAppClick = () => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag('event', 'whatsapp_click', {
+        'event_category': 'Engagement',
+        'event_label': 'WhatsApp Chat Initiated',
+        'value': 1
+      });
+      console.log("WhatsApp click event sent to Google Analytics");
+    }
+  };
+
   return (
     <section id="contact" className="contact-section" style={{ background: "var(--bg)", position: "relative", overflow: "hidden", padding: "80px 0" }}>
       
