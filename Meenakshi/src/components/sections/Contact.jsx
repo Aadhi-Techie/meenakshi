@@ -23,6 +23,8 @@ const tData = {
     send_message: "Send Message",
     sending: "Sending...",
     error_required: "❌ Name, Phone and Message are required!",
+    error_phone_invalid: "❌ Please enter a valid 10-digit phone number!",
+    error_email_invalid: "❌ Please enter a valid email address!",
     status_sending: "⏳ Sending enquiry...",
     status_success: "✅ Enquiry Sent! Opening WhatsApp...",
     error_failed: "❌ Error",
@@ -54,6 +56,8 @@ const tData = {
     send_message: "மெசேஜ் அனுப்பவும்",
     sending: "அனுப்பப்படுகிறது...",
     error_required: "❌ பெயர், போன் எண் மற்றும் கருத்து கட்டாயம் தேவை!",
+    error_phone_invalid: "❌ சரியான 10-இலக்க போன் நம்பரை உள்ளிடவும்!",
+    error_email_invalid: "❌ சரியான மின்னஞ்சல் (Email) முகவரியை உள்ளிடவும்!",
     status_sending: "⏳ விசாரணை அனுப்பப்படுகிறது...",
     status_success: "✅ விசாரணை அனுப்பப்பட்டது! வாட்ஸ்அப் திறக்கப்படுகிறது...",
     error_failed: "❌ பிழை ஏற்பட்டது",
@@ -84,18 +88,36 @@ export default function Contact({ currentLang = 'ta' }) {
 
   const handleEnquirySubmit = async (e) => {
     e.preventDefault();
+    
+    // 1. Basic Empty Check
     if (!formData.name || !formData.phone || !formData.message) {
       setStatusMessage(t('error_required'));
       return;
     }
+
+    // 2. 🌟 Phone Number Validation (Exactly 10 digits) 🌟
+    const phoneRegex = /^\d{10}$/;
+    const cleanPhone = formData.phone.trim().replace(/\s+/g, ''); // Remove spaces if any
+    if (!phoneRegex.test(cleanPhone)) {
+      setStatusMessage(t('error_phone_invalid'));
+      return;
+    }
+
+    // 3. 🌟 Email Validation (If entered, must be valid) 🌟
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formData.email.trim() && !emailRegex.test(formData.email.trim())) {
+      setStatusMessage(t('error_email_invalid'));
+      return;
+    }
+
     try {
       setLoading(true);
       setStatusMessage(t('status_sending'));
       
-      // 1. Supabase Database Insert (🌟 இதுதான் நாம் தனித்தனியாகப் பிரித்து எழுதிய புதிய கோடு 🌟)
+      // Supabase Database Insert
       const { error: dbError } = await supabase.from('enquiries').insert([{
         name: formData.name.trim(), 
-        phone: formData.phone.trim(), 
+        phone: cleanPhone, 
         email: formData.email.trim() || null,
         interest: formData.interest.trim() || null,
         message: formData.message.trim(),
@@ -103,7 +125,7 @@ export default function Contact({ currentLang = 'ta' }) {
       }]);
       if (dbError) throw dbError;
 
-      // 2. Web3Forms Email Setup
+      // Web3Forms Email Setup
       await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -112,14 +134,14 @@ export default function Contact({ currentLang = 'ta' }) {
           subject: `New Enquiry from ${formData.name.trim()} - Sri Meenakshi Glass`,
           name: formData.name.trim(),
           email: formData.email.trim() || "No email provided",
-          phone: formData.phone.trim(),
+          phone: cleanPhone,
           interest: formData.interest.trim() || "General Enquiry",
           message: formData.message.trim()
         })
       });
       
       setStatusMessage(t('status_success'));
-      const whatsappText = `Hi Sri Meenakshi Glass & Plywoods Traders,\n\nNew Enquiry from Website:\n\n👤 *Name:* ${formData.name}\n📞 *Phone:* ${formData.phone}\n📧 *Email:* ${formData.email || 'N/A'}\n🎯 *Interest:* ${formData.interest || 'N/A'}\n💬 *Message:* ${formData.message}`;
+      const whatsappText = `Hi Sri Meenakshi Glass & Plywoods Traders,\n\nNew Enquiry from Website:\n\n👤 *Name:* ${formData.name}\n📞 *Phone:* ${cleanPhone}\n📧 *Email:* ${formData.email || 'N/A'}\n🎯 *Interest:* ${formData.interest || 'N/A'}\n💬 *Message:* ${formData.message}`;
       const whatsappUrl = `https://wa.me/${randomAdminWhatsApp}?text=${encodeURIComponent(whatsappText)}`;
       
       setFormData({ name: '', email: '', phone: '', interest: '', message: '' });
@@ -162,7 +184,6 @@ export default function Contact({ currentLang = 'ta' }) {
   return (
     <section id="contact" className="contact-section" style={{ background: "var(--bg)", position: "relative", overflow: "hidden", padding: "80px 0" }}>
       
-      {/* CSS for Bright Placeholder Text */}
       <style>{`
         .custom-input::placeholder {
           color: #9ca3af;
@@ -178,7 +199,6 @@ export default function Contact({ currentLang = 'ta' }) {
       
       <div className="contact-wrap" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", gap: "40px", flexWrap: "wrap" }}>
         
-        {/* Left Column - Info Cards */}
         <div className="contact-info-col" style={{ flex: "1 1 350px", display: "flex", flexDirection: "column", gap: "20px" }}>
           
           <Helmet>
@@ -217,7 +237,6 @@ export default function Contact({ currentLang = 'ta' }) {
             </div>
           </div>
           
-          {/* Action Buttons */}
           <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: "8px" }}>
             <div className="action-btns-row" style={{ display: "flex", gap: "10px" }}>
               <a href={`tel:+${randomAdminWhatsApp}`} style={{ flex: 1, padding: "14px", background: "var(--o)", borderRadius: 12, color: "#fff", textDecoration: "none", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, fontWeight: 700 }}>
@@ -232,7 +251,6 @@ export default function Contact({ currentLang = 'ta' }) {
             </a>
           </div>
 
-          {/* 🌟 உங்கள் கடையின் ஒரிஜினல் இமேஜ் 🌟 */}
           <div style={{ 
             flex: 1, 
             marginTop: "16px", 
@@ -255,10 +273,8 @@ export default function Contact({ currentLang = 'ta' }) {
 
         </div>
 
-        {/* Right Column - Form & Map */}
         <div className="contact-form-col" style={{ flex: "1 1 500px", display: "flex", flexDirection: "column", gap: "40px" }}>
           
-          {/* Contact Form */}
           <div style={{ background: "rgba(255,255,255,0.02)", padding: "32px", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.05)" }}>
             <h3 style={{ fontSize: 24, fontWeight: 700, color: "var(--w)", fontFamily: "'Cormorant Garamond', serif", marginBottom: 32 }}>
               {t('send_enquiry')}
@@ -304,7 +320,6 @@ export default function Contact({ currentLang = 'ta' }) {
             </form>
           </div>
 
-          {/* 🌟 Google Maps Embed 🌟 */}
           <div style={{ width: "100%", height: "350px", borderRadius: "24px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.05)" }}>
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6051.081892017348!2d80.22710297770998!3d13.121689200000018!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ab93a27e75%3A0x3d0ff2ecdb2bf1c1!2sSree%20Meenakshi%20Glasses%20and%20Plywoods!5e1!3m2!1sen!2sin!4v1780918986429!5m2!1sen!2sin" 
