@@ -3,9 +3,9 @@ import { supabase } from '../supabase';
 import { PageBar, Loader } from '../components/ui';
 import { LogIn, PlusCircle, Image, CheckCircle, LogOut, Edit, Trash2, X, ArrowLeft, Package, MessageSquare, Wand2, Loader2 } from 'lucide-react';
 
-import { GoogleGenerativeAI } from '@google/generative-ai'; // 🌟 Gemini பேக்கேஜ் மீண்டும் இணைக்கப்பட்டுள்ளது 🌟
+import { GoogleGenerativeAI } from '@google/generative-ai'; 
 
-//  Dynamic 3-Tier Category Data Structure 
+// Dynamic 3-Tier Category Data Structure 
 const CATEGORY_DATA = {
   Glass: {
     Interior: ["Toughened Glass", "Laminated Glass", "Frosted Glass", "Decorative / Art Glass", "Clear Glass", "Mirrors"],
@@ -242,7 +242,6 @@ export default function Admin({ go }) {
     setStatusMessage('');
   };
 
-  // 🌟 DUAL API FALLBACK LOGIC (GROQ First -> GEMINI Second) 🌟
   const generateDescription = async () => {
     if (!name || !category) {
       setStatusMessage('❌ Please enter Product Name and Main Category!');
@@ -262,7 +261,6 @@ export default function Admin({ go }) {
     Task: Write a highly attractive, professional product description in exactly 2 or 3 sentences. Highlight quality, durability, and aesthetics. Mention that we are the best choice in Chennai. Include a subtle call to action like "Visit our showroom in Perambur". No emojis or hashtags. Write in simple English.`;
 
     try {
-      // 🚀 ATTEMPT 1: Try with GROQ API (Lightning Fast)
       const groqKey = import.meta.env.VITE_GROQ_API_KEY;
       if (!groqKey) throw new Error("Groq key missing");
 
@@ -280,8 +278,6 @@ export default function Admin({ go }) {
       
     } catch (groqError) {
       console.warn("Groq failed, switching to Gemini...", groqError.message);
-      
-      // 🛡️ ATTEMPT 2: Fallback to GEMINI API if Groq fails
       try {
         const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
         if (!geminiKey) throw new Error("Gemini API key is missing", { cause: groqError });
@@ -455,6 +451,18 @@ export default function Admin({ go }) {
     }
   };
 
+  // 🌟 NEW FUNCTION: Toggle Enquiry Status 🌟
+  const handleToggleStatus = async (id, currentStatus) => {
+    try {
+      const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
+      const { error } = await supabase.from('enquiries').update({ status: newStatus }).eq('id', id);
+      if (error) throw error;
+      fetchData(); // Refresh list to show updated status
+    } catch (err) {
+      alert("Error updating status: " + err.message);
+    }
+  };
+
   if (authLoading) return <Loader done={() => {}} />;
 
   return (
@@ -489,7 +497,7 @@ export default function Admin({ go }) {
             </div>
           </div>
         ) : (
-          <div style={{ maxWidth: 900, margin: "0 auto", animation: "fadeUp .5s ease" }}>
+          <div style={{ maxWidth: 1000, margin: "0 auto", animation: "fadeUp .5s ease" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 32, borderBottom: "1px solid var(--brd)", paddingBottom: 16, flexWrap: "wrap", gap: 16 }}>
               <div>
                 <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 38, fontWeight: 800 }}>Welcome Admin</h1>
@@ -516,7 +524,9 @@ export default function Admin({ go }) {
                 style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 20px", fontSize: 15, fontWeight: 600, borderRadius: 8, cursor: "pointer", transition: "all 0.2s", background: activeTab === 'enquiries' ? "var(--o)" : "transparent", color: activeTab === 'enquiries' ? "#fff" : "var(--sl)", border: "none" }}>
                 <MessageSquare size={18} /> Customer Enquiries
                 {enquiriesList.length > 0 && (
-                  <span style={{ background: activeTab === 'enquiries' ? "#fff" : "var(--o)", color: activeTab === 'enquiries' ? "var(--o)" : "#fff", padding: "2px 8px", borderRadius: 20, fontSize: 12 }}>{enquiriesList.length}</span>
+                  <span style={{ background: activeTab === 'enquiries' ? "#fff" : "var(--o)", color: activeTab === 'enquiries' ? "var(--o)" : "#fff", padding: "2px 8px", borderRadius: 20, fontSize: 12 }}>
+                    {enquiriesList.filter(e => e.status !== 'completed').length} 
+                  </span>
                 )}
               </button>
             </div>
@@ -690,6 +700,7 @@ export default function Admin({ go }) {
               </div>
             )}
 
+            {/* 🌟 CUSTOMER ENQUIRIES SECTION 🌟 */}
             {activeTab === 'enquiries' && (
               <div className="g" style={{ padding: 24, borderRadius: 16, animation: "fadeUp .4s ease" }}>
                 <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 20, borderBottom: "1px solid var(--brd)", paddingBottom: 12 }}>Customer Enquiries</h2>
@@ -700,30 +711,59 @@ export default function Admin({ go }) {
                         <tr style={{ borderBottom: "1px solid var(--brd)", color: "var(--sl3)", fontSize: 14 }}>
                           <th style={{ padding: "12px 8px" }}>Date</th>
                           <th style={{ padding: "12px 8px" }}>Customer Info</th>
-                          <th style={{ padding: "12px 8px" }}>Service</th>
+                          <th style={{ padding: "12px 8px" }}>Interest</th>
                           <th style={{ padding: "12px 8px" }}>Message</th>
-                          <th style={{ padding: "12px 8px", textAlign: "right" }}>Action</th>
+                          <th style={{ padding: "12px 8px", textAlign: "center" }}>Status</th>
+                          <th style={{ padding: "12px 8px", textAlign: "right" }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {enquiriesList.map((enq) => (
-                          <tr key={enq.id} style={{ borderBottom: "1px solid rgba(255,255,255,0.05)", verticalAlign: "top" }}>
+                          <tr key={enq.id} style={{ borderBottom: "1px solid rgba(255,255,255,0.05)", verticalAlign: "top", opacity: enq.status === 'completed' ? 0.6 : 1, transition: "opacity 0.3s" }}>
                             <td style={{ padding: "12px 8px", fontSize: 13, color: "var(--sl)" }}>{new Date(enq.created_at).toLocaleDateString()}</td>
+                            
                             <td style={{ padding: "12px 8px" }}>
-                              <div style={{ fontWeight: 600, color: "var(--w)", marginBottom: 4 }}>{enq.name}</div>
-                              <div style={{ fontSize: 13, color: "var(--sl3)" }}>{enq.phone}</div>
+                              <div style={{ fontWeight: 600, color: "var(--w)", marginBottom: 4, textDecoration: enq.status === 'completed' ? "line-through" : "none" }}>{enq.name}</div>
+                              <div style={{ fontSize: 13, color: "var(--sl3)", marginBottom: 2 }}>📞 {enq.phone}</div>
+                              {enq.email && <div style={{ fontSize: 13, color: "var(--sl3)" }}>📧 {enq.email}</div>}
                             </td>
+                            
                             <td style={{ padding: "12px 8px" }}>
-                              <span style={{ background: "rgba(249,115,22,0.1)", color: "var(--o)", padding: "4px 8px", borderRadius: 4, fontSize: 12, fontWeight: 600 }}>{enq.service}</span>
+                              <span style={{ background: "rgba(249,115,22,0.1)", color: "var(--o)", padding: "4px 8px", borderRadius: 4, fontSize: 12, fontWeight: 600 }}>{enq.interest || 'General'}</span>
                             </td>
+                            
                             <td style={{ padding: "12px 8px", fontSize: 13, color: "var(--sl3)", maxWidth: 250 }}>{enq.message || '-'}</td>
+                            
+                            <td style={{ padding: "12px 8px", textAlign: "center" }}>
+                              {enq.status === 'completed' ? (
+                                <span style={{ background: "rgba(34, 197, 94, 0.1)", color: "#22c55e", padding: "4px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>Completed</span>
+                              ) : (
+                                <span style={{ background: "rgba(234, 179, 8, 0.1)", color: "#eab308", padding: "4px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>Pending</span>
+                              )}
+                            </td>
+
                             <td style={{ padding: "12px 8px", textAlign: "right" }}>
-                              <button onClick={() => handleDeleteEnquiry(enq.id)} style={{ background: "rgba(239, 68, 68, 0.1)", color: "#ef4444", border: "none", padding: "8px 12px", borderRadius: 6, cursor: "pointer" }}><Trash2 size={16} /></button>
+                              <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+                                <button 
+                                  onClick={() => handleToggleStatus(enq.id, enq.status)} 
+                                  title={enq.status === 'completed' ? "Mark as Pending" : "Mark as Completed"}
+                                  style={{ background: enq.status === 'completed' ? "rgba(234, 179, 8, 0.1)" : "rgba(34, 197, 94, 0.1)", color: enq.status === 'completed' ? "#eab308" : "#22c55e", border: "none", padding: "8px 12px", borderRadius: 6, cursor: "pointer", display: "flex", alignItems: "center" }}
+                                >
+                                  {enq.status === 'completed' ? <X size={16} /> : <CheckCircle size={16} />}
+                                </button>
+                                <button 
+                                  onClick={() => handleDeleteEnquiry(enq.id)} 
+                                  title="Delete"
+                                  style={{ background: "rgba(239, 68, 68, 0.1)", color: "#ef4444", border: "none", padding: "8px 12px", borderRadius: 6, cursor: "pointer", display: "flex", alignItems: "center" }}
+                                >
+                                  <Trash2 size={16} />
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))}
                         {enquiriesList.length === 0 && (
-                          <tr><td colSpan="5" style={{ padding: "60px", textAlign: "center", color: "var(--sl)" }}><MessageSquare size={32} style={{ opacity: 0.3, margin: "0 auto 10px" }} /><div>No customer enquiries yet.</div></td></tr>
+                          <tr><td colSpan="6" style={{ padding: "60px", textAlign: "center", color: "var(--sl)" }}><MessageSquare size={32} style={{ opacity: 0.3, margin: "0 auto 10px" }} /><div>No customer enquiries yet.</div></td></tr>
                         )}
                       </tbody>
                     </table>
