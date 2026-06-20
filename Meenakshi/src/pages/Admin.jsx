@@ -743,14 +743,29 @@ export default function Admin({ go }) {
                             </td>
 
                             <td style={{ padding: "12px 8px", textAlign: "right" }}>
-                              <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-                                <button 
-                                  onClick={() => handleToggleStatus(enq.id, enq.status)} 
-                                  title={enq.status === 'completed' ? "Mark as Pending" : "Mark as Completed"}
-                                  style={{ background: enq.status === 'completed' ? "rgba(234, 179, 8, 0.1)" : "rgba(34, 197, 94, 0.1)", color: enq.status === 'completed' ? "#eab308" : "#22c55e", border: "none", padding: "8px 12px", borderRadius: 6, cursor: "pointer", display: "flex", alignItems: "center" }}
+                              <div style={{ display: "flex", gap: 12, justifyContent: "flex-end", alignItems: "center" }}>
+                                
+                                {/* 🌟 Dropdown Option Select for Status 🌟 */}
+                                <select 
+                                  value={enq.status || 'pending'} 
+                                  onChange={() => handleToggleStatus(enq.id, enq.status)} // இது தானாகவே ஸ்டேட்டஸை மாற்றிவிடும்
+                                  style={{ 
+                                    background: enq.status === 'completed' ? "#14532d" : "#713f12", 
+                                    color: enq.status === 'completed' ? "#4ade80" : "#fef08a", 
+                                    border: "1px solid rgba(255,255,255,0.1)", 
+                                    padding: "6px 12px", 
+                                    borderRadius: 8, 
+                                    fontSize: 13, 
+                                    fontWeight: 600, 
+                                    outline: "none", 
+                                    cursor: "pointer" 
+                                  }}
                                 >
-                                  {enq.status === 'completed' ? <X size={16} /> : <CheckCircle size={16} />}
-                                </button>
+                                  <option value="pending" style={{ background: "#121214", color: "#fff" }}>⏳ Pending</option>
+                                  <option value="completed" style={{ background: "#121214", color: "#fff" }}>✅ Completed</option>
+                                </select>
+
+                                {/* Delete Button */}
                                 <button 
                                   onClick={() => handleDeleteEnquiry(enq.id)} 
                                   title="Delete"

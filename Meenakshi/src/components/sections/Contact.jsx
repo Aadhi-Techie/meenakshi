@@ -92,20 +92,23 @@ export default function Contact({ currentLang = 'ta' }) {
       setLoading(true);
       setStatusMessage(t('status_sending'));
       
-      // 1. Supabase Database Insert
+      // 1. Supabase Database Insert (🌟 இதுதான் நாம் தனித்தனியாகப் பிரித்து எழுதிய புதிய கோடு 🌟)
       const { error: dbError } = await supabase.from('enquiries').insert([{
         name: formData.name.trim(), 
         phone: formData.phone.trim(), 
-        message: `Email: ${formData.email} | Interest: ${formData.interest}\n\n${formData.message.trim()}`
+        email: formData.email.trim() || null,
+        interest: formData.interest.trim() || null,
+        message: formData.message.trim(),
+        status: 'pending'
       }]);
       if (dbError) throw dbError;
 
-      // 2. Web3Forms Email Setup (இது மட்டும் புதிதாக சேர்க்கப்பட்டது)
+      // 2. Web3Forms Email Setup
       await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          access_key: "baec8202-6a45-4d3a-b5a1-57258449c864", // <-- உங்களது Access Key-ஐ இங்கே போடவும்
+          access_key: "baec8202-6a45-4d3a-b5a1-57258449c864",
           subject: `New Enquiry from ${formData.name.trim()} - Sri Meenakshi Glass`,
           name: formData.name.trim(),
           email: formData.email.trim() || "No email provided",
@@ -179,7 +182,6 @@ export default function Contact({ currentLang = 'ta' }) {
         <div className="contact-info-col" style={{ flex: "1 1 350px", display: "flex", flexDirection: "column", gap: "20px" }}>
           
           <Helmet>
-            
             <meta name="description" content="Visit Sri Meenakshi Glass And Plywoods Traders in Perambur, Chennai. Get directions, contact number, and WhatsApp details for wholesale glass, plywood, and UPVC inquiries." />
           </Helmet>
 
