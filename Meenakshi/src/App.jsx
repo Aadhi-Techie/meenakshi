@@ -18,20 +18,17 @@ import ProductDetailsPage from './pages/ProductDetailsPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import Admin from './pages/Admin';       
 import { MessageCircle } from 'lucide-react';
-import BrandSlider from './components/BrandSlider'; // 🌟 சரியான இம்போர்ட்!
+import BrandSlider from './components/BrandSlider'; 
 
 // --- Page Wrappers ---
 const AboutPage   = ({ go,  t }) => <div style={{ paddingTop: 72 }}><PageBar /><About go={go} t={t} /></div>;
 const ServicesPage= ({ t }) => <div style={{ paddingTop: 72 }}><PageBar /><Services t={t} /></div>;
+const ContactPage = ({ t, lang }) => <div style={{ paddingTop: 72 }}><PageBar /><Contact t={t} currentLang={lang} /></div>;
 
-// மாற்றம் 1: ContactPage-ல் lang-ஐ வாங்கியுள்ளேன்
-const ContactPage = ({go, t, lang }) => <div style={{ paddingTop: 72 }}><PageBar /><Contact t={t} currentLang={lang} /></div>;
-
-// மாற்றம் 2: HomePage-ல் lang-ஐ வாங்கியுள்ளேன் (இங்குதான் BrandSlider ஆட் செய்யப்பட்டுள்ளது!)
 const HomePage    = ({ go, t, lang }) => (
   <>
     <Hero go={go} t={t} />
-    <BrandSlider t={t} /> {/* 🌟 இதோ இங்க ஆட் பண்ணிட்டோம்! */}
+    <BrandSlider t={t} /> 
     <About go={go} t={t} />
     <Services t={t} />
     <GalleryPreview go={go} t={t} />
@@ -41,14 +38,12 @@ const HomePage    = ({ go, t, lang }) => (
 );
 
 const getInitialPage = () => {
-  const path = window.location.pathname.replace(/^\/+/, ''); // முன்னால் உள்ள '/' ஐ நீக்க
-  return path ? path : 'home'; // லிங்க் காலியாக இருந்தால் 'home'
+  const path = window.location.pathname.replace(/^\/+/, ''); 
+  return path ? path : 'home'; 
 };
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  
-  // 🌟 2. 'home'-க்கு பதிலாக getInitialPage() பயன்படுத்துகிறோம்
   const [page, setPage] = useState(getInitialPage()); 
   const [lang, setLang] = useState("en");
 
@@ -65,7 +60,6 @@ export default function App() {
 
     window.addEventListener('popstate', handleBackButton);
 
-    // Initial load-ல் சரியான பக்கத்தை history-ல் வைக்கிறோம்
     if (!window.history.state) {
       window.history.replaceState({ page: getInitialPage() }, '');
     }
@@ -77,26 +71,24 @@ export default function App() {
     setPage(newPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
     
-    // Namma React page maarumbothu Browser history-laiyum update panrom
-    window.history.pushState({ page: newPage }, ''); 
+    // 🌟 SEO FIX: URL Address Bar-ல் மாறும் படி செட் செய்துள்ளோம்!
+    const urlPath = newPage === 'home' ? '/' : `/${newPage}`;
+    window.history.pushState({ page: newPage }, '', urlPath); 
   }, []);
 
   const goBack = useCallback(() => {
-    // Ippo goBack() function direct ah browser oda native back function ah koopidum
     window.history.back(); 
   }, []);
 
   const noChrome = ["login", "signup", "admin"].includes(page);
 
   const renderPage = () => {
-    // மாற்றம் 3: lang-ஐ HomePage மற்றும் ContactPage-க்கு அனுப்புகிறோம்
     if (page === "home")     return <HomePage go={go} t={t} lang={lang} />;
     if (page === "about")    return <AboutPage go={go} t={t} />;
     if (page === "services") return <ServicesPage t={t} />;
     if (page === "contact")  return <ContactPage t={t} lang={lang} />;
     if (page === "login")    return <LoginPage go={go} />;
     if (page === "signup")   return <LoginPage go={go} />; 
-    
     if (page === "admin")    return <Admin go={go} />;
     
     if (page.startsWith("product-")) {

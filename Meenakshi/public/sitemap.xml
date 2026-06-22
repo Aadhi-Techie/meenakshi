@@ -1,33 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <!-- Home Page -->
   <url>
-    <loc>https://srimeenakshiglassandply.in/</loc>
-    <lastmod>2026-06-06</lastmod>
+    <loc>https://www.srimeenakshiglassandply.in/</loc>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>1.00</priority>
+    <priority>1.0</priority>
   </url>
-
-  <!-- Products Page -->
   <url>
-    <loc>https://srimeenakshiglassandply.in/products</loc>
+    <loc>https://www.srimeenakshiglassandply.in/#products</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.srimeenakshiglassandply.in/#contact</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.8</priority>
   </url>
-
-  <!-- Services Page -->
-  <url>
-    <loc>https://srimeenakshiglassandply.in/services</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <!-- Contact Page -->
-  <url>
-    <loc>https://srimeenakshiglassandply.in/contact</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.90</priority>
-  </url>
-
 </urlset>
