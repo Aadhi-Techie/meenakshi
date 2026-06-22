@@ -9,13 +9,9 @@ const branchButtonStyle = {
   fontSize: 13, textDecoration: "none", fontWeight: 600, cursor: "pointer", transition: "background 0.2s"
 };
 
-const baseIconStyle = {
-  display: "flex", alignItems: "center", justifyContent: "center", width: 36, height: 36,
-  borderRadius: "50%", color: "#fff", textDecoration: "none", transition: "transform 0.2s ease",
-};
-
+// 🌟 5. CSS Conflict Fixed 🌟
 const headingStyle = {
-  fontSize: 12, fontWeight: 800, color: "var(--w)", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 18, margin: 0, paddingBottom: 18
+  fontSize: 12, fontWeight: 800, color: "var(--w)", letterSpacing: ".08em", textTransform: "uppercase", margin: 0, marginBottom: 18, paddingBottom: 18
 };
 
 export default function Footer({ go, t }) {
@@ -44,7 +40,8 @@ export default function Footer({ go, t }) {
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
               <div aria-hidden="true" style={{ width: 44, height: 44, borderRadius: 10, background: "linear-gradient(135deg,var(--o),var(--o2))", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Cormorant Garamond',serif", fontWeight: 800, fontSize: 20, color: "#fff" }}>SM</div>
               <div>
-                <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 700, fontSize: 16, color: "var(--w)", margin: 0 }}>Sri Meenakshi</h2>
+                {/* 🌟 1. h2 changed to p for SEO hierarchy 🌟 */}
+                <p style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 700, fontSize: 16, color: "var(--w)", margin: 0 }}>Sri Meenakshi</p>
                 <div style={{ fontSize: 9.5, color: "var(--o3)", letterSpacing: ".13em", fontWeight: 700, textTransform: "uppercase" }}>Glass & Plywoods</div>
               </div>
             </div>
@@ -63,12 +60,12 @@ export default function Footer({ go, t }) {
               </div>
             </div>
 
-            {/* Social Media - Please Replace # with actual links */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 28 }}>
-              <a href="#" target="_blank" rel="noopener noreferrer" style={{ ...baseIconStyle, background: "#1877F2" }} onMouseEnter={e => e.currentTarget.style.transform="scale(1.15)"} onMouseLeave={e => e.currentTarget.style.transform="scale(1)"} aria-label="Facebook"><FbIcon /></a>
-              <a href="#" target="_blank" rel="noopener noreferrer" style={{ ...baseIconStyle, background: "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)" }} onMouseEnter={e => e.currentTarget.style.transform="scale(1.15)"} onMouseLeave={e => e.currentTarget.style.transform="scale(1)"} aria-label="Instagram"><InstaIcon /></a>
-              <a href="#" target="_blank" rel="noopener noreferrer" style={{ ...baseIconStyle, background: "#FF0000" }} onMouseEnter={e => e.currentTarget.style.transform="scale(1.15)"} onMouseLeave={e => e.currentTarget.style.transform="scale(1)"} aria-label="YouTube"><YtIcon /></a>
-            </div>
+            {/* 🌟 4. Social Media Hidden Temporarily 🌟 */}
+            {/* <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 28 }}>
+              <a href="#" target="_blank" rel="noopener noreferrer" style={{ ...baseIconStyle, background: "#1877F2" }} aria-label="Facebook"><FbIcon /></a>
+              <a href="#" target="_blank" rel="noopener noreferrer" style={{ ...baseIconStyle, background: "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)" }} aria-label="Instagram"><InstaIcon /></a>
+              <a href="#" target="_blank" rel="noopener noreferrer" style={{ ...baseIconStyle, background: "#FF0000" }} aria-label="YouTube"><YtIcon /></a>
+            </div> */}
           </div>
 
           {/* 2. Quick Links (SEO Optimized) */}
@@ -98,7 +95,6 @@ export default function Footer({ go, t }) {
               No:26/23, Sathiya Narayanan St,<br />Palavan Salai, Perambur,<br />Chennai – 600011
             </div>
             
-            {/* Explicit Phone Number for NAP Consistency */}
             <div style={{ marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
               <Phone size={14} color="var(--sl3)" />
               <a href="tel:+919940504234" style={{ color: "var(--w)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>+91 9940504234</a>
@@ -144,11 +140,13 @@ export default function Footer({ go, t }) {
         <div style={{ borderTop: "1px solid var(--brd)", paddingTop: 24, display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 20 }}>
           <div style={{ color: "var(--sl3)", fontSize: 13 }}>
             {t.footer?.copy ? t.footer.copy.replace('2025', currentYear) : `© ${currentYear} Sri Meenakshi Glass And Plywoods Traders. All Rights Reserved.`}
-            <span onClick={() => go("admin")} style={{ cursor: 'pointer', opacity: 0.1, marginLeft: 8 }} aria-label="Admin Login">🔒</span>
+            {/* 🌟 3. Admin Icon changed to Button 🌟 */}
+            <button onClick={() => go("admin")} style={{ cursor: 'pointer', opacity: 0.1, marginLeft: 8, background: "none", border: "none" }} aria-label="Admin Login">🔒</button>
           </div>
           <div style={{ display: "flex", gap: 20, fontSize: 13, color: "var(--sl3)" }}>
-            <span style={{ cursor: "pointer", transition: "color .2s" }} onMouseEnter={e => e.currentTarget.style.color="var(--o)"} onMouseLeave={e => e.currentTarget.style.color="var(--sl3)"}>{isTamil ? "தனியுரிமை கொள்கை" : "Privacy Policy"}</span>
-            <span style={{ cursor: "pointer", transition: "color .2s" }} onMouseEnter={e => e.currentTarget.style.color="var(--o)"} onMouseLeave={e => e.currentTarget.style.color="var(--sl3)"}>{isTamil ? "சேவை விதிமுறைகள்" : "Terms of Service"}</span>
+            {/* 🌟 2. Privacy & Terms changed to Real Links 🌟 */}
+            <a href="/privacy" onClick={(e) => { e.preventDefault(); go("privacy"); }} style={{ color: "var(--sl3)", textDecoration: "none", cursor: "pointer", transition: "color .2s" }} onMouseEnter={e => e.currentTarget.style.color = "var(--o)"} onMouseLeave={e => e.currentTarget.style.color = "var(--sl3)"}>{isTamil ? "தனியுரிமை கொள்கை" : "Privacy Policy"}</a>
+            <a href="/terms" onClick={(e) => { e.preventDefault(); go("terms"); }} style={{ color: "var(--sl3)", textDecoration: "none", cursor: "pointer", transition: "color .2s" }} onMouseEnter={e => e.currentTarget.style.color = "var(--o)"} onMouseLeave={e => e.currentTarget.style.color = "var(--sl3)"}>{isTamil ? "சேவை விதிமுறைகள்" : "Terms of Service"}</a>
           </div>
         </div>
 
@@ -157,6 +155,7 @@ export default function Footer({ go, t }) {
   );
 }
 
-const FbIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>;
-const InstaIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>;
-const YtIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>;
+// Icons (Hidden for now, but kept in code for future use)
+// const FbIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>;
+// const InstaIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>;
+// const YtIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>;
