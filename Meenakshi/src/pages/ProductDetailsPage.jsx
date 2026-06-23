@@ -86,8 +86,8 @@ export default function ProductDetailsPage({ id, go, t }) {
       {/* Dynamic SEO Meta Tags Start */}
       <Helmet>
         
-        <meta name="description" content={`Buy high-quality ${product.name} at Sri Meenakshi Glass And Plywoods Traders. ${product.description}`} />
-        <meta property="og:title" content={`${product.name} - Sri Meenakshi Glass And Plywoods Traders`} />
+        <meta name="description" content={`Buy high-quality ${product.name} at Sree Meenakshi Glass and Plywoods. ${product.description}`} />
+        <meta property="og:title" content={`${product.name} - Sree Meenakshi Glass and Plywoods`} />
         <meta property="og:image" content={product.image_url} />
       </Helmet>
       {/* Dynamic SEO Meta Tags End */}

@@ -115,7 +115,7 @@ export default function GalleryCategoryPage({ id, go, t }) {
         {/* 🌟 Dynamic SEO Tags 🌟 */}
         <Helmet>
           
-          <meta name="description" content={`View our premium collection of ${activeFilter === "All" ? "toughened glass, UPVC profiles, plywoods, and modular kitchen hardware" : activeFilter}. See the exceptional quality of Sri Meenakshi Glass And Plywoods Traders.`} />
+          <meta name="description" content={`View our premium collection of ${activeFilter === "All" ? "toughened glass, UPVC profiles, plywoods, and modular kitchen hardware" : activeFilter}. See the exceptional quality of Sree Meenakshi Glass and Plywoods.`} />
         </Helmet>
         {/* 🌟 Image Grid from Supabase 🌟 */}
         {filteredImages.length === 0 ? (

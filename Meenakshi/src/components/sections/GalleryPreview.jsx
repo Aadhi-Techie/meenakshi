@@ -130,7 +130,7 @@ export default function GalleryPreview({ go, t }) {
                 {hasImage && (
                   <img 
                     src={hasImage} 
-                    alt={`${cat.name} - Sri Meenakshi Glass And Plywoods Traders Chennai`} 
+                    alt={`${cat.name} - Sree Meenakshi Glass and Plywoods Chennai`} 
                     style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} 
                   />
                 )}

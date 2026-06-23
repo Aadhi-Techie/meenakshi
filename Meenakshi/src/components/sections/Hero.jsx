@@ -123,7 +123,7 @@ export default function Hero({ go, t }) {
             }}>
                <img 
                  src={currentSlide.image_url} 
-                 alt={`${currentSlide.category || 'Premium'} ${showroomTxt} - Sri Meenakshi Glass And Plywoods Traders`}
+                 alt={`${currentSlide.category || 'Premium'} ${showroomTxt} - Sree Meenakshi Glass and Plywoods`}
                  fetchPriority="high"
                  decoding="async"
                  style={{

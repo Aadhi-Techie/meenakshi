@@ -4,8 +4,8 @@
 //  To point at a staging API, change API_BASE here — nowhere else.
 // ─────────────────────────────────────────────────────────────
 
-export const PHONE    = "+919884822999";
-export const WA       = `https://wa.me/91${9884822999}`;
+export const PHONE    = "+919790923750";
+export const WA       = `https://wa.me/91${9790923750}`;
 export const ADDR     =
   "No:26/23, Sathiya Narayanan Street, Palavan Salai, " +
   "Thiru Vika Ka Nagar, Perambur, Chennai – 600011, Tamil Nadu";

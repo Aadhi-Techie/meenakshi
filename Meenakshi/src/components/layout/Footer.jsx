@@ -130,16 +130,16 @@ export default function Footer({ go, t }) {
         <div style={{ borderTop: "1px solid var(--brd)", paddingTop: 24, paddingBottom: 24, textAlign: "center" }}>
            <p style={{ color: "var(--sl3)", fontSize: 12, lineHeight: 1.6, maxWidth: 950, margin: "0 auto" }}>
              {isTamil ? (
-               <><strong>ஸ்ரீ மீனாட்சி கிளாஸ் அண்ட் ப்ளைவுட்ஸ் டிரேடர்ஸ் (Sri Meenakshi Glass And Plywoods Traders)</strong> உயர்தர கட்டுமானப் பொருட்களின் முன்னணி மொத்த விற்பனையாளர் ஆவர். நாங்கள் பெரம்பூரில் உள்ள <strong>சிறந்த பிளைவுட் கடை (Best Plywood Shop in Perambur)</strong> மற்றும் <strong>சென்னையில் தரமான கண்ணாடிகள் (Toughened Glass dealers in Chennai)</strong> வழங்குவதில் முன்னணியில் உள்ளோம். சென்னை, பெரம்பூர், திருவள்ளூர், காஞ்சிபுரம், செங்கல்பட்டு, ஸ்ரீபெரும்புதூர் மற்றும் செங்குன்றம் (Redhills) ஆகிய பகுதிகள் முழுவதும் உள்ள வாடிக்கையாளர்களுக்கு சிறந்த சேவையை வழங்கி வருகிறோம்.</>
+               <><strong>ஸ்ரீ மீனாட்சி கிளாஸ் அண்ட் ப்ளைவுட்ஸ் டிரேடர்ஸ் (Sree Meenakshi Glass and Plywoods)</strong> உயர்தர கட்டுமானப் பொருட்களின் முன்னணி மொத்த விற்பனையாளர் ஆவர். நாங்கள் பெரம்பூரில் உள்ள <strong>சிறந்த பிளைவுட் கடை (Best Plywood Shop in Perambur)</strong> மற்றும் <strong>சென்னையில் தரமான கண்ணாடிகள் (Toughened Glass dealers in Chennai)</strong> வழங்குவதில் முன்னணியில் உள்ளோம். சென்னை, பெரம்பூர், திருவள்ளூர், காஞ்சிபுரம், செங்கல்பட்டு, ஸ்ரீபெரும்புதூர் மற்றும் செங்குன்றம் (Redhills) ஆகிய பகுதிகள் முழுவதும் உள்ள வாடிக்கையாளர்களுக்கு சிறந்த சேவையை வழங்கி வருகிறோம்.</>
              ) : (
-               <><strong>Sri Meenakshi Glass And Plywoods Traders</strong> is the leading wholesale supplier and dealer of high-quality building materials. We are recognized as the <strong>Best Plywood Shop in Perambur</strong> and top-rated <strong>Toughened Glass dealers in Chennai</strong>. We proudly serve customers across Chennai, Perambur, Thiruvallur, Kanchipuram, Chengalpattu, Sriperumbudur, and Redhills with trust and quality for over two decades.</>
+               <><strong>Sree Meenakshi Glass and Plywoods</strong> is the leading wholesale supplier and dealer of high-quality building materials. We are recognized as the <strong>Best Plywood Shop in Perambur</strong> and top-rated <strong>Toughened Glass dealers in Chennai</strong>. We proudly serve customers across Chennai, Perambur, Thiruvallur, Kanchipuram, Chengalpattu, Sriperumbudur, and Redhills with trust and quality for over two decades.</>
              )}
            </p>
         </div>
 
         <div style={{ borderTop: "1px solid var(--brd)", paddingTop: 24, display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 20 }}>
           <div style={{ color: "var(--sl3)", fontSize: 13 }}>
-            {t.footer?.copy ? t.footer.copy.replace('2025', currentYear) : `© ${currentYear} Sri Meenakshi Glass And Plywoods Traders. All Rights Reserved.`}
+            {t.footer?.copy ? t.footer.copy.replace('2025', currentYear) : `© ${currentYear} Sree Meenakshi Glass and Plywoods. All Rights Reserved.`}
             {/* 🌟 3. Admin Icon changed to Button 🌟 */}
             <button onClick={() => go("admin")} style={{ cursor: 'pointer', opacity: 0.1, marginLeft: 8, background: "none", border: "none" }} aria-label="Admin Login">🔒</button>
           </div>

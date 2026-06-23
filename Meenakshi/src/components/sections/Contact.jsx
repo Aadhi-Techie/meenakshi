@@ -14,7 +14,7 @@ const tData = {
     call_now: "Call Now",
     send_sms: "Send SMS",
     whatsapp_us: "WhatsApp Us",
-    send_enquiry: "Sri Meenakshi Glass & Plywoods Traders - Send an Enquiry",
+    send_enquiry: "Sree Meenakshi Glass and Plywoods - Send an Enquiry",
     full_name: "Full Name",
     email_address: "Email Address",
     phone_number: "Phone Number",
@@ -141,7 +141,7 @@ export default function Contact({ currentLang = 'ta' }) {
       });
       
       setStatusMessage(t('status_success'));
-      const whatsappText = `Hi Sri Meenakshi Glass & Plywoods Traders,\n\nNew Enquiry from Website:\n\n👤 *Name:* ${formData.name}\n📞 *Phone:* ${cleanPhone}\n📧 *Email:* ${formData.email || 'N/A'}\n🎯 *Interest:* ${formData.interest || 'N/A'}\n💬 *Message:* ${formData.message}`;
+      const whatsappText = `Hi Sree Meenakshi Glass and Plywoods,\n\nNew Enquiry from Website:\n\n👤 *Name:* ${formData.name}\n📞 *Phone:* ${cleanPhone}\n📧 *Email:* ${formData.email || 'N/A'}\n🎯 *Interest:* ${formData.interest || 'N/A'}\n💬 *Message:* ${formData.message}`;
       const whatsappUrl = `https://wa.me/${randomAdminWhatsApp}?text=${encodeURIComponent(whatsappText)}`;
       
       setFormData({ name: '', email: '', phone: '', interest: '', message: '' });
@@ -202,7 +202,7 @@ export default function Contact({ currentLang = 'ta' }) {
         <div className="contact-info-col" style={{ flex: "1 1 350px", display: "flex", flexDirection: "column", gap: "20px" }}>
           
           <Helmet>
-            <meta name="description" content="Visit Sri Meenakshi Glass And Plywoods Traders in Perambur, Chennai. Get directions, contact number, and WhatsApp details for wholesale glass, plywood, and UPVC inquiries." />
+            <meta name="description" content="Visit Sree Meenakshi Glass and Plywoods in Perambur, Chennai. Get directions, contact number, and WhatsApp details for wholesale glass, plywood, and UPVC inquiries." />
           </Helmet>
 
           <div style={cardStyle}>
@@ -217,7 +217,7 @@ export default function Contact({ currentLang = 'ta' }) {
             <div style={{ padding: 12, background: "rgba(255,115,0,0.1)", borderRadius: 12, color: "var(--o)" }}><Phone size={20} /></div>
             <div>
               <h4 style={{ color: "var(--sl3)", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>{t('call')}</h4>
-              <p style={{ color: "var(--w)", fontSize: 15, fontWeight: 600 }}>+91 9940504234,  +91 9884822999</p>
+              <p style={{ color: "var(--w)", fontSize: 15, fontWeight: 600 }}>+91 9940504234,  +91 9790923750</p>
             </div>
           </div>
 
@@ -329,7 +329,7 @@ export default function Contact({ currentLang = 'ta' }) {
               allowFullScreen="" 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
-              title="Sri Meenakshi Glass And Plywoods Traders Location"
+              title="Sree Meenakshi Glass and Plywoods Location"
             ></iframe>
           </div>
 

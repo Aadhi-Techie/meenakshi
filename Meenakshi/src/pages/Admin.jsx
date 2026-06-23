@@ -253,7 +253,7 @@ export default function Admin({ go }) {
     
     const finalSubcategory = subcategory === 'Custom / Other' ? customSub : subcategory;
     const finalType = productType === 'Custom / Other' ? customType : productType;
-    const prompt = `You are a professional copywriter for "Sri Meenakshi Glass And Plywoods Traders" in Perambur, Chennai. We are the leading traders of premium glass, plywood, UPVC, and interior hardware.
+    const prompt = `You are a professional copywriter for "Sree Meenakshi Glass and Plywoods" in Perambur, Chennai. We are the leading traders of premium glass, plywood, UPVC, and interior hardware.
     Product Name: ${name}
     Category: ${category}
     Subcategory: ${finalSubcategory || 'General'}
@@ -500,7 +500,7 @@ export default function Admin({ go }) {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 32, borderBottom: "1px solid var(--brd)", paddingBottom: 16, flexWrap: "wrap", gap: 16 }}>
               <div>
                 <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 38, fontWeight: 800 }}>Welcome Admin</h1>
-                <p style={{ color: "var(--sl3)", fontSize: 14 }}>Manage Sri Meenakshi Glass And Plywoods Traders Database</p>
+                <p style={{ color: "var(--sl3)", fontSize: 14 }}>Manage Sree Meenakshi Glass and Plywoods Database</p>
               </div>
               <div style={{ display: "flex", gap: 12 }}>
                 <button className="bw" onClick={() => go('home')} style={{ padding: "10px 16px", color: "var(--w)", borderRadius: 8, display: "flex", alignItems: "center", gap: 8 }}>

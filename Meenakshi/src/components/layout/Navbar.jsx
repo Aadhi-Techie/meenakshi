@@ -52,8 +52,8 @@ export default function Navbar({ page, go, lang, setLang, t }) {
           <div style={{ maxWidth: 1280, margin: "0 auto", height: NAV_H, display: "flex", alignItems: "center", gap: 18 }}>
  
             {/* ✅ SEO: Logo - <a href> with real URL */}
-            <a href="/" onClick={(e) => { e.preventDefault(); go("home"); }} style={{ cursor: "pointer", display: "flex", alignItems: "center", flexShrink: 0, textDecoration: "none" }} title="Sri Meenakshi Glass & Plywoods Traders - Home">
-              <img src="/favicon.png" alt="Sri Meenakshi Glass & Plywoods Traders" style={{ height: 65, width: "auto", objectFit: "contain", borderRadius: 8 }} />
+            <a href="/" onClick={(e) => { e.preventDefault(); go("home"); }} style={{ cursor: "pointer", display: "flex", alignItems: "center", flexShrink: 0, textDecoration: "none" }} title="Sree Meenakshi Glass and Plywoods - Home">
+              <img src="/favicon.png" alt="Sree Meenakshi Glass and Plywoods" style={{ height: 65, width: "auto", objectFit: "contain", borderRadius: 8 }} />
             </a>
  
             {/* Desktop Nav */}

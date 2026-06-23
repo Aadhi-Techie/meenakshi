@@ -124,7 +124,7 @@ export default function Services({ go, t }) {
                     border: "2px solid var(--o)", 
                     boxShadow: "0 4px 12px rgba(255,115,0,0.15)"
                 }}>
-                  <img src={p.img} alt={`${p.name} - Sri Meenakshi Glass And Plywoods Traders Services`} style={{
+                  <img src={p.img} alt={`${p.name} - Sree Meenakshi Glass and Plywoods Services`} style={{
                       width: "100%", height: "100%", 
                       objectFit: "cover", 
                   }} />

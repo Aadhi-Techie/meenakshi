@@ -75,7 +75,7 @@ export default function App() {
     // Static pages titles
     const titles = {
       home:    "Sri Meenakshi Glass & Plywoods | Wholesale Dealers in Chennai",
-      about:   "About Us | Sri Meenakshi Glass & Plywoods Traders",
+      about:   "About Us | Sree Meenakshi Glass and Plywoods",
       services:"Our Services | Glass, Plywood & UPVC Experts in Chennai",
       contact: "Contact Us | Sri Meenakshi Glass & Plywoods – Perambur",
       gallery: "Gallery | Sri Meenakshi Glass & Plywoods",
