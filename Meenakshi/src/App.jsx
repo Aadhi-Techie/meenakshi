@@ -103,7 +103,7 @@ export default function App() {
     const urlPath      = page === 'home' ? '/' : `/${page}`;
     const canonicalTag = document.querySelector('link[rel="canonical"]');
     if (canonicalTag) {
-      canonicalTag.href = `https://www.srimeenakshiglassandply.in${urlPath}`;
+      canonicalTag.href = `https://srimeenakshiglassandply.in${urlPath}`;
     }
   }, [page]);
 

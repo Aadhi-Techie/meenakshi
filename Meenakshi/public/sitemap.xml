@@ -3,7 +3,7 @@
 
   <!-- Homepage -->
   <url>
-    <loc>https://www.srimeenakshiglassandply.in/</loc>
+    <loc>https://srimeenakshiglassandply.in/</loc>
     <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -11,28 +11,28 @@
 
   <!-- Main Pages -->
   <url>
-    <loc>https://www.srimeenakshiglassandply.in/about</loc>
+    <loc>https://srimeenakshiglassandply.in/about</loc>
     <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.srimeenakshiglassandply.in/services</loc>
+    <loc>https://srimeenakshiglassandply.in/services</loc>
     <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.srimeenakshiglassandply.in/gallery</loc>
+    <loc>https://srimeenakshiglassandply.in/gallery</loc>
     <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://www.srimeenakshiglassandply.in/contact</loc>
+    <loc>https://srimeenakshiglassandply.in/contact</loc>
     <lastmod>2026-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -40,42 +40,42 @@
 
   <!-- Category Pages (from PROD_LIST IDs in data.js) -->
   <url>
-    <loc>https://www.srimeenakshiglassandply.in/category-glass</loc>
+    <loc>https://srimeenakshiglassandply.in/category-glass</loc>
     <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://www.srimeenakshiglassandply.in/category-plywoods</loc>
+    <loc>https://srimeenakshiglassandply.in/category-plywoods</loc>
     <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://www.srimeenakshiglassandply.in/category-upvc</loc>
+    <loc>https://srimeenakshiglassandply.in/category-upvc</loc>
     <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://www.srimeenakshiglassandply.in/category-wpvc</loc>
+    <loc>https://srimeenakshiglassandply.in/category-wpvc</loc>
     <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.srimeenakshiglassandply.in/category-aluminium</loc>
+    <loc>https://srimeenakshiglassandply.in/category-aluminium</loc>
     <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://www.srimeenakshiglassandply.in/category-hardwares</loc>
+    <loc>https://srimeenakshiglassandply.in/category-hardwares</loc>
     <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
