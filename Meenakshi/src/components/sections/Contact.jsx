@@ -104,7 +104,6 @@ export default function Contact({ currentLang = 'ta' }) {
   const [statusMessage, setStatusMessage] = useState('');
 
   const adminNumbers = ["919790923750", "919884822999", "919940504234"];
-  const mainNum = adminNumbers[0];
 
   const t = (key) => tData[currentLang]?.[key] || tData['en']?.[key] || key;
 
@@ -133,7 +132,7 @@ export default function Contact({ currentLang = 'ta' }) {
 
       setStatusMessage(t('status_success'));
       const msg = `New Enquiry: ${formData.name}, Phone: ${cleanPhone}, Interest: ${formData.interest}, Message: ${formData.message}`;
-      window.open(`https://wa.me/${mainNum}?text=${encodeURIComponent(msg)}`, '_blank');
+      window.open(`https://wa.me/${adminNumbers[0]}?text=${encodeURIComponent(msg)}`, '_blank');
       setFormData({ name: '', email: '', phone: '', interest: '', message: '' });
       setTimeout(() => setStatusMessage(''), 5000);
     } catch {
@@ -169,24 +168,50 @@ export default function Contact({ currentLang = 'ta' }) {
               <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
               <div style={{ width: '100%' }}>
                 <p style={labelStyle}>{t('call')}</p>
-                <a href={`tel:${mainNum}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 12 }}>
-                  +91 {mainNum.slice(-10)}
+
+                {/* Number 1 */}
+                <a href={`tel:${adminNumbers[0]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>
+                  +91 {adminNumbers[0].slice(-10)}
                 </a>
                 <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                   <a
-                    href={`tel:${mainNum}`}
+                    href={`tel:${adminNumbers[0]}`}
                     style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                   >
                     <Phone size={14} /> {t('call_now')}
                   </a>
                   <a
-                    href={`https://wa.me/${mainNum}`}
+                    href={`https://wa.me/${adminNumbers[0]}`}
                     target="_blank" rel="noreferrer"
                     style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                   >
                     <MessageCircle size={14} /> {t('whatsapp_us')}
                   </a>
                 </div>
+
+                {/* Divider */}
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', margin: '14px 0' }} />
+
+                {/* Number 2 */}
+                <a href={`tel:${adminNumbers[1]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>
+                  +91 {adminNumbers[1].slice(-10)}
+                </a>
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                  <a
+                    href={`tel:${adminNumbers[1]}`}
+                    style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                  >
+                    <Phone size={14} /> {t('call_now')}
+                  </a>
+                  <a
+                    href={`https://wa.me/${adminNumbers[1]}`}
+                    target="_blank" rel="noreferrer"
+                    style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                  >
+                    <MessageCircle size={14} /> {t('whatsapp_us')}
+                  </a>
+                </div>
+
               </div>
             </div>
 
