@@ -72,6 +72,7 @@ const labelStyle = {
   letterSpacing: '0.12em',
   color: 'rgba(255,255,255,0.45)',
   textTransform: 'uppercase',
+  margin: 0,
   marginBottom: 6,
 };
 
@@ -107,7 +108,7 @@ export default function Contact({ currentLang = 'ta' }) {
 
   const t = (key) => tData[currentLang]?.[key] || tData['en']?.[key] || key;
 
-  const set = (field) => (e) => setFormData({ ...formData, [field]: e.target.value });
+  const set = (field) => (e) => setFormData(prev => ({ ...prev, [field]: e.target.value }));
 
   const handleEnquirySubmit = async (e) => {
     e.preventDefault();
@@ -231,7 +232,7 @@ export default function Contact({ currentLang = 'ta' }) {
             <form onSubmit={handleEnquirySubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
 
               {/* Row 1: Name + Email */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div>
                   <label style={fieldLabelStyle}>{t('full_name')} <span style={{ color: 'var(--o)' }}>*</span></label>
                   <input
@@ -249,7 +250,7 @@ export default function Contact({ currentLang = 'ta' }) {
               </div>
 
               {/* Row 2: Phone + Interest */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div>
                   <label style={fieldLabelStyle}>{t('phone_number')} <span style={{ color: 'var(--o)' }}>*</span></label>
                   <input
