@@ -231,15 +231,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 style={{ width: '100%', borderRadius: 12, marginBottom: 16, objectFit: 'cover' }} 
                 onError={(e) => { e.target.style.display = 'none'; }}
               />
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.082531631589!2d80.2435036111867!3d13.10420008709531!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ed6b7b2033%3A0x86bd61cc9cb3f7ea!2sSree%20Meenakshi%20Glass%20%26%20Plywoods!5e0!3m2!1sen!2sin!4v1719225000000!5m2!1sen!2sin" 
-                width="100%" 
-                height="250" 
-                style={{ border: 0, borderRadius: 12 }} 
-                allowFullScreen="" 
-                loading="lazy" 
-                title="Location Map">
-              </iframe>
+              
             </div>
 
           </div>
@@ -321,8 +313,17 @@ export default function Contact({ currentLang = 'ta' }) {
                 {statusMessage}
               </p>
             )}
-          </div>
 
+          </div>
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.082531631589!2d80.2435036111867!3d13.10420008709531!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ed6b7b2033%3A0x86bd61cc9cb3f7ea!2sSree%20Meenakshi%20Glass%20%26%20Plywoods!5e0!3m2!1sen!2sin!4v1719225000000!5m2!1sen!2sin" 
+                width="100%" 
+                height="250" 
+                style={{ border: 0, borderRadius: 12 }} 
+                allowFullScreen="" 
+                loading="lazy" 
+                title="Location Map">
+              </iframe>
         </div>
       </section>
 
