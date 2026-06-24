@@ -1,6 +1,6 @@
-import { useState } from 'react'; // ✅ Fix #1: useMemo removed
+import { useState } from 'react';
 import { supabase } from '../../supabase';
-import { MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react'; // Send removed (unused)
+import { MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
 const tData = {
@@ -8,27 +8,93 @@ const tData = {
     visit_us: "Visit Us", call: "Call", email: "Email", hours: "Hours",
     hours_mon_sat: "Mon-Sat: 8.30 AM - 9 PM", hours_sun: "Sunday: 10 AM - 5 PM",
     call_now: "Call Now", send_sms: "Send SMS", whatsapp_us: "WhatsApp Us",
-    send_enquiry: "Send an Enquiry", full_name: "Full Name", email_address: "Email Address",
+    send_enquiry: "Send an Enquiry",
+    form_title: "Sri Meenakshi Glass & Plywoods Traders",
+    form_subtitle: "Send an Enquiry",
+    full_name: "Full Name", email_address: "Email Address",
     phone_number: "Phone Number", product_interest: "Product Interest", your_message: "Your Message",
-    send_message: "Send Message", sending: "Sending...", error_required: "❌ Name, Phone and Message are required!",
+    send_message: "Send Message", sending: "Sending...",
+    error_required: "❌ Name, Phone and Message are required!",
     error_phone_invalid: "❌ Please enter a valid 10-digit phone number!",
     error_email_invalid: "❌ Please enter a valid email address!",
     status_sending: "⏳ Sending...", status_success: "✅ Enquiry Sent!",
-    error_failed: "❌ Error occurred", ph_name: "e.g. Raj Kumar", ph_email: "e.g. raj@gmail.com",
-    ph_phone: "e.g. 9876543210", ph_interest: "e.g. Toughened Glass", ph_message: "Tell us your requirement..."
+    error_failed: "❌ Error occurred",
+    ph_name: "e.g. Raj Kumar", ph_email: "e.g. raj@gmail.com",
+    ph_phone: "e.g. 9876543210", ph_interest: "e.g. Toughened Glass, Plywood",
+    ph_message: "Tell us about your requirement..."
   },
   ta: {
     visit_us: "முகவரி", call: "அழைக்க", email: "மின்னஞ்சல்", hours: "வேலை நேரம்",
     hours_mon_sat: "திங்கள்-சனி: காலை 8.30 - இரவு 9 மணி", hours_sun: "ஞாயிறு: காலை 10 - மாலை 5 மணி",
     call_now: "அழைக்க", send_sms: "எஸ்.எம்.எஸ்", whatsapp_us: "வாட்ஸ்அப்",
-    send_enquiry: "விசாரணை அனுப்புங்கள்", full_name: "முழு பெயர்", email_address: "மின்னஞ்சல்",
+    send_enquiry: "விசாரணை அனுப்புங்கள்",
+    form_title: "ஸ்ரீ மீனாக்ஷி கிளாஸ் & பிளைவுட்ஸ் டிரேடர்ஸ்",
+    form_subtitle: "விசாரணை அனுப்புங்கள்",
+    full_name: "முழு பெயர்", email_address: "மின்னஞ்சல்",
     phone_number: "தொலைபேசி எண்", product_interest: "தேவைப்படும் பொருள்", your_message: "உங்கள் கருத்து",
-    send_message: "அனுப்பவும்", sending: "அனுப்பப்படுகிறது...", error_required: "❌ பெயர், போன் மற்றும் கருத்து தேவை!",
-    error_phone_invalid: "❌ சரியான 10-இலக்க எண்!", error_email_invalid: "❌ சரியான மின்னஞ்சல்!",
+    send_message: "அனுப்பவும்", sending: "அனுப்பப்படுகிறது...",
+    error_required: "❌ பெயர், போன் மற்றும் கருத்து தேவை!",
+    error_phone_invalid: "❌ சரியான 10-இலக்க எண்!",
+    error_email_invalid: "❌ சரியான மின்னஞ்சல்!",
     status_sending: "⏳ அனுப்பப்படுகிறது...", status_success: "✅ அனுப்பப்பட்டது!",
-    error_failed: "❌ பிழை ஏற்பட்டது", ph_name: "உதா: ராஜ் குமார்", ph_email: "உதா: raj@gmail.com",
-    ph_phone: "உதா: 9876543210", ph_interest: "உதா: கிளாஸ், பிளைவுட்", ph_message: "உங்கள் தேவையை இங்கே எழுதவும்..."
+    error_failed: "❌ பிழை ஏற்பட்டது",
+    ph_name: "உதா: ராஜ் குமார்", ph_email: "உதா: raj@gmail.com",
+    ph_phone: "உதா: 9876543210", ph_interest: "உதா: கிளாஸ், பிளைவுட்",
+    ph_message: "உங்கள் தேவையை இங்கே எழுதவும்..."
   }
+};
+
+const cardStyle = {
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: 16,
+  padding: '20px 24px',
+  background: 'rgba(255,255,255,0.04)',
+  borderRadius: 14,
+  border: '1px solid rgba(255,255,255,0.07)',
+};
+
+const iconBadge = {
+  width: 44,
+  height: 44,
+  borderRadius: '50%',
+  background: 'rgba(237,108,2,0.18)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  marginTop: 2,
+};
+
+const labelStyle = {
+  fontSize: 11,
+  fontWeight: 700,
+  letterSpacing: '0.12em',
+  color: 'rgba(255,255,255,0.45)',
+  textTransform: 'uppercase',
+  marginBottom: 6,
+};
+
+const fieldLabelStyle = {
+  fontSize: 11,
+  fontWeight: 700,
+  letterSpacing: '0.1em',
+  color: 'rgba(255,255,255,0.5)',
+  textTransform: 'uppercase',
+  marginBottom: 6,
+  display: 'block',
+};
+
+const inputStyle = {
+  width: '100%',
+  padding: '12px 14px',
+  background: 'rgba(255,255,255,0.06)',
+  border: '1px solid rgba(255,255,255,0.1)',
+  borderRadius: 10,
+  color: '#fff',
+  fontSize: 14,
+  outline: 'none',
+  boxSizing: 'border-box',
 };
 
 export default function Contact({ currentLang = 'ta' }) {
@@ -36,10 +102,12 @@ export default function Contact({ currentLang = 'ta' }) {
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
 
-  const [adminNumbers] = useState(["919790923750", "919884822999", "919940504234"]);
-  const mainNum = adminNumbers[0]; // 9790923750 — முதன்மை நம்பர்
+  const adminNumbers = ["919790923750", "919884822999", "919940504234"];
+  const mainNum = adminNumbers[0];
 
   const t = (key) => tData[currentLang]?.[key] || tData['en']?.[key] || key;
+
+  const set = (field) => (e) => setFormData({ ...formData, [field]: e.target.value });
 
   const handleEnquirySubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +116,8 @@ export default function Contact({ currentLang = 'ta' }) {
 
     const cleanPhone = formData.phone.trim().replace(/\s+/g, '');
     if (!/^\d{10}$/.test(cleanPhone)) return setStatusMessage(t('error_phone_invalid'));
-try {
+
+    try {
       setLoading(true);
       setStatusMessage(t('status_sending'));
 
@@ -76,73 +145,178 @@ try {
   return (
     <>
       <Helmet><title>{t('send_enquiry')} | Sree Meenakshi</title></Helmet>
-      <section style={{ padding: "80px 24px", background: "var(--bg)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", gap: 40, flexWrap: "wrap" }}>
 
-          {/* Info Cards */}
-          <div style={{ flex: "1 1 350px", display: "flex", flexDirection: "column", gap: 20 }}>
+      <section style={{ padding: '72px 24px', background: 'var(--bg)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+
+          {/* ── Left: Info Cards ── */}
+          <div style={{ flex: '1 1 340px', display: 'flex', flexDirection: 'column', gap: 14 }}>
 
             {/* Address */}
-            <div style={{ padding: 24, background: "rgba(255,255,255,0.03)", borderRadius: 16 }}>
-              <MapPin size={20} />
-              <h4>{t('visit_us')}</h4>
-              <p>No:26/23, Sathiya Narayanan Street, Palavan Salai, Perambur, Chennai - 600011</p>
+            <div style={cardStyle}>
+              <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
+              <div>
+                <p style={labelStyle}>{t('visit_us')}</p>
+                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
+                  No:26/23, Sathiya Narayanan Street, Palavan Salai,<br />Perambur, Chennai – 600011
+                </p>
+              </div>
             </div>
 
             {/* Phone */}
-            <div style={{ padding: 24, background: "rgba(255,255,255,0.03)", borderRadius: 16 }}>
-              <Phone size={20} />
-              <h4>{t('call')}</h4>
-              <a href={`tel:${mainNum}`} style={{ display: 'block', fontSize: 18, fontWeight: 700 }}>
-                +91 {mainNum.slice(-10)}
-              </a>
-              <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
-                <a href={`tel:${mainNum}`} style={{ padding: '8px 14px', background: 'var(--o)', color: '#fff', borderRadius: 8, textDecoration: 'none' }}>
-                  {t('call_now')}
+            <div style={cardStyle}>
+              <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
+              <div style={{ width: '100%' }}>
+                <p style={labelStyle}>{t('call')}</p>
+                <a href={`tel:${mainNum}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 12 }}>
+                  +91 {mainNum.slice(-10)}
                 </a>
-                <a href={`https://wa.me/${mainNum}`} target="_blank" rel="noreferrer" style={{ padding: '8px 14px', background: '#25D366', color: '#fff', borderRadius: 8, textDecoration: 'none' }}>
-                  <MessageCircle size={14} style={{ verticalAlign: 'middle', marginRight: 4 }} />
-                  {t('whatsapp_us')}
-                </a>
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                  <a
+                    href={`tel:${mainNum}`}
+                    style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                  >
+                    <Phone size={14} /> {t('call_now')}
+                  </a>
+                  <a
+                    href={`https://wa.me/${mainNum}`}
+                    target="_blank" rel="noreferrer"
+                    style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                  >
+                    <MessageCircle size={14} /> {t('whatsapp_us')}
+                  </a>
+                </div>
               </div>
             </div>
 
             {/* Email */}
-            <div style={{ padding: 24, background: "rgba(255,255,255,0.03)", borderRadius: 16 }}>
-              <Mail size={20} />
-              <h4>{t('email')}</h4>
-              <a href="mailto:srimeenakshiglassandplywoods@gmail.com" style={{ fontSize: 14 }}>
-                srimeenakshiglassandplywoods@gmail.com
-              </a>
+            <div style={cardStyle}>
+              <div style={iconBadge}><Mail size={20} color="var(--o)" /></div>
+              <div>
+                <p style={labelStyle}>{t('email')}</p>
+                <a href="mailto:srimeenakshiglassandplywoods@gmail.com" style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', textDecoration: 'none', wordBreak: 'break-all' }}>
+                  srimeenakshiglassandplywoods@gmail.com
+                </a>
+              </div>
             </div>
 
             {/* Hours */}
-            <div style={{ padding: 24, background: "rgba(255,255,255,0.03)", borderRadius: 16 }}>
-              <Clock size={20} />
-              <h4>{t('hours')}</h4>
-              <p style={{ margin: '4px 0' }}>{t('hours_mon_sat')}</p>
-              <p style={{ margin: '4px 0' }}>{t('hours_sun')}</p>
+            <div style={cardStyle}>
+              <div style={iconBadge}><Clock size={20} color="var(--o)" /></div>
+              <div>
+                <p style={labelStyle}>{t('hours')}</p>
+                <p style={{ margin: '0 0 4px', fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>{t('hours_mon_sat')}</p>
+                <p style={{ margin: 0, fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>{t('hours_sun')}</p>
+              </div>
             </div>
 
           </div>
 
-          {/* Enquiry Form */}
-          <div style={{ flex: "1 1 500px" }}>
-            <form onSubmit={handleEnquirySubmit} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              <input name="name" placeholder={t('ph_name')} value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} required style={{ padding: 14, borderRadius: 12 }} />
-              <input name="email" placeholder={t('ph_email')} value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} style={{ padding: 14, borderRadius: 12 }} />
-              <input name="phone" placeholder={t('ph_phone')} value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} required style={{ padding: 14, borderRadius: 12 }} />
-              <input name="interest" placeholder={t('ph_interest')} value={formData.interest} onChange={e => setFormData({ ...formData, interest: e.target.value })} style={{ padding: 14, borderRadius: 12 }} />
-              <textarea name="message" placeholder={t('ph_message')} value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} rows="4" required style={{ padding: 14, borderRadius: 12 }} />
-              <button type="submit" disabled={loading} style={{ padding: 16, background: "var(--o)", color: "#fff", borderRadius: 12, border: 'none', cursor: loading ? 'not-allowed' : 'pointer' }}>
+          {/* ── Right: Enquiry Form ── */}
+          <div style={{
+            flex: '1 1 500px',
+            background: 'rgba(255,255,255,0.03)',
+            borderRadius: 18,
+            border: '1px solid rgba(255,255,255,0.07)',
+            padding: '36px 32px',
+          }}>
+            {/* Form Title */}
+            <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>
+              {t('form_title')}
+            </h2>
+            <p style={{ margin: '0 0 28px', fontSize: 16, color: 'var(--o)', fontWeight: 600 }}>
+              {t('form_subtitle')}
+            </p>
+
+            <form onSubmit={handleEnquirySubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+
+              {/* Row 1: Name + Email */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div>
+                  <label style={fieldLabelStyle}>{t('full_name')} <span style={{ color: 'var(--o)' }}>*</span></label>
+                  <input
+                    name="name" placeholder={t('ph_name')} value={formData.name}
+                    onChange={set('name')} required style={inputStyle}
+                  />
+                </div>
+                <div>
+                  <label style={fieldLabelStyle}>{t('email_address')}</label>
+                  <input
+                    name="email" placeholder={t('ph_email')} value={formData.email}
+                    onChange={set('email')} style={inputStyle}
+                  />
+                </div>
+              </div>
+
+              {/* Row 2: Phone + Interest */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div>
+                  <label style={fieldLabelStyle}>{t('phone_number')} <span style={{ color: 'var(--o)' }}>*</span></label>
+                  <input
+                    name="phone" placeholder={t('ph_phone')} value={formData.phone}
+                    onChange={set('phone')} required style={inputStyle}
+                  />
+                </div>
+                <div>
+                  <label style={fieldLabelStyle}>{t('product_interest')}</label>
+                  <input
+                    name="interest" placeholder={t('ph_interest')} value={formData.interest}
+                    onChange={set('interest')} style={inputStyle}
+                  />
+                </div>
+              </div>
+
+              {/* Row 3: Message */}
+              <div>
+                <label style={fieldLabelStyle}>{t('your_message')} <span style={{ color: 'var(--o)' }}>*</span></label>
+                <textarea
+                  name="message" placeholder={t('ph_message')} value={formData.message}
+                  onChange={set('message')} rows={4} required
+                  style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }}
+                />
+              </div>
+
+              {/* Submit */}
+              <button
+                type="submit" disabled={loading}
+                style={{
+                  padding: '14px 24px',
+                  background: loading ? 'rgba(237,108,2,0.5)' : 'var(--o)',
+                  color: '#fff',
+                  borderRadius: 12,
+                  border: 'none',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  fontSize: 15,
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  transition: 'opacity 0.2s',
+                }}
+              >
+                <MessageCircle size={16} />
                 {loading ? t('sending') : t('send_message')}
               </button>
+
             </form>
-            {statusMessage && <p style={{ marginTop: 20, color: "var(--o)" }}>{statusMessage}</p>}
+
+            {statusMessage && (
+              <p style={{ marginTop: 16, fontSize: 14, color: statusMessage.startsWith('✅') ? '#4ade80' : statusMessage.startsWith('⏳') ? 'var(--o)' : '#f87171' }}>
+                {statusMessage}
+              </p>
+            )}
           </div>
 
         </div>
       </section>
+
+      {/* Mobile responsive */}
+      <style>{`
+        @media (max-width: 640px) {
+          .contact-form-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </>
   );
 }
