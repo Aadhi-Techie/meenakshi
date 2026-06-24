@@ -1,26 +1,25 @@
-/* eslint-disable no-irregular-whitespace */
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Menu, X, Search, Globe, MapPin, ChevronDown, MessageCircle, Sun, Moon } from "lucide-react";
 import useScrolled from '../../hooks/useScrolled';
 import { PROD_LIST as PL } from '../../constants/data';
 import { WA, MAPS } from '../../constants/config';
 import useTheme from '../../hooks/useTheme';
- 
+
 export default function Navbar({ page, go, lang, setLang, t }) {
   const scrolled = useScrolled();
-  const [mob, setMob]       = useState(false);
+  const [mob, setMob]         = useState(false);
   const [mobProd, setMobProd] = useState(false);
-  const [q, setQ]           = useState("");
-  const [qFocus, setQFocus] = useState(false);
-  const qRef                = useRef();
- 
+  const [q, setQ]             = useState("");
+  const [qFocus, setQFocus]   = useState(false);
+  const qRef                  = useRef();
+
   const isTamil = lang === "ta";
- 
+
   useEffect(() => {
     const timer = setTimeout(() => { setMob(false); setMobProd(false); }, 0);
     return () => clearTimeout(timer);
   }, [page]);
- 
+
   const res = useMemo(() =>
     q.length > 0 ? PL.filter(p =>
       p.name.toLowerCase().includes(q.toLowerCase()) ||
@@ -30,10 +29,10 @@ export default function Navbar({ page, go, lang, setLang, t }) {
     ) : [],
     [q]
   );
- 
+
   const { theme, toggleTheme } = useTheme();
   const NAV_H = 72;
- 
+
   const handleWhatsAppClick = () => {
     if (typeof window !== "undefined" && window.gtag) {
       window.gtag('event', 'whatsapp_click', {
@@ -43,35 +42,33 @@ export default function Navbar({ page, go, lang, setLang, t }) {
       });
     }
   };
- 
+
   return (
     <>
       <header>
         <nav role="navigation" aria-label="Main Navigation" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 900, padding: "0 24px", transition: "all .4s", background: scrolled ? (theme === 'light' ? "rgba(255,255,255,0.95)" : "rgba(3,9,24,.93)") : "transparent", backdropFilter: scrolled ? "blur(26px)" : "none", borderBottom: scrolled ? (theme === 'light' ? "1px solid rgba(0,0,0,0.08)" : "1px solid var(--brd)") : "none", boxShadow: scrolled ? (theme === 'light' ? "0 4px 30px rgba(0,0,0,0.05)" : "0 4px 40px rgba(0,0,0,.45)") : "none" }}>
- 
+
           <div style={{ maxWidth: 1280, margin: "0 auto", height: NAV_H, display: "flex", alignItems: "center", gap: 18 }}>
- 
-            {/* ✅ SEO: Logo - <a href> with real URL */}
-            <a href="/" onClick={(e) => { e.preventDefault(); go("home"); }} style={{ cursor: "pointer", display: "flex", alignItems: "center", flexShrink: 0, textDecoration: "none" }} title="Sree Meenakshi Glass and Plywoods - Home">
-              <img src="/favicon.png" alt="Sree Meenakshi Glass and Plywoods" style={{ height: 65, width: "auto", objectFit: "contain", borderRadius: 8 }} />
+
+            {/* Logo */}
+            <a href="/" onClick={(e) => { e.preventDefault(); go("home"); }} style={{ cursor: "pointer", display: "flex", alignItems: "center", flexShrink: 0, textDecoration: "none" }} aria-label="Sree Meenakshi Glass and Plywoods - Home" title="Sree Meenakshi Glass and Plywoods - Home">
+              <img src="/apple-touch-icon.webp" alt="Sree Meenakshi Glass and Plywoods" style={{ height: 65, width: "auto", objectFit: "contain", borderRadius: 8 }} />
             </a>
- 
+
             {/* Desktop Nav */}
             <div className="xl" style={{ flex: 1, display: "flex", alignItems: "center", gap: 26, justifyContent: "center" }}>
- 
-              {/* ✅ SEO: Home */}
+
               <a href="/" className={`nl ${page === "home" ? "on" : ""}`} onClick={(e) => { e.preventDefault(); go("home"); }} style={{ textDecoration: "none" }}>
                 {t.nav.home}
               </a>
- 
-              {/* Products Dropdown - trigger = span (UI toggle, not a page link) */}
+
+              {/* ✅ FIX WARN 2: span → button for keyboard accessibility */}
               <div className="dd">
-                <span className={`nl ${page.startsWith("category-") ? "on" : ""}`} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <button className={`nl ${page.startsWith("category-") ? "on" : ""}`} style={{ display: "flex", alignItems: "center", gap: 4, background: "none", border: "none", cursor: "pointer", padding: 0, font: "inherit" }}>
                   {t.nav.prods} <ChevronDown size={13} />
-                </span>
+                </button>
                 <div className="ddm gd">
                   {PL.map(p => (
-                    // ✅ SEO: Each category = real <a href>
                     <a key={p.id} href={`/category-${p.id}`} className="ddi" onClick={(e) => { e.preventDefault(); go(`category-${p.id}`); }} style={{ textDecoration: "none" }}>
                       <span style={{ fontSize: 17 }}>{p.icon}</span>
                       <div>
@@ -82,36 +79,31 @@ export default function Navbar({ page, go, lang, setLang, t }) {
                   ))}
                 </div>
               </div>
- 
-              {/* ✅ SEO: Services */}
+
               <a href="/services" className={`nl ${page === "services" ? "on" : ""}`} onClick={(e) => { e.preventDefault(); go("services"); }} style={{ textDecoration: "none" }}>
                 {t.nav.services}
               </a>
- 
-              {/* ✅ SEO: Gallery */}
+
               <a href="/gallery" className={`nl ${page === "gallery" ? "on" : ""}`} onClick={(e) => { e.preventDefault(); go("gallery"); }} style={{ textDecoration: "none" }}>
                 {t.nav.gallery}
               </a>
- 
-              {/* ✅ SEO: About */}
+
               <a href="/about" className={`nl ${page === "about" ? "on" : ""}`} onClick={(e) => { e.preventDefault(); go("about"); }} style={{ textDecoration: "none" }}>
                 {t.nav.about}
               </a>
- 
-              {/* ✅ SEO: Contact */}
+
               <a href="/contact" className={`nl ${page === "contact" ? "on" : ""}`} onClick={(e) => { e.preventDefault(); go("contact"); }} style={{ textDecoration: "none" }}>
                 {t.nav.contact}
               </a>
- 
-              {/* ✅ SEO: Location - external link, no preventDefault needed */}
+
               <a href={MAPS} target="_blank" rel="noopener noreferrer" className="nl" style={{ display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }} title="View on Google Maps">
                 <MapPin size={14} color="var(--o)" /> {t.nav.location}
               </a>
             </div>
- 
+
             {/* Desktop Right Side */}
             <div className="xl" style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
- 
+
               {/* Desktop Search */}
               <div ref={qRef} style={{ position: "relative" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,.06)", border: `1px solid ${qFocus ? "var(--o)" : "rgba(255,255,255,.09)"}`, borderRadius: 9, padding: "7px 12px", transition: "border-color .25s" }}>
@@ -126,16 +118,17 @@ export default function Navbar({ page, go, lang, setLang, t }) {
                     onKeyDown={e => { if (e.key === 'Enter' && q.trim() !== "") { go(`search-${encodeURIComponent(q.trim())}`); setQ(""); setQFocus(false); } }}
                     style={{ width: 130, fontSize: 13, padding: 0, border: "none", background: "none", boxShadow: "none" }}
                   />
-                  {q && <button onClick={() => setQ("")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--sl2)", padding: 0 }}><X size={11} /></button>}
+                  {q && <button onClick={() => setQ("")} aria-label="Clear Search" style={{ background: "none", border: "none", cursor: "pointer", color: "var(--sl2)", padding: 0 }}><X size={11} /></button>}
                 </div>
- 
+
                 {qFocus && (
                   <div className="gd" style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, borderRadius: 12, overflow: "hidden", zIndex: 700, background: "var(--bg)", border: "1px solid var(--brd)" }}>
                     {res.length > 0 ? res.map(p => (
-                      // ✅ SEO: Search results as <a href>
-                      // onMouseDown used (not onClick) because input onBlur fires before onClick
+                      // ✅ FIX FAIL 1: onKeyDown Enter added for keyboard accessibility
                       <a key={p.id} href={`/category-${p.id}`}
                         onMouseDown={(e) => { e.preventDefault(); go(`category-${p.id}`); setQ(""); }}
+                        onKeyDown={(e) => { if (e.key === 'Enter') { go(`category-${p.id}`); setQ(""); setQFocus(false); } }}
+                        tabIndex={0}
                         style={{ textDecoration: "none", padding: "10px 15px", cursor: "pointer", display: "flex", alignItems: "center", gap: 10, fontSize: 13, transition: "background .18s" }}
                         onMouseEnter={e => e.currentTarget.style.background = "rgba(249,115,22,.08)"}
                         onMouseLeave={e => e.currentTarget.style.background = "transparent"}
@@ -150,40 +143,41 @@ export default function Navbar({ page, go, lang, setLang, t }) {
                   </div>
                 )}
               </div>
- 
+
               {/* Theme Toggle */}
-              <button onClick={toggleTheme} style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.09)", color: "var(--sl)", borderRadius: 9, cursor: "pointer" }}>
+              <button onClick={toggleTheme} aria-label="Toggle Theme" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.09)", color: "var(--sl)", borderRadius: 9, cursor: "pointer" }}>
                 {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
               </button>
- 
+
               {/* Language Toggle */}
               <button onClick={() => setLang(l => l === "en" ? "ta" : "en")} style={{ display: "flex", alignItems: "center", gap: 5, background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.09)", color: "var(--sl)", padding: "7px 12px", borderRadius: 9, cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
                 <Globe size={12} />{t.langBtn}
               </button>
- 
+
               {/* WhatsApp Button */}
-              <a href={WA} target="_blank" rel="noopener noreferrer" onClick={handleWhatsAppClick} style={{ width: 37, height: 37, borderRadius: 9, background: "linear-gradient(135deg,#25d366,#128c7e)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--w)", textDecoration: "none" }}>
+              <a href={WA} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Us" onClick={handleWhatsAppClick} style={{ width: 37, height: 37, borderRadius: 9, background: "linear-gradient(135deg,#25d366,#128c7e)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--w)", textDecoration: "none" }}>
                 <MessageCircle size={17} />
               </a>
             </div>
- 
+
             {/* Mobile Menu Toggle */}
-            <button onClick={() => setMob(!mob)} className="mob" style={{ marginLeft: "auto", background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.09)", color: "var(--w)", padding: 9, borderRadius: 9, cursor: "pointer" }}>
+            <button onClick={() => setMob(!mob)} className="mob" aria-label={mob ? "Close Menu" : "Open Menu"} aria-expanded={mob} aria-controls="mobile-menu" style={{ marginLeft: "auto", background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.09)", color: "var(--w)", padding: 9, borderRadius: 9, cursor: "pointer" }}>
               {mob ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </nav>
       </header>
- 
-      <div className={`mmo ${mob ? "open" : ""}`} onClick={() => setMob(false)} />
- 
+
+      {/* ✅ FIX FAIL 2: aria-hidden on backdrop */}
+      <div className={`mmo ${mob ? "open" : ""}`} onClick={() => setMob(false)} aria-hidden="true" />
+
       {/* Mobile Menu */}
-      <div className={`mm gd ${mob ? "open" : ""}`}>
+      <div id="mobile-menu" className={`mm gd ${mob ? "open" : ""}`} aria-hidden={!mob}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 22px", borderBottom: "1px solid var(--brd)" }}>
           <div style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 700, fontSize: 18, color: "var(--w)" }}>SreeMeenakshi</div>
-          <button onClick={() => setMob(false)} style={{ background: "rgba(255,255,255,.07)", border: "1px solid var(--brd)", color: "var(--w)", padding: 7, borderRadius: 8, cursor: "pointer" }}><X size={16} /></button>
+          <button onClick={() => setMob(false)} aria-label="Close Mobile Menu" style={{ background: "rgba(255,255,255,.07)", border: "1px solid var(--brd)", color: "var(--w)", padding: 7, borderRadius: 8, cursor: "pointer" }}><X size={16} /></button>
         </div>
- 
+
         {/* Mobile Search */}
         <div style={{ padding: "16px 22px", borderBottom: "1px solid var(--brd)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.09)", borderRadius: 9, padding: "10px 14px" }}>
@@ -200,7 +194,6 @@ export default function Navbar({ page, go, lang, setLang, t }) {
           {q.length > 0 && (
             <div style={{ marginTop: 8, background: "rgba(255,255,255,.04)", borderRadius: 10, overflow: "hidden", border: "1px solid var(--brd)" }}>
               {res.length > 0 ? res.map(p => (
-                // ✅ SEO: Mobile search results as <a href>
                 <a key={p.id} href={`/category-${p.id}`}
                   onClick={(e) => { e.preventDefault(); go(`category-${p.id}`); setQ(""); setMob(false); }}
                   style={{ textDecoration: "none", padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 9, fontSize: 13, borderBottom: "1px solid var(--brd)" }}
@@ -212,25 +205,23 @@ export default function Navbar({ page, go, lang, setLang, t }) {
             </div>
           )}
         </div>
- 
+
         <div style={{ flex: 1, overflowY: "auto" }}>
- 
-          {/* ✅ SEO: Mobile Home */}
+
           <a href="/" onClick={(e) => { e.preventDefault(); go("home"); setMob(false); }} style={{ textDecoration: "none", display: "block", padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page === "home" ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 500 }}>
             {t.nav.home}
           </a>
- 
-          {/* Products Accordion - toggle stays as div (UI, not navigation) */}
+
+          {/* ✅ FIX WARN 3: div → button for mobile accordion */}
           <div>
-            <div onClick={() => setMobProd(!mobProd)} style={{ padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page.startsWith("category-") ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <button onClick={() => setMobProd(!mobProd)} aria-expanded={mobProd} style={{ width: "100%", padding: "14px 22px", borderTop: "none", borderLeft: "none", borderRight: "none", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page.startsWith("category-") ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", textAlign: "left" }}>
               <span>{t.nav.prods}</span>
               <div style={{ transition: "transform .28s", transform: mobProd ? "rotate(180deg)" : "rotate(0)" }}><ChevronDown size={16} /></div>
-            </div>
+            </button>
             {mobProd && (
               <div style={{ background: "rgba(0,0,0,.25)", animation: "fadeIn .2s ease" }}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, padding: "12px 16px" }}>
                   {PL.map(p => (
-                    // ✅ SEO: Mobile product items as <a href>
                     <a key={p.id} href={`/category-${p.id}`}
                       onClick={(e) => { e.preventDefault(); go(`category-${p.id}`); setMob(false); }}
                       style={{ textDecoration: "none", padding: "10px 12px", background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.07)", borderRadius: 10, display: "flex", alignItems: "center", gap: 7, cursor: "pointer", fontSize: 13, color: "var(--sl)" }}
@@ -243,36 +234,31 @@ export default function Navbar({ page, go, lang, setLang, t }) {
               </div>
             )}
           </div>
- 
-          {/* ✅ SEO: Mobile Services */}
+
           <a href="/services" onClick={(e) => { e.preventDefault(); go("services"); setMob(false); }} style={{ textDecoration: "none", display: "block", padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page === "services" ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 500 }}>
             {t.nav.services}
           </a>
- 
-          {/* ✅ SEO: Mobile Gallery */}
+
           <a href="/gallery" onClick={(e) => { e.preventDefault(); go("gallery"); setMob(false); }} style={{ textDecoration: "none", display: "block", padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page === "gallery" ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 500 }}>
             {t.nav.gallery}
           </a>
- 
-          {/* ✅ SEO: Mobile About */}
+
           <a href="/about" onClick={(e) => { e.preventDefault(); go("about"); setMob(false); }} style={{ textDecoration: "none", display: "block", padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page === "about" ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 500 }}>
             {t.nav.about}
           </a>
- 
-          {/* ✅ SEO: Mobile Contact */}
+
           <a href="/contact" onClick={(e) => { e.preventDefault(); go("contact"); setMob(false); }} style={{ textDecoration: "none", display: "block", padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page === "contact" ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 500 }}>
             {t.nav.contact}
           </a>
- 
-          {/* ✅ SEO: Mobile Location - external link */}
+
           <a href={MAPS} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "flex", padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: "var(--o)", fontSize: 15, fontWeight: 500, alignItems: "center", gap: 8 }}>
             <MapPin size={16} /> {t.nav.location}
           </a>
         </div>
- 
+
         {/* Mobile Bottom Buttons */}
         <div style={{ padding: "18px 22px", borderTop: "1px solid var(--brd)", display: "flex", flexDirection: "column", gap: 10 }}>
-          <button onClick={toggleTheme} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7, background: "rgba(255,255,255,.05)", border: "1px solid var(--brd)", color: "var(--sl)", padding: 11, borderRadius: 9, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
+          <button onClick={toggleTheme} aria-label="Toggle Theme" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7, background: "rgba(255,255,255,.05)", border: "1px solid var(--brd)", color: "var(--sl)", padding: 11, borderRadius: 9, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
             {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />} {theme === 'dark' ? "Light Mode" : "Dark Mode"}
           </button>
           <button onClick={() => setLang(l => l === "en" ? "ta" : "en")} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7, background: "rgba(255,255,255,.05)", border: "1px solid var(--brd)", color: "var(--sl)", padding: 11, borderRadius: 9, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
