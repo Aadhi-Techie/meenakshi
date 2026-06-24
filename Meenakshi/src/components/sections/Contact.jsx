@@ -9,7 +9,7 @@ const tData = {
     call: "Call",
     email: "Email",
     hours: "Hours",
-    hours_mon_sat: "Mon-Sat: 9 AM - 8 PM",
+    hours_mon_sat: "Mon-Sat: 8.30 AM - 9 PM",
     hours_sun: "Sunday: 10 AM - 5 PM",
     call_now: "Call Now",
     send_sms: "Send SMS",
@@ -77,7 +77,7 @@ export default function Contact({ currentLang = 'ta' }) {
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   
-  const adminWhatsAppNumbers = ["919884822999"]; 
+  const adminWhatsAppNumbers = ["919790923750"]; 
   const [randomAdminWhatsApp] = useState(() => adminWhatsAppNumbers[Math.floor(Math.random() * adminWhatsAppNumbers.length)]);
 
   const t = (key) => {
@@ -217,7 +217,7 @@ export default function Contact({ currentLang = 'ta' }) {
             <div style={{ padding: 12, background: "rgba(255,115,0,0.1)", borderRadius: 12, color: "var(--o)" }}><Phone size={20} /></div>
             <div>
               <h4 style={{ color: "var(--sl3)", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>{t('call')}</h4>
-              <p style={{ color: "var(--w)", fontSize: 15, fontWeight: 600 }}>+91 9940504234,  +91 9790923750</p>
+              <p style={{ color: "var(--w)", fontSize: 15, fontWeight: 600 }}>+91 9790923750,  +91 9848822999,+91 9940504234</p>
             </div>
           </div>
 

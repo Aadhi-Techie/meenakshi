@@ -97,7 +97,7 @@ export default function Footer({ go, t }) {
             
             <div style={{ marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
               <Phone size={14} color="var(--sl3)" />
-              <a href="tel:+919940504234" style={{ color: "var(--w)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>+91 9940504234</a>
+              <a href="tel:+919790923750" style={{ color: "var(--w)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>+91 9790923750</a>
             </div>
 
             <div style={{ color: "var(--sl3)", fontSize: 13.5, marginBottom: 4 }}>{t.footer?.wk || "Mon - Sat: 9:00 AM - 8:00 PM"}</div>
@@ -130,7 +130,7 @@ export default function Footer({ go, t }) {
         <div style={{ borderTop: "1px solid var(--brd)", paddingTop: 24, paddingBottom: 24, textAlign: "center" }}>
            <p style={{ color: "var(--sl3)", fontSize: 12, lineHeight: 1.6, maxWidth: 950, margin: "0 auto" }}>
              {isTamil ? (
-               <><strong>ஸ்ரீ மீனாட்சி கிளாஸ் அண்ட் ப்ளைவுட்ஸ் டிரேடர்ஸ் (Sree Meenakshi Glass and Plywoods)</strong> உயர்தர கட்டுமானப் பொருட்களின் முன்னணி மொத்த விற்பனையாளர் ஆவர். நாங்கள் பெரம்பூரில் உள்ள <strong>சிறந்த பிளைவுட் கடை (Best Plywood Shop in Perambur)</strong> மற்றும் <strong>சென்னையில் தரமான கண்ணாடிகள் (Toughened Glass dealers in Chennai)</strong> வழங்குவதில் முன்னணியில் உள்ளோம். சென்னை, பெரம்பூர், திருவள்ளூர், காஞ்சிபுரம், செங்கல்பட்டு, ஸ்ரீபெரும்புதூர் மற்றும் செங்குன்றம் (Redhills) ஆகிய பகுதிகள் முழுவதும் உள்ள வாடிக்கையாளர்களுக்கு சிறந்த சேவையை வழங்கி வருகிறோம்.</>
+               <><strong>ஸ்ரீ மீனாட்சி கிளாஸ் அண்ட் ப்ளைவுட்ஸ்  (Sree Meenakshi Glass and Plywoods)</strong> உயர்தர கட்டுமானப் பொருட்களின் முன்னணி மொத்த விற்பனையாளர் ஆவர். நாங்கள் பெரம்பூரில் உள்ள <strong>சிறந்த பிளைவுட் கடை (Best Plywood Shop in Perambur)</strong> மற்றும் <strong>சென்னையில் தரமான கண்ணாடிகள் (Toughened Glass dealers in Chennai)</strong> வழங்குவதில் முன்னணியில் உள்ளோம். சென்னை, பெரம்பூர், திருவள்ளூர், காஞ்சிபுரம், செங்கல்பட்டு, ஸ்ரீபெரும்புதூர் மற்றும் செங்குன்றம் (Redhills) ஆகிய பகுதிகள் முழுவதும் உள்ள வாடிக்கையாளர்களுக்கு சிறந்த சேவையை வழங்கி வருகிறோம்.</>
              ) : (
                <><strong>Sree Meenakshi Glass and Plywoods</strong> is the leading wholesale supplier and dealer of high-quality building materials. We are recognized as the <strong>Best Plywood Shop in Perambur</strong> and top-rated <strong>Toughened Glass dealers in Chennai</strong>. We proudly serve customers across Chennai, Perambur, Thiruvallur, Kanchipuram, Chengalpattu, Sriperumbudur, and Redhills with trust and quality for over two decades.</>
              )}
