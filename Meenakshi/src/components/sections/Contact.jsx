@@ -217,7 +217,7 @@ export default function Contact({ currentLang = 'ta' }) {
             <div style={{ padding: 12, background: "rgba(255,115,0,0.1)", borderRadius: 12, color: "var(--o)" }}><Phone size={20} /></div>
             <div>
               <h4 style={{ color: "var(--sl3)", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>{t('call')}</h4>
-              <p style={{ color: "var(--w)", fontSize: 15, fontWeight: 600 }}>+91 9790923750,  +91 9848822999,+91 9940504234</p>
+              <p style={{ color: "var(--w)", fontSize: 15, fontWeight: 600 }}>+919790923750,  +919848822999,+919940504234</p>
             </div>
           </div>
 
