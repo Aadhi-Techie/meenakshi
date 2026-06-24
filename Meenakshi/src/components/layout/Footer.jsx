@@ -39,7 +39,7 @@ export default function Footer({ go, t }) {
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
               <div aria-hidden="true" style={{ width: 44, height: 44, borderRadius: 10, background: "linear-gradient(135deg,var(--o),var(--o2))", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Cormorant Garamond',serif", fontWeight: 800, fontSize: 20, color: "#fff" }}>SM</div>
               <div>
-                <p style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 700, fontSize: 16, color: "var(--w)", margin: 0 }}>Sri Meenakshi</p>
+                <p style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 700, fontSize: 16, color: "var(--w)", margin: 0 }}>SreeMeenakshi</p>
                 <div style={{ fontSize: 9.5, color: "var(--o3)", letterSpacing: ".13em", fontWeight: 700, textTransform: "uppercase" }}>Glass & Plywoods</div>
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function Footer({ go, t }) {
             <h3 style={headingStyle}>{isTamil ? "எங்கள் கிளைகள்" : "Our Branches"}</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 }}>
               <a href="https://maps.app.goo.gl/78uYFBgwiX9KH27c8" target="_blank" rel="noopener noreferrer" style={branchButtonStyle} onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.1)"} onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.05)"}>
-                <MapPin size={16}/> {isTamil ? "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்" : "Sri Meenakshi Glass & Plywood"}
+                <MapPin size={16}/> {isTamil ? "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்" : "SreeMeenakshi Glass & Plywood"}
               </a>
               <a href="https://maps.app.goo.gl/DsMgqTztD1HzqeSc8" target="_blank" rel="noopener noreferrer" style={branchButtonStyle} onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.1)"} onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.05)"}>
                 <MapPin size={16}/> {isTamil ? "ஸ்ரீ ஆதிதனலட்சுமி கிளாஸ் & பிளைவுட்ஸ்" : "Sree Adhidhanalakshi Glass & Plywoods"}

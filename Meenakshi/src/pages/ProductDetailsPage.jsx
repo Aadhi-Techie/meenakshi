@@ -74,7 +74,7 @@ export default function ProductDetailsPage({ id, go, t }) {
   const productUrl = typeof window !== 'undefined' ? window.location.href : '';
   
   // Format the WhatsApp text message with product details
-  const rawWaMessage = `Hi Sri Meenakshi Glass & Plywoods,\n\nI am interested in this product. Please share more details and pricing.\n\n📦 *Product:* ${product.name}\n📄 *Category:* ${product.category || 'N/A'}\n\n🔗 *Product Link:* \n${productUrl}`;
+  const rawWaMessage = `Hi SreeMeenakshi Glass & Plywoods,\n\nI am interested in this product. Please share more details and pricing.\n\n📦 *Product:* ${product.name}\n📄 *Category:* ${product.category || 'N/A'}\n\n🔗 *Product Link:* \n${productUrl}`;
   const waMessage = encodeURIComponent(rawWaMessage);
   
   // Generate the final WhatsApp link with the updated admin phone number

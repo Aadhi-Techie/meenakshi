@@ -39,7 +39,7 @@ export default function Loader({ done }) {
         </div>
       </div>
 
-      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 24, fontWeight: 700, color: "#fff", marginBottom: 6, letterSpacing: ".02em" }}>Sri Meenakshi Traders</div>
+      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 24, fontWeight: 700, color: "#fff", marginBottom: 6, letterSpacing: ".02em" }}>SreeMeenakshi Traders</div>
       <div style={{ fontSize: 11.5, color: "var(--sl3)", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 36 }}>Premium Building Materials · Chennai</div>
 
       <div style={{ width: 220, height: 3, background: "rgba(255,255,255,.07)", borderRadius: 2, overflow: "hidden", marginBottom: 12 }}>

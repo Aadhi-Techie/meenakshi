@@ -9,7 +9,7 @@ const tData = {
     hours_mon_sat: "Mon-Sat: 8.30 AM - 9 PM", hours_sun: "Sunday: 10 AM - 5 PM",
     call_now: "Call Now", send_sms: "Send SMS", whatsapp_us: "WhatsApp Us",
     send_enquiry: "Send an Enquiry",
-    form_title: "Sri Meenakshi Glass & Plywoods Traders",
+    form_title: "SreeMeenakshi Glass & Plywoods Traders",
     form_subtitle: "Send an Enquiry",
     full_name: "Full Name", email_address: "Email Address",
     phone_number: "Phone Number", product_interest: "Product Interest", your_message: "Your Message",

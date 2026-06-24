@@ -30,7 +30,7 @@ export const LANG = {
     // 3. About Section
     abBdg: "Our Story",
     abH:   "Trusted by Chennai\nFor Over Two Decades",
-    abP:   "Sri Meenakshi Glass Plywood and Aluminium Traders is Chennai's premier destination for premium building materials. From our showroom in Perambur, we serve homeowners, architects, contractors and developers across Tamil Nadu with unmatched quality, competitive pricing and reliable delivery.",
+    abP:   "SreeMeenakshi Glass Plywood and Aluminium Traders is Chennai's premier destination for premium building materials. From our showroom in Perambur, we serve homeowners, architects, contractors and developers across Tamil Nadu with unmatched quality, competitive pricing and reliable delivery.",
     abBtn: "Discuss Your Project",
     abJ:   "Our Journey",
 
@@ -54,7 +54,7 @@ export const LANG = {
 
     // 7. Testimonials / Why Us
     wyBdg: "Why Us",
-    wyH:   "The Sri Meenakshi\nAdvantage",
+    wyH:   "The SreeMeenakshi\nAdvantage",
     tsBdg: "Reviews",
     tsH:   "What Our Clients Say",
 
@@ -83,7 +83,7 @@ export const LANG = {
       h:    "Business Hours",
       wk:   "Mon – Sat: 9 AM – 8 PM",
       su:   "Sunday: 10 AM – 5 PM",
-      copy: "© 2025 Sri Meenakshi Glass Plywood & Aluminium Traders. All Rights Reserved.",
+      copy: "© 2025 SreeMeenakshi Glass Plywood & Aluminium Traders. All Rights Reserved.",
     },
   },
 

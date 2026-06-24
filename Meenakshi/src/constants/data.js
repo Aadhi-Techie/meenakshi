@@ -15,7 +15,7 @@ export const PRODS = {
       "Premium architectural glass solutions — from shatter-resistant safety " +
       "glass to artistic decorative panels. 200+ variants for every design vision.",
     full:
-      "Sri Meenakshi Glass brings Chennai's widest architectural glass range. " +
+      "SreeMeenakshi Glass brings Chennai's widest architectural glass range. " +
       "Our collection spans toughened safety glass for facades and shower " +
       "enclosures, laminated glass for noise reduction and UV protection, " +
       "reflective glass for energy-efficient buildings, and exclusive decorative " +
@@ -335,7 +335,7 @@ export const WHY_DATA = [
 export const TESTS = [
   {
     n: "Rajesh Kumar",    r: "Interior Designer, Chennai",  s: 5,
-    t: "Outstanding quality and delivery. I've sourced glass and aluminium for 15+ projects through Sri Meenakshi — never a single complaint. Their technical knowledge is exceptional and the team genuinely cares about project outcomes.",
+    t: "Outstanding quality and delivery. I've sourced glass and aluminium for 15+ projects through SreeMeenakshi — never a single complaint. Their technical knowledge is exceptional and the team genuinely cares about project outcomes.",
   },
   {
     n: "Priya Venkatesh", r: "Homeowner, Anna Nagar",       s: 5,
@@ -343,7 +343,7 @@ export const TESTS = [
   },
   {
     n: "Mohammed Irfan",  r: "Contractor, Perambur",        s: 5,
-    t: "Best bulk supplier in North Chennai. Pricing is sharp, stock is always available and delivery is never late. Sri Meenakshi is my go-to vendor for every project — residential and commercial alike.",
+    t: "Best bulk supplier in North Chennai. Pricing is sharp, stock is always available and delivery is never late. SreeMeenakshi is my go-to vendor for every project — residential and commercial alike.",
   },
   {
     n: "Lakshmi Devi",    r: "Architect, Kilpauk",          s: 4,

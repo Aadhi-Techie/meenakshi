@@ -95,7 +95,7 @@ export default function CategoryPage({ id, go, t }) {
                   const itemUrl = `${baseUrl}/product-${item.id}`;
                   
                   // 🌟 3. வாட்ஸ்அப்பில் ஓனருக்குப் போக வேண்டிய மெசேஜ் ஃபார்மட்
-                  const rawWaMessage = `Hi Sri Meenakshi Glass & Plywoods,\n\nI am interested in this product. Please share more details and pricing.\n\n📦 *Product:* ${item.name}\n📄 *Category:* ${item.category || 'N/A'}\n\n🔗 *Product Link:* \n${itemUrl}`;
+                  const rawWaMessage = `Hi SreeMeenakshi Glass & Plywoods,\n\nI am interested in this product. Please share more details and pricing.\n\n📦 *Product:* ${item.name}\n📄 *Category:* ${item.category || 'N/A'}\n\n🔗 *Product Link:* \n${itemUrl}`;
                   const waMessage = encodeURIComponent(rawWaMessage);
                   
                   // 🌟 4. மொபைல் மற்றும் பிசி இரண்டிலும் 100% வேலை செய்யும் அதிகாரப்பூர்வ வாட்ஸ்அப் ஏபிஐ லிங்க்
@@ -156,8 +156,8 @@ export default function CategoryPage({ id, go, t }) {
                                 if (navigator.share) {
                                   // மொபைலில் Native Share Menu ஓபன் ஆகும்
                                   await navigator.share({
-                                    title: `${item.name} | Sri Meenakshi Glass & Plywoods`,
-                                    text: `Check out this premium product from Sri Meenakshi Glass & Plywoods: ${item.name}*\n\n🔗 *Link:* ${itemUrl}`,
+                                    title: `${item.name} | SreeMeenakshi Glass & Plywoods`,
+                                    text: `Check out this premium product from SreeMeenakshi Glass & Plywoods: ${item.name}*\n\n🔗 *Link:* ${itemUrl}`,
                                     
                                   });
                                 } else {

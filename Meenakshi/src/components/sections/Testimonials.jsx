@@ -17,7 +17,7 @@ export default function Testimonials({ t }) {
       s: 5, 
       t: isTamil 
         ? "சிறந்த தரம் மற்றும் டெலிவரி. 15க்கும் மேற்பட்ட ப்ராஜெக்ட்களுக்கு ஸ்ரீ மீனாட்சியில் இருந்து கண்ணாடி மற்றும் அலுமினியம் வாங்கியுள்ளேன் — இதுவரை எந்த குறையும் இல்லை." 
-        : "Outstanding quality and delivery. I've sourced glass and aluminium for 15+ projects through Sri Meenakshi — never a single complaint." 
+        : "Outstanding quality and delivery. I've sourced glass and aluminium for 15+ projects through SreeMeenakshi — never a single complaint." 
     },
     { 
       n: "Priya Venkatesh", 

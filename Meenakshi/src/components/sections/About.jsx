@@ -172,7 +172,7 @@ export default function About({ go, t }) {
           <p style={{ color: "var(--sl3)", fontSize: 16, lineHeight: 1.8, marginBottom: 40 }}>
             {t.abP || (isTamil ? 
               "சென்னை பெரம்பூரில் கடந்த 20 ஆண்டுகளுக்கும் மேலாக தரமான கንஸ்ட்ரக்ஷன் மற்றும் இன்டீரியர் பொருட்களை வழங்கி வரும் முன்னணி நிறுவனம். வாடிக்கையாளர்களுக்கு சிறந்த சேவையை அசல் தயாரிப்புகள் மூலம் வழங்குவதே எங்களின் முதன்மை நோக்கம்." : 
-              "For over 20 years, Sri Meenakshi Traders has been Chennai's benchmark for premium quality building materials. We provide authorized wholesale supplies with absolute transparency and market-best standards.")
+              "For over 20 years, SreeMeenakshi Traders has been Chennai's benchmark for premium quality building materials. We provide authorized wholesale supplies with absolute transparency and market-best standards.")
             }
           </p>
           

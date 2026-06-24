@@ -74,14 +74,14 @@ export default function App() {
   useEffect(() => {
     const titles = {
       en: {
-        home:    "Sri Meenakshi Glass & Plywoods | Wholesale Dealers in Chennai",
+        home:    "SreeMeenakshi Glass & Plywoods | Wholesale Dealers in Chennai",
         about:   "About Us | Sree Meenakshi Glass and Plywoods",
         services:"Our Services | Glass, Plywood & UPVC Experts in Chennai",
-        contact: "Contact Us | Sri Meenakshi Glass & Plywoods – Perambur",
-        gallery: "Gallery | Sri Meenakshi Glass & Plywoods",
-        admin:   "Admin Dashboard | Sri Meenakshi Glass & Plywoods",
-        privacy: "Privacy Policy | Sri Meenakshi Glass & Plywoods",
-        terms:   "Terms of Service | Sri Meenakshi Glass & Plywoods",
+        contact: "Contact Us | Sree Meenakshi Glass & Plywoods – Perambur",
+        gallery: "Gallery | Sree Meenakshi Glass & Plywoods",
+        admin:   "Admin Dashboard | Sree Meenakshi Glass & Plywoods",
+        privacy: "Privacy Policy | Sree Meenakshi Glass & Plywoods",
+        terms:   "Terms of Service | Sree Meenakshi Glass & Plywoods",
       },
       ta: {
         home:    "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ் | சென்னையில் மொத்த விற்பனையாளர்",
@@ -97,25 +97,25 @@ export default function App() {
 
     const isTamil    = lang === "ta";
     const langTitles = titles[lang] || titles.en;
-    let currentTitle = langTitles[page] || "Sri Meenakshi Glass & Plywoods";
+    let currentTitle = langTitles[page] || "SreeMeenakshi Glass & Plywoods";
 
     if (page.startsWith("category-")) {
       const catId   = page.slice(9);
       const product = PL.find(p => p.id === catId);
       const name    = isTamil && product?.tn ? product.tn : (product?.name || catId);
-      currentTitle  = `${name} | Sri Meenakshi Glass & Plywoods`;
+      currentTitle  = `${name} | SreeMeenakshi Glass & Plywoods`;
     } else if (page.startsWith("product-")) {
       currentTitle = isTamil
         ? "தயாரிப்பு விவரங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
-        : "Product Details | Sri Meenakshi Glass & Plywoods";
+        : "Product Details | SreeMeenakshi Glass & Plywoods";
     } else if (page.startsWith("gallery-")) {
       currentTitle = isTamil
         ? "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
-        : "Gallery | Sri Meenakshi Glass & Plywoods";
+        : "Gallery | SreeMeenakshi Glass & Plywoods";
     } else if (page.startsWith("search-")) {
       currentTitle = isTamil
         ? "தேடல் முடிவுகள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
-        : "Search Results | Sri Meenakshi Glass & Plywoods";
+        : "Search Results | SreeMeenakshi Glass & Plywoods";
     }
 
     document.title = currentTitle;
