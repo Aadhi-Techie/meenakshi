@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 
 export default function About({ go, t }) {
   // நீங்கள் காட்ட விரும்பும் கடையின் பட லிங்க் (assets-ல் இந்த இமேஜ் இருப்பதை உறுதி செய்யவும்)
-  const shopImageUrl = "/assets/About-Image.png";
+  const shopImageUrl = "/assets/About-Image.webp"; // WebP வடிவில் சிறந்த தரம் மற்றும் சிறிய கோப்பு அளவு
 
   // மொழி கண்டறிதல் (தமிழ் அல்லது ஆங்கிலம்)
   const isTamil = t.nav?.home === "முகப்பு";
