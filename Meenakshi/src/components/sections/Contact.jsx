@@ -137,7 +137,7 @@ export default function Contact({ currentLang = 'ta' }) {
       setTimeout(() => setStatusMessage(''), 5000);
     } catch {
       setStatusMessage(t('error_failed'));
-      setTimeout(() => setStatusMessage(''), 5000); // ✅ கச்சிதமான திருத்தம்
+      setTimeout(() => setStatusMessage(''), 5000); // ✅ Error cleanup timeout சேர்க்கப்பட்டுள்ளது
     } finally {
       setLoading(false);
     }
@@ -164,41 +164,22 @@ export default function Contact({ currentLang = 'ta' }) {
               </div>
             </div>
 
-            {/* Phone */}
+            {/* Phone Numbers */}
             <div style={cardStyle}>
               <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
               <div style={{ width: '100%' }}>
                 <p style={labelStyle}>{t('call')}</p>
-
-                {/* Number 1 */}
-                <a href={`tel:${adminNumbers[0]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>
-                  +91 {adminNumbers[0].slice(-10)}
-                </a>
+                <a href={`tel:${adminNumbers[0]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[0].slice(-10)}</a>
                 <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  <a href={`tel:${adminNumbers[0]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                    <Phone size={14} /> {t('call_now')}
-                  </a>
-                  <a href={`https://wa.me/${adminNumbers[0]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                    <MessageCircle size={14} /> {t('whatsapp_us')}
-                  </a>
+                  <a href={`tel:${adminNumbers[0]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
+                  <a href={`https://wa.me/${adminNumbers[0]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
                 </div>
-
-                {/* Divider */}
                 <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', margin: '14px 0' }} />
-
-                {/* Number 2 */}
-                <a href={`tel:${adminNumbers[1]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>
-                  +91 {adminNumbers[1].slice(-10)}
-                </a>
+                <a href={`tel:${adminNumbers[1]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[1].slice(-10)}</a>
                 <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  <a href={`tel:${adminNumbers[1]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                    <Phone size={14} /> {t('call_now')}
-                  </a>
-                  <a href={`https://wa.me/${adminNumbers[1]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                    <MessageCircle size={14} /> {t('whatsapp_us')}
-                  </a>
+                  <a href={`tel:${adminNumbers[1]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
+                  <a href={`https://wa.me/${adminNumbers[1]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
                 </div>
-
               </div>
             </div>
 
@@ -223,7 +204,7 @@ export default function Contact({ currentLang = 'ta' }) {
               </div>
             </div>
 
-            {/* Shop Image and Map */}
+            {/* Shop Image and Map (JSX Corrected Iframe) */}
             <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, marginTop: 10 }}>
               <img 
                 src="/assets/About-Image.webp" 
@@ -231,7 +212,16 @@ export default function Contact({ currentLang = 'ta' }) {
                 style={{ width: '100%', borderRadius: 12, marginBottom: 16, objectFit: 'cover' }} 
                 onError={(e) => { e.target.style.display = 'none'; }}
               />
-              
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3025.5409461661393!2d80.23354027377938!3d13.121689187207634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ab93a27e75%3A0x3d0ff2ecdb2bf1c1!2sSree%20Meenakshi%20Glass%20and%20Plywoods!5e1!3m2!1sen!2sin!4v1782302527500!5m2!1sen!2sin" 
+                width="100%" 
+                height="250" 
+                style={{ border: 0, borderRadius: 12 }} 
+                allowFullScreen 
+                loading="lazy" 
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="Location Map"
+              ></iframe>
             </div>
 
           </div>
@@ -313,17 +303,8 @@ export default function Contact({ currentLang = 'ta' }) {
                 {statusMessage}
               </p>
             )}
-
           </div>
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.082531631589!2d80.2435036111867!3d13.10420008709531!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ed6b7b2033%3A0x86bd61cc9cb3f7ea!2sSree%20Meenakshi%20Glass%20%26%20Plywoods!5e0!3m2!1sen!2sin!4v1719225000000!5m2!1sen!2sin" 
-                width="100%" 
-                height="250" 
-                style={{ border: 0, borderRadius: 12 }} 
-                allowFullScreen="" 
-                loading="lazy" 
-                title="Location Map">
-              </iframe>
+
         </div>
       </section>
 
