@@ -137,7 +137,7 @@ export default function Contact({ currentLang = 'ta' }) {
       setTimeout(() => setStatusMessage(''), 5000);
     } catch {
       setStatusMessage(t('error_failed'));
-      setTimeout(() => setStatusMessage(''), 5000); // ✅ Error cleanup timeout சேர்க்கப்பட்டுள்ளது
+      setTimeout(() => setStatusMessage(''), 5000);
     } finally {
       setLoading(false);
     }
@@ -148,161 +148,108 @@ export default function Contact({ currentLang = 'ta' }) {
       <Helmet><title>{t('send_enquiry')} | Sree Meenakshi Glass & Plywoods</title></Helmet>
 
       <section style={{ padding: '72px 24px', background: 'var(--bg)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
 
-          {/* ── Left: Info Cards ── */}
-          <div style={{ flex: '1 1 340px', display: 'flex', flexDirection: 'column', gap: 14 }}>
-
-            {/* Address */}
-            <div style={cardStyle}>
-              <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
-              <div>
-                <p style={labelStyle}>{t('visit_us')}</p>
-                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
-                  No:26/23, Sathiya Narayanan Street, Palavan Salai,<br />Perambur, Chennai – 600011
-                </p>
-              </div>
-            </div>
-
-            {/* Phone Numbers */}
-            <div style={cardStyle}>
-              <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
-              <div style={{ width: '100%' }}>
-                <p style={labelStyle}>{t('call')}</p>
-                <a href={`tel:${adminNumbers[0]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[0].slice(-10)}</a>
-                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  <a href={`tel:${adminNumbers[0]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
-                  <a href={`https://wa.me/${adminNumbers[0]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
-                </div>
-                <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', margin: '14px 0' }} />
-                <a href={`tel:${adminNumbers[1]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[1].slice(-10)}</a>
-                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  <a href={`tel:${adminNumbers[1]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
-                  <a href={`https://wa.me/${adminNumbers[1]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
+          {/* ── TOP ROW: Info Cards (Left) & Form (Right) ── */}
+          <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+            
+            {/* Left: Info Cards */}
+            <div style={{ flex: '1 1 340px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div style={cardStyle}>
+                <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
+                <div>
+                  <p style={labelStyle}>{t('visit_us')}</p>
+                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
+                    No:26/23, Sathiya Narayanan Street, Palavan Salai,<br />Perambur, Chennai – 600011
+                  </p>
                 </div>
               </div>
-            </div>
 
-            {/* Email */}
-            <div style={cardStyle}>
-              <div style={iconBadge}><Mail size={20} color="var(--o)" /></div>
-              <div>
-                <p style={labelStyle}>{t('email')}</p>
-                <a href="mailto:srimeenakshiglassandplywoods@gmail.com" style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', textDecoration: 'none', wordBreak: 'break-all' }}>
-                  srimeenakshiglassandplywoods@gmail.com
-                </a>
+              <div style={cardStyle}>
+                <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
+                <div style={{ width: '100%' }}>
+                  <p style={labelStyle}>{t('call')}</p>
+                  <a href={`tel:${adminNumbers[0]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[0].slice(-10)}</a>
+                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                    <a href={`tel:${adminNumbers[0]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
+                    <a href={`https://wa.me/${adminNumbers[0]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
+                  </div>
+                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', margin: '14px 0' }} />
+                  <a href={`tel:${adminNumbers[1]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[1].slice(-10)}</a>
+                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                    <a href={`tel:${adminNumbers[1]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
+                    <a href={`https://wa.me/${adminNumbers[1]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
+                  </div>
+                </div>
+              </div>
+
+              <div style={cardStyle}>
+                <div style={iconBadge}><Mail size={20} color="var(--o)" /></div>
+                <div>
+                  <p style={labelStyle}>{t('email')}</p>
+                  <a href="mailto:srimeenakshiglassandplywoods@gmail.com" style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', textDecoration: 'none', wordBreak: 'break-all' }}>srimeenakshiglassandplywoods@gmail.com</a>
+                </div>
+              </div>
+
+              <div style={cardStyle}>
+                <div style={iconBadge}><Clock size={20} color="var(--o)" /></div>
+                <div>
+                  <p style={labelStyle}>{t('hours')}</p>
+                  <p style={{ margin: '0 0 4px', fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>{t('hours_mon_sat')}</p>
+                  <p style={{ margin: 0, fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>{t('hours_sun')}</p>
+                </div>
               </div>
             </div>
 
-            {/* Hours */}
-            <div style={cardStyle}>
-              <div style={iconBadge}><Clock size={20} color="var(--o)" /></div>
-              <div>
-                <p style={labelStyle}>{t('hours')}</p>
-                <p style={{ margin: '0 0 4px', fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>{t('hours_mon_sat')}</p>
-                <p style={{ margin: 0, fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>{t('hours_sun')}</p>
-              </div>
+            {/* Right: Form */}
+            <div style={{ flex: '1 1 500px', background: 'rgba(255,255,255,0.03)', borderRadius: 18, border: '1px solid rgba(255,255,255,0.07)', padding: '36px 32px' }}>
+              <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>{t('form_title')}</h2>
+              <p style={{ margin: '0 0 28px', fontSize: 16, color: 'var(--o)', fontWeight: 600 }}>{t('form_subtitle')}</p>
+              <form onSubmit={handleEnquirySubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                  <div><label style={fieldLabelStyle}>{t('full_name')} <span style={{ color: 'var(--o)' }}>*</span></label><input name="name" placeholder={t('ph_name')} value={formData.name} onChange={set('name')} required style={inputStyle} /></div>
+                  <div><label style={fieldLabelStyle}>{t('email_address')}</label><input name="email" placeholder={t('ph_email')} value={formData.email} onChange={set('email')} style={inputStyle} /></div>
+                </div>
+                <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                  <div><label style={fieldLabelStyle}>{t('phone_number')} <span style={{ color: 'var(--o)' }}>*</span></label><input name="phone" placeholder={t('ph_phone')} value={formData.phone} onChange={set('phone')} required style={inputStyle} /></div>
+                  <div><label style={fieldLabelStyle}>{t('product_interest')}</label><input name="interest" placeholder={t('ph_interest')} value={formData.interest} onChange={set('interest')} style={inputStyle} /></div>
+                </div>
+                <div><label style={fieldLabelStyle}>{t('your_message')} <span style={{ color: 'var(--o)' }}>*</span></label><textarea name="message" placeholder={t('ph_message')} value={formData.message} onChange={set('message')} rows={4} required style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }} /></div>
+                <button type="submit" disabled={loading} style={{ padding: '14px 24px', background: loading ? 'rgba(237,108,2,0.5)' : 'var(--o)', color: '#fff', borderRadius: 12, border: 'none', cursor: loading ? 'not-allowed' : 'pointer', fontSize: 15, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'opacity 0.2s' }}>
+                  <MessageCircle size={16} />{loading ? t('sending') : t('send_message')}
+                </button>
+              </form>
+              {statusMessage && <p style={{ marginTop: 16, fontSize: 14, color: statusMessage.startsWith('✅') ? '#4ade80' : statusMessage.startsWith('⏳') ? 'var(--o)' : '#f87171' }}>{statusMessage}</p>}
             </div>
+          </div>
 
-            {/* Shop Image and Map (JSX Corrected Iframe) */}
-            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, marginTop: 10 }}>
+          {/* ── BOTTOM ROW: Shop Image (Left) & Map (Right) ── */}
+          <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
+            
+            {/* Bottom Left: Shop Image */}
+            <div style={{ flex: '1 1 340px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, height: 350 }}>
               <img 
                 src="/assets/About-Image.webp" 
                 alt="Sree Meenakshi Glass and Plywoods Shop Front" 
-                style={{ width: '100%', borderRadius: 12, marginBottom: 16, objectFit: 'cover' }} 
+                style={{ width: '100%', height: '100%', borderRadius: 12, objectFit: 'cover' }} 
                 onError={(e) => { e.target.style.display = 'none'; }}
               />
+            </div>
+
+            {/* Bottom Right: Map with Shop Name Fix */}
+            <div style={{ flex: '1 1 500px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, height: 350 }}>
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3025.5409461661393!2d80.23354027377938!3d13.121689187207634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ab93a27e75%3A0x3d0ff2ecdb2bf1c1!2sSree%20Meenakshi%20Glass%20and%20Plywoods!5e1!3m2!1sen!2sin!4v1782302527500!5m2!1sen!2sin" 
+                src="https://maps.google.com/maps?q=Sree%20Meenakshi%20Glass%20and%20Plywoods%20Perambur&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                 width="100%" 
-                height="250" 
+                height="100%" 
                 style={{ border: 0, borderRadius: 12 }} 
                 allowFullScreen 
                 loading="lazy" 
-                referrerPolicy="strict-origin-when-cross-origin"
+                referrerPolicy="no-referrer-when-downgrade"
                 title="Location Map"
               ></iframe>
             </div>
 
-          </div>
-
-          {/* ── Right: Enquiry Form ── */}
-          <div style={{
-            flex: '1 1 500px',
-            background: 'rgba(255,255,255,0.03)',
-            borderRadius: 18,
-            border: '1px solid rgba(255,255,255,0.07)',
-            padding: '36px 32px',
-          }}>
-            <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>
-              {t('form_title')}
-            </h2>
-            <p style={{ margin: '0 0 28px', fontSize: 16, color: 'var(--o)', fontWeight: 600 }}>
-              {t('form_subtitle')}
-            </p>
-
-            <form onSubmit={handleEnquirySubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-
-              {/* Row 1: Name + Email */}
-              <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                <div>
-                  <label style={fieldLabelStyle}>{t('full_name')} <span style={{ color: 'var(--o)' }}>*</span></label>
-                  <input name="name" placeholder={t('ph_name')} value={formData.name} onChange={set('name')} required style={inputStyle} />
-                </div>
-                <div>
-                  <label style={fieldLabelStyle}>{t('email_address')}</label>
-                  <input name="email" placeholder={t('ph_email')} value={formData.email} onChange={set('email')} style={inputStyle} />
-                </div>
-              </div>
-
-              {/* Row 2: Phone + Interest */}
-              <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                <div>
-                  <label style={fieldLabelStyle}>{t('phone_number')} <span style={{ color: 'var(--o)' }}>*</span></label>
-                  <input name="phone" placeholder={t('ph_phone')} value={formData.phone} onChange={set('phone')} required style={inputStyle} />
-                </div>
-                <div>
-                  <label style={fieldLabelStyle}>{t('product_interest')}</label>
-                  <input name="interest" placeholder={t('ph_interest')} value={formData.interest} onChange={set('interest')} style={inputStyle} />
-                </div>
-              </div>
-
-              {/* Row 3: Message */}
-              <div>
-                <label style={fieldLabelStyle}>{t('your_message')} <span style={{ color: 'var(--o)' }}>*</span></label>
-                <textarea name="message" placeholder={t('ph_message')} value={formData.message} onChange={set('message')} rows={4} required style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }} />
-              </div>
-
-              {/* Submit */}
-              <button
-                type="submit" disabled={loading}
-                style={{
-                  padding: '14px 24px',
-                  background: loading ? 'rgba(237,108,2,0.5)' : 'var(--o)',
-                  color: '#fff',
-                  borderRadius: 12,
-                  border: 'none',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  fontSize: 15,
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 8,
-                  transition: 'opacity 0.2s',
-                }}
-              >
-                <MessageCircle size={16} />
-                {loading ? t('sending') : t('send_message')}
-              </button>
-
-            </form>
-
-            {statusMessage && (
-              <p style={{ marginTop: 16, fontSize: 14, color: statusMessage.startsWith('✅') ? '#4ade80' : statusMessage.startsWith('⏳') ? 'var(--o)' : '#f87171' }}>
-                {statusMessage}
-              </p>
-            )}
           </div>
 
         </div>
