@@ -144,7 +144,7 @@ export default function Contact({ currentLang = 'ta' }) {
 
   return (
     <>
-      <Helmet><title>{t('send_enquiry')} | Sree Meenakshi</title></Helmet>
+      <Helmet><title>{t('send_enquiry')} | Sree Meenakshi Glass & Plywoods</title></Helmet>
 
       <section style={{ padding: '72px 24px', background: 'var(--bg)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'flex-start' }}>

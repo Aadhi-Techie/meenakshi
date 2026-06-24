@@ -97,7 +97,7 @@ export default function App() {
 
     const isTamil    = lang === "ta";
     const langTitles = titles[lang] || titles.en;
-    let currentTitle = langTitles[page] || "SreeMeenakshi Glass & Plywoods";
+    let currentTitle = langTitles[page] || "Sree Meenakshi Glass & Plywoods";
 
     if (page.startsWith("category-")) {
       const catId   = page.slice(9);
@@ -107,11 +107,11 @@ export default function App() {
     } else if (page.startsWith("product-")) {
       currentTitle = isTamil
         ? "தயாரிப்பு விவரங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
-        : "Product Details | SreeMeenakshi Glass & Plywoods";
+        : "Product Details | Sree Meenakshi Glass & Plywoods";
     } else if (page.startsWith("gallery-")) {
       currentTitle = isTamil
         ? "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
-        : "Gallery | SreeMeenakshi Glass & Plywoods";
+        : "Gallery | Sree Meenakshi Glass & Plywoods";
     } else if (page.startsWith("search-")) {
       currentTitle = isTamil
         ? "தேடல் முடிவுகள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
