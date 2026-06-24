@@ -19,7 +19,7 @@ import SearchResultsPage from './pages/SearchResultsPage';
 import Admin from './pages/Admin';
 import { MessageCircle } from 'lucide-react';
 import BrandSlider from './components/BrandSlider';
-import { PROD_LIST as PL } from './constants/data'; // Category titles ku
+import { PROD_LIST as PL } from './constants/data';
 
 // --- Page Wrappers ---
 const AboutPage    = ({ go, t })       => <div style={{ paddingTop: 72 }}><PageBar /><About go={go} t={t} /></div>;
@@ -50,7 +50,7 @@ export default function App() {
 
   const t = LANG[lang];
 
-  // ✅ FIX 1: Browser Back / Forward button support
+  // ✅ Browser Back / Forward button support
   useEffect(() => {
     const handleBackButton = (event) => {
       if (event.state && event.state.page) {
@@ -62,7 +62,6 @@ export default function App() {
 
     window.addEventListener('popstate', handleBackButton);
 
-    // First load: history state set pannunga
     if (!window.history.state) {
       window.history.replaceState({ page: getInitialPage() }, '');
     }
@@ -70,44 +69,65 @@ export default function App() {
     return () => window.removeEventListener('popstate', handleBackButton);
   }, []);
 
-  // ✅ FIX 2: Dynamic Page Title + Canonical Tag (per-page SEO)
+  // ✅ Dynamic Page Title + Canonical Tag (per-page SEO)
+  // ✅ FIX WARN 3: Tamil titles added
   useEffect(() => {
-    // Static pages titles
     const titles = {
-      home:    "Sri Meenakshi Glass & Plywoods | Wholesale Dealers in Chennai",
-      about:   "About Us | Sree Meenakshi Glass and Plywoods",
-      services:"Our Services | Glass, Plywood & UPVC Experts in Chennai",
-      contact: "Contact Us | Sri Meenakshi Glass & Plywoods – Perambur",
-      gallery: "Gallery | Sri Meenakshi Glass & Plywoods",
-      admin:   "Admin Dashboard | Sri Meenakshi Glass & Plywoods",
+      en: {
+        home:    "Sri Meenakshi Glass & Plywoods | Wholesale Dealers in Chennai",
+        about:   "About Us | Sree Meenakshi Glass and Plywoods",
+        services:"Our Services | Glass, Plywood & UPVC Experts in Chennai",
+        contact: "Contact Us | Sri Meenakshi Glass & Plywoods – Perambur",
+        gallery: "Gallery | Sri Meenakshi Glass & Plywoods",
+        admin:   "Admin Dashboard | Sri Meenakshi Glass & Plywoods",
+        privacy: "Privacy Policy | Sri Meenakshi Glass & Plywoods",
+        terms:   "Terms of Service | Sri Meenakshi Glass & Plywoods",
+      },
+      ta: {
+        home:    "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ் | சென்னையில் மொத்த விற்பனையாளர்",
+        about:   "எங்களைப் பற்றி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
+        services:"எங்கள் சேவைகள் | கண்ணாடி, பிளைவுட் நிபுணர்கள்",
+        contact: "தொடர்பு கொள்ளுங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
+        gallery: "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
+        admin:   "நிர்வாக டாஷ்போர்டு | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
+        privacy: "தனியுரிமை கொள்கை | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
+        terms:   "சேவை விதிமுறைகள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
+      }
     };
 
-    let currentTitle = titles[page] || "Sri Meenakshi Glass & Plywoods";
+    const isTamil    = lang === "ta";
+    const langTitles = titles[lang] || titles.en;
+    let currentTitle = langTitles[page] || "Sri Meenakshi Glass & Plywoods";
 
-    // Dynamic pages titles
     if (page.startsWith("category-")) {
       const catId   = page.slice(9);
       const product = PL.find(p => p.id === catId);
-      currentTitle  = `${product?.name || catId} | Sri Meenakshi Glass & Plywoods`;
+      const name    = isTamil && product?.tn ? product.tn : (product?.name || catId);
+      currentTitle  = `${name} | Sri Meenakshi Glass & Plywoods`;
     } else if (page.startsWith("product-")) {
-      currentTitle = `Product Details | Sri Meenakshi Glass & Plywoods`;
+      currentTitle = isTamil
+        ? "தயாரிப்பு விவரங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
+        : "Product Details | Sri Meenakshi Glass & Plywoods";
     } else if (page.startsWith("gallery-")) {
-      currentTitle = `Gallery | Sri Meenakshi Glass & Plywoods`;
+      currentTitle = isTamil
+        ? "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
+        : "Gallery | Sri Meenakshi Glass & Plywoods";
     } else if (page.startsWith("search-")) {
-      currentTitle = `Search Results | Sri Meenakshi Glass & Plywoods`;
+      currentTitle = isTamil
+        ? "தேடல் முடிவுகள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
+        : "Search Results | Sri Meenakshi Glass & Plywoods";
     }
 
     document.title = currentTitle;
 
-    // Canonical tag – duplicate content thadukka
     const urlPath      = page === 'home' ? '/' : `/${page}`;
     const canonicalTag = document.querySelector('link[rel="canonical"]');
     if (canonicalTag) {
       canonicalTag.href = `https://srimeenakshiglassandply.in${urlPath}`;
     }
-  }, [page]);
+  }, [page, lang]);
 
-  // ✅ FIX 3: URL address bar update (pushState with 3rd param)
+  // ✅ URL address bar update
   const go = useCallback((newPage) => {
     setPage(newPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -126,9 +146,13 @@ export default function App() {
     if (page === "about")    return <AboutPage go={go} t={t} />;
     if (page === "services") return <ServicesPage t={t} />;
     if (page === "contact")  return <ContactPage t={t} lang={lang} />;
-    if (page === "login")    return <LoginPage go={go} />;
-    if (page === "signup")   return <LoginPage go={go} />;
+    if (page === "login")    return <LoginPage go={go} isSignup={false} />;
+    // ✅ FIX FAIL 3: isSignup prop passed to LoginPage
+    if (page === "signup")   return <LoginPage go={go} isSignup={true} />;
     if (page === "admin")    return <Admin go={go} />;
+    // ✅ FIX WARN 1: privacy / terms routes added
+    if (page === "privacy")  return <div style={{ paddingTop: 72 }}><PageBar /><div className="wrap" style={{ padding: "40px 24px", color: "var(--w)" }}><h1>Privacy Policy</h1><p style={{ color: "var(--sl3)" }}>Privacy policy content here.</p></div></div>;
+    if (page === "terms")    return <div style={{ paddingTop: 72 }}><PageBar /><div className="wrap" style={{ padding: "40px 24px", color: "var(--w)" }}><h1>Terms of Service</h1><p style={{ color: "var(--sl3)" }}>Terms of service content here.</p></div></div>;
 
     if (page.startsWith("product-")) {
       const id = page.slice(8);
@@ -158,9 +182,9 @@ export default function App() {
       <main>{renderPage()}</main>
       {!noChrome && <Footer go={go} t={t} />}
 
-      {/* WhatsApp Floating Button */}
+      {/* ✅ FIX FAIL 1: wa.me URL — correct WhatsApp format */}
       <a
-        href="https://api.whatsapp.com/send?phone=919790923750"
+        href="https://wa.me/919790923750"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with us on WhatsApp"
