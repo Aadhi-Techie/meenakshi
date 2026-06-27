@@ -21,23 +21,38 @@ export default function Hero({ go, t }) {
   const fallbackImageUrl = "/assets/hero-bg.jpg";
 
   useEffect(() => {
+    
     const fetchImages = async () => {
       try {
         const { data, error } = await supabase
           .from('products')
           .select('category, subcategory, image_url')
-          .not('image_url', 'is', null)
-          .order('created_at', { ascending: false });
+          .not('image_url', 'is', null);
 
         if (error) throw error;
-        if (data && data.length > 0) setSlideImages(data);
+        
+        if (data && data.length > 0) {
+          // இங்கேதான் நாம் மேஜிக் செய்யப் போகிறோம்!
+          // UPVC மற்றும் WPVC ஆகியவற்றை முதலில் வைக்கும் வரிசைப்படுத்துதல்
+          const sortedData = data.sort((a, b) => {
+            const catA = a.category.toLowerCase();
+            const catB = b.category.toLowerCase();
+            
+            // UPVC அல்லது WPVC முன்னுரிமை (Priority)
+            const isPriorityA = (catA.includes('upvc') || catA.includes('wpvc')) ? 0 : 1;
+            const isPriorityB = (catB.includes('upvc') || catB.includes('wpvc')) ? 0 : 1;
+            
+            return isPriorityA - isPriorityB;
+          });
+          
+          setSlideImages(sortedData);
+        }
       } catch (err) {
         console.error("Hero images எடுக்க முடியவில்லை:", err.message);
       }
     };
     fetchImages();
   }, []);
-
   useEffect(() => {
     if (slideImages.length > 0) {
       const timer = setInterval(() => {
