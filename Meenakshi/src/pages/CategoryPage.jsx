@@ -23,26 +23,31 @@ export default function CategoryPage({ id, go, t }) {
   const textGetPrice = isTamil ? "விலை கேட்க" : "Get Price";
   const defaultSub = isTamil ? "பொதுவானவை" : "General";
 
-  useEffect(() => {
+useEffect(() => {
     async function fetchCategoryProducts() {
+      if (!catName) return;
+      
       try {
         setLoading(true);
         
-        const cleanSearchTerm = catName.trim();
+        // Category-ஐ lowercase-க்கு மாற்றி தேடுகிறோம்
+        const targetCategory = catName.trim().toLowerCase();
 
+        // ilike-க்கு பதில் filter பயன்படுத்தி துல்லியமான மேட்ச் எடுக்கலாம்
+        // Supabase-ல் category column-ஐ lowercase செய்து ஒப்பிடுகிறோம்
         const { data, error } = await supabase
           .from('products')
-          .select('*')
-          .ilike('category', `%${cleanSearchTerm}%`); 
+          .select('*'); 
 
         if (error) throw error;
 
         if (data) {
+          // இப்போது கேப்ஸ்/ஸ்மால் வித்தியாசம் இல்லாமல் பில்டர் செய்கிறோம்
           const finalProducts = data.filter(item => 
-            item.category && item.category.trim().toLowerCase() === cleanSearchTerm.toLowerCase()
+            item.category && item.category.trim().toLowerCase() === targetCategory
           );
           
-          setProducts(finalProducts.length > 0 ? finalProducts : data);
+          setProducts(finalProducts);
         }
       } catch (err) {
         console.error("Error fetching category products:", err.message);
@@ -51,11 +56,8 @@ export default function CategoryPage({ id, go, t }) {
       }
     }
 
-    if (catName) {
-      fetchCategoryProducts();
-    }
+    fetchCategoryProducts();
   }, [catName]);
-
   const varieties = [...new Set(products.map(p => p.subcategory ? p.subcategory.trim() : defaultSub))];
 
   if (loading) return <Loader done={() => {}} />;

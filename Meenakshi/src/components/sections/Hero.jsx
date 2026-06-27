@@ -26,7 +26,8 @@ export default function Hero({ go, t }) {
         const { data, error } = await supabase
           .from('products')
           .select('category, subcategory, image_url')
-          .not('image_url', 'is', null);
+          .not('image_url', 'is', null)
+          .order('created_at', { ascending: false });
 
         if (error) throw error;
         if (data && data.length > 0) setSlideImages(data);
