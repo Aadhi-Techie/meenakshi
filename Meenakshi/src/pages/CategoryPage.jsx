@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, Package, MessageCircle, Share2 } from 'lucide-react';
+import { ChevronLeft, Package, MessageCircle, Share2, Info } from 'lucide-react';
 import { PageBar, Loader } from '../components/ui';
 import { PROD_LIST as PL } from '../constants/data';
 import { supabase } from '../supabase'; 
-
 
 export default function CategoryPage({ id, go, t }) {
   const [products, setProducts] = useState([]);
@@ -20,7 +19,8 @@ export default function CategoryPage({ id, go, t }) {
   const textCollections = isTamil ? "கலெக்‌ஷன்ஸ்" : "Collections";
   const textNoProducts = isTamil ? "இந்தப் பிரிவில் இன்னும் பொருட்கள் சேர்க்கப்படவில்லை." : "No products have been added to this category yet.";
   const textNoImage = isTamil ? "படம் இல்லை" : "No Image Available";
-  const textViewDetails = isTamil ? "விவரங்களைக் காண்க" : "View Details";
+  const textViewDetails = isTamil ? "விவரங்கள்" : "Details";
+  const textGetPrice = isTamil ? "விலை கேட்க" : "Get Price";
   const defaultSub = isTamil ? "பொதுவானவை" : "General";
 
   useEffect(() => {
@@ -74,8 +74,6 @@ export default function CategoryPage({ id, go, t }) {
           {catName} {textCollections}
         </h1>
 
-       
-
         {varieties.length === 0 ? (
           <div className="g" style={{ textAlign: "center", padding: "80px 20px", color: "var(--sl3)", fontSize: 16, borderRadius: 16, border: "1px dashed var(--brd)" }}>
             <Package size={40} style={{ margin: "0 auto 12px", opacity: 0.5 }} />
@@ -94,15 +92,15 @@ export default function CategoryPage({ id, go, t }) {
                   // 🌟 2. இந்த குறிப்பிட்ட ப்ராடக்ட்டுக்கான நேரடி லிங்க்கை உருவாக்குகிறோம்
                   const itemUrl = `${baseUrl}/product-${item.id}`;
                   
-                  // 🌟 3. வாட்ஸ்அப்பில் ஓனருக்குப் போக வேண்டிய மெசேஜ் ஃபார்மட்
-                  const rawWaMessage = `Hi SreeMeenakshi Glass & Plywoods,\n\nI am interested in this product. Please share more details and pricing.\n\n📦 *Product:* ${item.name}\n📄 *Category:* ${item.category || 'N/A'}\n\n🔗 *Product Link:* \n${itemUrl}`;
+                  // 🌟 3. வாட்ஸ்அப்பில் ஓனருக்குப் போக வேண்டிய மெசேஜ் ஃபார்மட் (விலை கேட்பதற்காக)
+                  const rawWaMessage = `Hi Sree Meenakshi Glass & Plywoods,\n\nI am interested in this product. Please share the best price and details.\n\n📦 *Product:* ${item.name}\n📄 *Category:* ${item.category || 'N/A'}\n\n🔗 *Product Link:* \n${itemUrl}`;
                   const waMessage = encodeURIComponent(rawWaMessage);
                   
                   // 🌟 4. மொபைல் மற்றும் பிசி இரண்டிலும் 100% வேலை செய்யும் அதிகாரப்பூர்வ வாட்ஸ்அப் ஏபிஐ லிங்க்
                   const whatsappLink = `https://api.whatsapp.com/send?phone=919790923750&text=${waMessage}`;
 
                   return (
-                    <div key={item.id} className="g ch" onClick={() => go(`product-${item.id}`)} style={{ borderRadius: 16, overflow: "hidden", border: "1px solid var(--brd)", cursor: "pointer" }}>
+                    <div key={item.id} className="g ch" onClick={() => go(`product-${item.id}`)} style={{ borderRadius: 16, overflow: "hidden", border: "1px solid var(--brd)", cursor: "pointer", display: "flex", flexDirection: "column" }}>
                       
                       {item.image_url ? (
                         <img 
@@ -116,7 +114,7 @@ export default function CategoryPage({ id, go, t }) {
                         </div>
                       )}
 
-                      <div style={{ padding: 20 }}>
+                      <div style={{ padding: 20, display: "flex", flexDirection: "column", flex: 1 }}>
                         <h3 style={{ fontSize: 18, fontWeight: 700, color: "var(--w)", marginBottom: 8, textTransform: "capitalize" }}>
                           {item.name}
                         </h3>
@@ -125,43 +123,48 @@ export default function CategoryPage({ id, go, t }) {
                           color: "#cbd5e1", 
                           fontSize: 13.5, 
                           lineHeight: 1.6, 
-                          marginBottom: 16,
+                          marginBottom: 20,
                           display: "-webkit-box",
                           WebkitLineClamp: 3, 
                           WebkitBoxOrient: "vertical",
                           overflow: "hidden",
-                          textOverflow: "ellipsis"
+                          textOverflow: "ellipsis",
+                          flex: 1
                         }}>
                           {item.description}
                         </p>
                         
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                          {item.price && <div style={{ fontSize: 16, fontWeight: 800, color: "var(--o)" }}>{item.price}</div>}
-                          {item.size && <div style={{ fontSize: 12, color: "var(--sl)", padding: "2px 8px", background: "rgba(255,255,255,0.05)", borderRadius: 4 }}>{item.size}</div>}
-                        </div>
-                        
-                        {/* 🌟 பட்டன்கள் பகுதி 🌟 */}
-                        <div style={{ display: "flex", gap: 10 }}>
+                        {/* 🌟 திருத்தப்பட்ட பட்டன்கள் பகுதி (No Price/Size) 🌟 */}
+                        <div style={{ display: "flex", gap: 8 }}>
                           
-                          {/* 1. View Details */}
-                          <div className="bo" style={{ flex: 1, padding: "10px", fontSize: 13, borderRadius: 8, textAlign: "center", fontWeight: 600 }}>
-                            {textViewDetails}
+                          {/* 1. View Details (சிறிய பட்டன்) */}
+                          <div className="bo" style={{ flex: 1, padding: "10px", fontSize: 13, borderRadius: 8, textAlign: "center", fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+                            <Info size={16} /> {textViewDetails}
                           </div>
                           
-                          {/* 🌟 2. புதிய Share பட்டன் 🌟 */}
+                          {/* 2. Get Price on WhatsApp (முக்கிய பட்டன்) */}
+                          <a 
+                            href={whatsappLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="bw" 
+                            onClick={(e) => e.stopPropagation()} 
+                            style={{ flex: 1, padding: "10px", borderRadius: 8, background: "rgba(34,197,94,0.1)", color: "#22c55e", border: "1px solid rgba(34,197,94,0.3)", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, textDecoration: "none", fontSize: 13, fontWeight: 600 }}
+                          >
+                            <MessageCircle size={16} /> {textGetPrice}
+                          </a>
+
+                          {/* 3. Share Button */}
                           <button 
                             onClick={async (e) => {
-                              e.stopPropagation(); // கார்டு கிளிக் ஆவதைத் தடுக்கும்
+                              e.stopPropagation();
                               try {
                                 if (navigator.share) {
-                                  // மொபைலில் Native Share Menu ஓபன் ஆகும்
                                   await navigator.share({
                                     title: `${item.name} | SreeMeenakshi Glass & Plywoods`,
-                                    text: `Check out this premium product from SreeMeenakshi Glass & Plywoods: ${item.name}*\n\n🔗 *Link:* ${itemUrl}`,
-                                    
+                                    text: `Check out this premium product from SreeMeenakshi Glass & Plywoods: *${item.name}*\n\n🔗 *Link:* ${itemUrl}`,
                                   });
                                 } else {
-                                  // கம்ப்யூட்டரில் ஷேர் சப்போர்ட் இல்லை என்றால் லிங்கை காப்பி செய்யும்
                                   await navigator.clipboard.writeText(itemUrl);
                                   alert(isTamil ? "லிங்க் காப்பி செய்யப்பட்டது!" : "Link copied to clipboard!");
                                 }
@@ -170,24 +173,11 @@ export default function CategoryPage({ id, go, t }) {
                               }
                             }}
                             className="bw" 
-                            style={{ padding: "10px", borderRadius: 8, color: "var(--w)", border: "1px solid var(--brd)", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center" }}
+                            style={{ padding: "10px", borderRadius: 8, color: "var(--w)", border: "1px solid var(--brd)", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
                             title={isTamil ? "பகிரவும்" : "Share"}
                           >
                             <Share2 size={16} />
                           </button>
-
-                          {/* 3. WhatsApp Enquiry */}
-                          <a 
-                            href={whatsappLink} 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
-                            className="bw" 
-                            onClick={(e) => e.stopPropagation()} 
-                            style={{ padding: "10px", borderRadius: 8, color: "#22c55e", borderColor: "rgba(34,197,94,.3)", display: "flex", alignItems: "center" }}
-                            title="WhatsApp"
-                          >
-                            <MessageCircle size={16} />
-                          </a>
                           
                         </div>
                       </div>
