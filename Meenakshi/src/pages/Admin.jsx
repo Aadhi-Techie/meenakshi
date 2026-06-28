@@ -283,7 +283,7 @@ export default function Admin({ go }) {
         if (!geminiKey) throw new Error("Gemini API key is missing", { cause: groqError });
 
         const genAI = new GoogleGenerativeAI(geminiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
         
         const geminiResult = await model.generateContent(prompt);
         const geminiText = await geminiResult.response.text();
