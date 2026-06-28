@@ -3,7 +3,8 @@ import { supabase } from '../supabase';
 import { PageBar, Loader } from '../components/ui';
 import { LogIn, PlusCircle, Image, CheckCircle, LogOut, Edit, Trash2, X, ArrowLeft, Package, MessageSquare, Wand2, Loader2 } from 'lucide-react';
 
-import { GoogleGenerativeAI } from '@google/generative-ai'; 
+
+import { GoogleGenAI } from '@google/genai';
 
 // Dynamic 3-Tier Category Data Structure 
 const CATEGORY_DATA = {
@@ -267,7 +268,7 @@ export default function Admin({ go }) {
       const groqResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: { "Authorization": `Bearer ${groqKey}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ model: "llama3-8b-8192", messages: [{ role: "user", content: prompt }] })
+        body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: [{ role: "user", content: prompt }] })
       });
 
       if (!groqResponse.ok) throw new Error("Groq API Failed");
@@ -282,11 +283,12 @@ export default function Admin({ go }) {
         const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
         if (!geminiKey) throw new Error("Gemini API key is missing", { cause: groqError });
 
-        const genAI = new GoogleGenerativeAI(geminiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-        
-        const geminiResult = await model.generateContent(prompt);
-        const geminiText = await geminiResult.response.text();
+        const ai = new GoogleGenAI({ apiKey: geminiKey });
+        const geminiResult = await ai.models.generateContent({
+            model: "gemini-2.0-flash",
+              contents: prompt
+            });
+      const geminiText = geminiResult.text;
         
         setDescription(geminiText.trim());
         setStatusMessage('✅ AI Description generated successfully!');
