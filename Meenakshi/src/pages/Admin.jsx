@@ -465,7 +465,7 @@ export default function Admin({ go }) {
       console.warn("Groq failed, switching to Gemini...", groqError.message);
       try {
         const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
-        if (!geminiKey) throw new Error("Gemini API key is missing");
+        if (!geminiKey) throw new Error("Gemini API key is missing", { cause: groqError });
         const ai = new GoogleGenAI({ apiKey: geminiKey });
         const geminiResult = await ai.models.generateContent({ model: "gemini-2.0-flash", contents: prompt });
         setDescription(geminiResult.text.trim());
