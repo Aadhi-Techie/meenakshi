@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { PageBar, Loader } from '../components/ui';
-import { LogIn, PlusCircle, Image, CheckCircle, LogOut, Edit, Trash2, X, ArrowLeft, Package, MessageSquare, Wand2, Loader2, BarChart2, TrendingUp, Users, ShoppingBag, Clock, CheckSquare } from 'lucide-react';
+import { LogIn, PlusCircle, Image, CheckCircle, LogOut, Edit, Trash2, X, ArrowLeft, Package, MessageSquare, Wand2, Loader2, BarChart2, TrendingUp, Users, ShoppingBag, Clock, CheckSquare, Star, Eye, EyeOff } from 'lucide-react';
 import { GoogleGenAI } from '@google/genai';
 
 // Dynamic 3-Tier Category Data Structure 
@@ -45,7 +45,6 @@ const CATEGORY_DATA = {
   }
 };
 
-// Image Compressor & WebP Converter Logic
 const compressAndConvertToWebP = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -82,6 +81,207 @@ const compressAndConvertToWebP = (file) => {
   });
 };
 
+// ✅ Star Rating Input Component
+function StarRatingInput({ value, onChange }) {
+  const [hover, setHover] = useState(0);
+  return (
+    <div style={{ display: "flex", gap: 4 }}>
+      {[1, 2, 3, 4, 5].map(star => (
+        <Star
+          key={star}
+          size={28}
+          fill={(hover || value) >= star ? "#f59e0b" : "none"}
+          color={(hover || value) >= star ? "#f59e0b" : "var(--sl)"}
+          style={{ cursor: "pointer", transition: "all 0.15s" }}
+          onClick={() => onChange(star)}
+          onMouseEnter={() => setHover(star)}
+          onMouseLeave={() => setHover(0)}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ✅ Reviews Management Component
+function ReviewsTab({ reviewsList, onRefresh }) {
+  const [rName, setRName] = useState('');
+  const [rRole, setRRole] = useState('');
+  const [rRating, setRRating] = useState(5);
+  const [rText, setRText] = useState('');
+  const [rEditId, setREditId] = useState(null);
+  const [rStatus, setRStatus] = useState('');
+  const [rSaving, setRSaving] = useState(false);
+
+  const resetReviewForm = () => {
+    setRName(''); setRRole(''); setRRating(5); setRText(''); setREditId(null); setRStatus('');
+  };
+
+  const handleReviewSubmit = async () => {
+    if (!rName.trim() || !rText.trim()) { setRStatus('❌ Name and Review text required!'); return; }
+    setRSaving(true);
+    setRStatus('⏳ Saving...');
+    try {
+      const data = { name: rName.trim(), role: rRole.trim() || null, rating: rRating, review_text: rText.trim(), is_visible: true };
+      if (rEditId) {
+        const { error } = await supabase.from('reviews').update(data).eq('id', rEditId);
+        if (error) throw error;
+        setRStatus('✅ Review updated!');
+      } else {
+        const { error } = await supabase.from('reviews').insert([data]);
+        if (error) throw error;
+        setRStatus('✅ Review added!');
+      }
+      resetReviewForm();
+      onRefresh();
+    } catch (err) {
+      setRStatus(`❌ Error: ${err.message}`);
+    } finally {
+      setRSaving(false);
+    }
+  };
+
+  const handleReviewEdit = (r) => {
+    setREditId(r.id); setRName(r.name); setRRole(r.role || ''); setRRating(r.rating || 5); setRText(r.review_text);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleReviewDelete = async (id, name) => {
+    if (!window.confirm(`Delete review from "${name}"?`)) return;
+    const { error } = await supabase.from('reviews').delete().eq('id', id);
+    if (error) { alert("Error: " + error.message); return; }
+    onRefresh();
+  };
+
+  const handleToggleVisible = async (id, current) => {
+    const { error } = await supabase.from('reviews').update({ is_visible: !current }).eq('id', id);
+    if (error) { alert("Error: " + error.message); return; }
+    onRefresh();
+  };
+
+  const inp = { width: "100%", padding: 12, background: "rgba(255,255,255,0.02)", border: "1px solid var(--brd)", borderRadius: 8, color: "#fff" };
+
+  return (
+    <div style={{ animation: "fadeUp .4s ease" }}>
+
+      {/* Add / Edit Form */}
+      <div className="g" style={{ padding: 32, borderRadius: 16, marginBottom: 32, border: rEditId ? "1px solid var(--o)" : "1px solid var(--brd)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 18, fontWeight: 700, color: "var(--o)" }}>
+            <Star size={20} /> {rEditId ? "Edit Review" : "Add New Review"}
+          </div>
+          {rEditId && (
+            <button onClick={resetReviewForm} style={{ background: "transparent", border: "none", color: "#ef4444", display: "flex", alignItems: "center", gap: 5, cursor: "pointer", fontWeight: 600 }}>
+              <X size={16} /> Cancel
+            </button>
+          )}
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+          <div>
+            <label style={{ fontSize: 13, color: "var(--sl3)", display: "block", marginBottom: 6, fontWeight: 600 }}>Customer Name *</label>
+            <input style={inp} value={rName} onChange={e => setRName(e.target.value)} placeholder="e.g. Rajesh Kumar" />
+          </div>
+          <div>
+            <label style={{ fontSize: 13, color: "var(--sl3)", display: "block", marginBottom: 6, fontWeight: 600 }}>Role / Profession</label>
+            <input style={inp} value={rRole} onChange={e => setRRole(e.target.value)} placeholder="e.g. Interior Designer, Contractor" />
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 16 }}>
+          <label style={{ fontSize: 13, color: "var(--sl3)", display: "block", marginBottom: 8, fontWeight: 600 }}>Rating *</label>
+          <StarRatingInput value={rRating} onChange={setRRating} />
+        </div>
+
+        <div style={{ marginBottom: 16 }}>
+          <label style={{ fontSize: 13, color: "var(--sl3)", display: "block", marginBottom: 6, fontWeight: 600 }}>Review Text *</label>
+          <textarea
+            value={rText}
+            onChange={e => setRText(e.target.value)}
+            rows="3"
+            placeholder="Customer's review in their words..."
+            style={{ ...inp, resize: "none" }}
+          />
+        </div>
+
+        {rStatus && (
+          <div style={{ padding: "10px 14px", background: "rgba(255,255,255,0.03)", border: "1px solid var(--brd)", borderRadius: 8, fontSize: 14, marginBottom: 16, color: rStatus.includes('❌') ? '#ef4444' : rStatus.includes('✅') ? '#22c55e' : 'var(--o)' }}>
+            {rStatus}
+          </div>
+        )}
+
+        <button
+          onClick={handleReviewSubmit}
+          disabled={rSaving}
+          className="bo"
+          style={{ width: "100%", padding: 14, borderRadius: 10, fontWeight: 700, fontSize: 15, display: "flex", justifyContent: "center", gap: 8, cursor: rSaving ? "not-allowed" : "pointer", opacity: rSaving ? 0.6 : 1 }}
+        >
+          <CheckCircle size={18} /> {rEditId ? "Update Review" : "Save Review"}
+        </button>
+      </div>
+
+      {/* Reviews List */}
+      <div className="g" style={{ padding: 24, borderRadius: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 20, borderBottom: "1px solid var(--brd)", paddingBottom: 12 }}>
+          All Reviews ({reviewsList.length})
+        </h2>
+        {reviewsList.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "40px 0", color: "var(--sl3)" }}>
+            <Star size={32} style={{ opacity: 0.3, margin: "0 auto 10px", display: "block" }} />
+            No reviews yet. Add your first review above!
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {reviewsList.map(r => (
+              <div key={r.id} style={{ padding: "16px 20px", background: "rgba(255,255,255,0.02)", borderRadius: 12, border: `1px solid ${r.is_visible ? "rgba(34,197,94,0.15)" : "rgba(255,255,255,0.05)"}`, opacity: r.is_visible ? 1 : 0.5, transition: "all 0.3s" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg,var(--o),var(--o2))", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 16, color: "#fff", flexShrink: 0 }}>
+                        {r.name?.[0]}
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: 15, color: "var(--w)" }}>{r.name}</div>
+                        <div style={{ fontSize: 12, color: "var(--sl3)" }}>{r.role || '—'}</div>
+                      </div>
+                      <div style={{ display: "flex", gap: 2, marginLeft: 4 }}>
+                        {[1,2,3,4,5].map(s => (
+                          <Star key={s} size={13} fill={s <= (r.rating||5) ? "#f59e0b" : "none"} color={s <= (r.rating||5) ? "#f59e0b" : "var(--sl)"} />
+                        ))}
+                      </div>
+                    </div>
+                    <p style={{ fontSize: 13, color: "var(--sl3)", lineHeight: 1.6, fontStyle: "italic", margin: "0 0 0 46px" }}>"{r.review_text}"</p>
+                  </div>
+                  <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                    <button
+                      onClick={() => handleToggleVisible(r.id, r.is_visible)}
+                      title={r.is_visible ? "Hide from website" : "Show on website"}
+                      style={{ background: r.is_visible ? "rgba(34,197,94,0.1)" : "rgba(255,255,255,0.05)", color: r.is_visible ? "#22c55e" : "var(--sl)", border: "none", padding: "8px 10px", borderRadius: 6, cursor: "pointer" }}
+                    >
+                      {r.is_visible ? <Eye size={15} /> : <EyeOff size={15} />}
+                    </button>
+                    <button
+                      onClick={() => handleReviewEdit(r)}
+                      style={{ background: "rgba(56,189,248,0.1)", color: "#38bdf8", border: "none", padding: "8px 10px", borderRadius: 6, cursor: "pointer" }}
+                    >
+                      <Edit size={15} />
+                    </button>
+                    <button
+                      onClick={() => handleReviewDelete(r.id, r.name)}
+                      style={{ background: "rgba(239,68,68,0.1)", color: "#ef4444", border: "none", padding: "8px 10px", borderRadius: 6, cursor: "pointer" }}
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ✅ Analytics Dashboard Component
 function AnalyticsDashboard({ productsList, enquiriesList }) {
   const totalProducts = productsList.length;
@@ -90,7 +290,6 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
   const completedEnquiries = enquiriesList.filter(e => e.status === 'completed').length;
   const completionRate = totalEnquiries > 0 ? Math.round((completedEnquiries / totalEnquiries) * 100) : 0;
 
-  // Category-wise product count
   const categoryCount = {};
   productsList.forEach(p => {
     const cat = p.category || 'Other';
@@ -99,7 +298,6 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
   const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1]);
   const maxCatCount = sortedCategories[0]?.[1] || 1;
 
-  // Interest-wise enquiry count
   const interestCount = {};
   enquiriesList.forEach(e => {
     const interest = e.interest || 'General';
@@ -108,7 +306,6 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
   const sortedInterests = Object.entries(interestCount).sort((a, b) => b[1] - a[1]);
   const maxInterestCount = sortedInterests[0]?.[1] || 1;
 
-  // Last 7 days enquiries
   const last7Days = [];
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
@@ -121,8 +318,6 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
     last7Days.push({ date: dateStr, count });
   }
   const maxDayCount = Math.max(...last7Days.map(d => d.count), 1);
-
-  // Recent 5 enquiries
   const recentEnquiries = enquiriesList.slice(0, 5);
 
   const statCard = (icon, label, value, color, sub) => (
@@ -140,18 +335,13 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
 
   return (
     <div style={{ animation: "fadeUp .4s ease" }}>
-
-      {/* Stat Cards */}
       <div style={{ display: "flex", gap: 16, marginBottom: 24, flexWrap: "wrap" }}>
         {statCard(<ShoppingBag size={22} color="var(--o)" />, "Total Products", totalProducts, "var(--o)", `Across ${Object.keys(categoryCount).length} categories`)}
         {statCard(<Users size={22} color="#38bdf8" />, "Total Enquiries", totalEnquiries, "#38bdf8", `${pendingEnquiries} pending`)}
         {statCard(<Clock size={22} color="#f59e0b" />, "Pending", pendingEnquiries, "#f59e0b", "Need follow-up")}
         {statCard(<CheckSquare size={22} color="#22c55e" />, "Completed", completedEnquiries, "#22c55e", `${completionRate}% rate`)}
       </div>
-
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
-
-        {/* Last 7 Days Enquiries Bar Chart */}
         <div className="g" style={{ padding: 24, borderRadius: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
             <TrendingUp size={18} color="var(--o)" />
@@ -161,20 +351,12 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
             {last7Days.map((d, i) => (
               <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
                 <div style={{ fontSize: 11, color: "var(--o)", fontWeight: 700 }}>{d.count > 0 ? d.count : ''}</div>
-                <div style={{
-                  width: "100%",
-                  height: `${Math.max((d.count / maxDayCount) * 90, d.count > 0 ? 8 : 4)}px`,
-                  background: d.count > 0 ? "var(--o)" : "rgba(255,255,255,0.05)",
-                  borderRadius: "4px 4px 0 0",
-                  transition: "height 0.3s ease"
-                }} />
+                <div style={{ width: "100%", height: `${Math.max((d.count / maxDayCount) * 90, d.count > 0 ? 8 : 4)}px`, background: d.count > 0 ? "var(--o)" : "rgba(255,255,255,0.05)", borderRadius: "4px 4px 0 0", transition: "height 0.3s ease" }} />
                 <div style={{ fontSize: 10, color: "var(--sl)", textAlign: "center", lineHeight: 1.2 }}>{d.date}</div>
               </div>
             ))}
           </div>
         </div>
-
-        {/* Enquiry Status Donut */}
         <div className="g" style={{ padding: 24, borderRadius: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
             <BarChart2 size={18} color="#38bdf8" />
@@ -187,9 +369,7 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
               <div style={{ position: "relative", display: "flex", justifyContent: "center", marginBottom: 16 }}>
                 <svg width="120" height="120" viewBox="0 0 42 42">
                   <circle cx="21" cy="21" r="15.91" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
-                  <circle cx="21" cy="21" r="15.91" fill="none" stroke="#22c55e" strokeWidth="6"
-                    strokeDasharray={`${completionRate} ${100 - completionRate}`}
-                    strokeDashoffset="25" strokeLinecap="round" />
+                  <circle cx="21" cy="21" r="15.91" fill="none" stroke="#22c55e" strokeWidth="6" strokeDasharray={`${completionRate} ${100 - completionRate}`} strokeDashoffset="25" strokeLinecap="round" />
                   <text x="21" y="21" textAnchor="middle" dominantBaseline="middle" fill="#fff" fontSize="7" fontWeight="800">{completionRate}%</text>
                 </svg>
               </div>
@@ -207,18 +387,13 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
           )}
         </div>
       </div>
-
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
-
-        {/* Products by Category */}
         <div className="g" style={{ padding: 24, borderRadius: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
             <Package size={18} color="var(--o)" />
             <h3 style={{ fontSize: 16, fontWeight: 700 }}>Products by Category</h3>
           </div>
-          {sortedCategories.length === 0 ? (
-            <div style={{ color: "var(--sl)", textAlign: "center", padding: "20px 0" }}>No products yet</div>
-          ) : (
+          {sortedCategories.length === 0 ? <div style={{ color: "var(--sl)", textAlign: "center", padding: "20px 0" }}>No products yet</div> : (
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {sortedCategories.map(([cat, count]) => (
                 <div key={cat}>
@@ -227,27 +402,19 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
                     <span style={{ color: "var(--o)", fontWeight: 700 }}>{count}</span>
                   </div>
                   <div style={{ background: "rgba(255,255,255,0.05)", borderRadius: 4, height: 6 }}>
-                    <div style={{
-                      width: `${(count / maxCatCount) * 100}%`,
-                      background: "linear-gradient(90deg, var(--o), #f97316)",
-                      borderRadius: 4, height: "100%", transition: "width 0.5s ease"
-                    }} />
+                    <div style={{ width: `${(count / maxCatCount) * 100}%`, background: "linear-gradient(90deg, var(--o), #f97316)", borderRadius: 4, height: "100%", transition: "width 0.5s ease" }} />
                   </div>
                 </div>
               ))}
             </div>
           )}
         </div>
-
-        {/* Enquiries by Interest */}
         <div className="g" style={{ padding: 24, borderRadius: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
             <MessageSquare size={18} color="#a855f7" />
             <h3 style={{ fontSize: 16, fontWeight: 700 }}>Enquiries by Interest</h3>
           </div>
-          {sortedInterests.length === 0 ? (
-            <div style={{ color: "var(--sl)", textAlign: "center", padding: "20px 0" }}>No enquiries yet</div>
-          ) : (
+          {sortedInterests.length === 0 ? <div style={{ color: "var(--sl)", textAlign: "center", padding: "20px 0" }}>No enquiries yet</div> : (
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {sortedInterests.map(([interest, count]) => (
                 <div key={interest}>
@@ -256,11 +423,7 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
                     <span style={{ color: "#a855f7", fontWeight: 700 }}>{count}</span>
                   </div>
                   <div style={{ background: "rgba(255,255,255,0.05)", borderRadius: 4, height: 6 }}>
-                    <div style={{
-                      width: `${(count / maxInterestCount) * 100}%`,
-                      background: "linear-gradient(90deg, #a855f7, #ec4899)",
-                      borderRadius: 4, height: "100%", transition: "width 0.5s ease"
-                    }} />
+                    <div style={{ width: `${(count / maxInterestCount) * 100}%`, background: "linear-gradient(90deg, #a855f7, #ec4899)", borderRadius: 4, height: "100%", transition: "width 0.5s ease" }} />
                   </div>
                 </div>
               ))}
@@ -268,16 +431,12 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
           )}
         </div>
       </div>
-
-      {/* Recent Enquiries */}
       <div className="g" style={{ padding: 24, borderRadius: 16 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
           <Clock size={18} color="#38bdf8" />
           <h3 style={{ fontSize: 16, fontWeight: 700 }}>Recent Enquiries</h3>
         </div>
-        {recentEnquiries.length === 0 ? (
-          <div style={{ color: "var(--sl)", textAlign: "center", padding: "20px 0" }}>No enquiries yet</div>
-        ) : (
+        {recentEnquiries.length === 0 ? <div style={{ color: "var(--sl)", textAlign: "center", padding: "20px 0" }}>No enquiries yet</div> : (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {recentEnquiries.map(enq => (
               <div key={enq.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 16px", background: "rgba(255,255,255,0.02)", borderRadius: 10, border: "1px solid var(--brd)" }}>
@@ -291,11 +450,7 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                  <span style={{
-                    fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20,
-                    background: enq.status === 'completed' ? "rgba(34,197,94,0.1)" : "rgba(245,158,11,0.1)",
-                    color: enq.status === 'completed' ? "#22c55e" : "#f59e0b"
-                  }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, background: enq.status === 'completed' ? "rgba(34,197,94,0.1)" : "rgba(245,158,11,0.1)", color: enq.status === 'completed' ? "#22c55e" : "#f59e0b" }}>
                     {enq.status === 'completed' ? '✅ Done' : '⏳ Pending'}
                   </span>
                   <span style={{ fontSize: 12, color: "var(--sl)" }}>{new Date(enq.created_at).toLocaleDateString('en-IN')}</span>
@@ -337,6 +492,7 @@ export default function Admin({ go }) {
   const [statusMessage, setStatusMessage] = useState('');
   const [productsList, setProductsList] = useState([]);
   const [enquiriesList, setEnquiriesList] = useState([]);
+  const [reviewsList, setReviewsList] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -386,9 +542,14 @@ export default function Admin({ go }) {
       const { data: pData, error: pError } = await supabase.from('products').select('*').order('id', { ascending: false });
       if (pError) throw pError;
       if (pData) setProductsList(pData);
+
       const { data: eData, error: eError } = await supabase.from('enquiries').select('*').order('created_at', { ascending: false });
       if (eError) console.error("Enquiry Error:", eError.message);
       if (eData) setEnquiriesList(eData);
+
+      const { data: rData, error: rError } = await supabase.from('reviews').select('*').order('created_at', { ascending: false });
+      if (rError) console.error("Reviews Error:", rError.message);
+      if (rData) setReviewsList(rData);
     } catch (err) {
       console.error("Error:", err.message);
     } finally {
@@ -507,8 +668,7 @@ export default function Admin({ go }) {
         subcategory: finalSubcategory.trim() || null, product_type: finalType.trim() || null,
         brand: toPascalCase(brand.trim()) || null, price: finalPrice || null,
         size: toPascalCase(size.trim()) || null, thickness: toPascalCase(thickness.trim()) || null,
-        in_stock: inStock,
-        description: description.trim() || null,
+        in_stock: inStock, description: description.trim() || null,
       };
       if (publicImageUrl) productData.image_url = publicImageUrl;
       if (editingId) {
@@ -558,6 +718,7 @@ export default function Admin({ go }) {
     setPriceInput(val); setPriceUnit(unit); setSize(product.size || '');
     setThickness(product.thickness || ''); setInStock(product.in_stock !== false); setDescription(product.description || '');
     setImagePreview(product.image_url || '');
+    setActiveTab('products');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -635,11 +796,12 @@ export default function Admin({ go }) {
               </div>
             </div>
 
-            {/* ✅ TABS — 3 tabs now: Products, Enquiries, Analytics */}
+            {/* ✅ TABS — 4 tabs: Products, Enquiries, Reviews, Analytics */}
             <div style={{ display: "flex", gap: 8, marginBottom: 32, borderBottom: "1px solid var(--brd)", paddingBottom: 16, flexWrap: "wrap" }}>
               {[
                 { key: 'products', icon: <Package size={16} />, label: 'Manage Products' },
                 { key: 'enquiries', icon: <MessageSquare size={16} />, label: 'Customer Enquiries', badge: enquiriesList.filter(e => e.status !== 'completed').length },
+                { key: 'reviews', icon: <Star size={16} />, label: 'Reviews', badge: reviewsList.length },
                 { key: 'analytics', icon: <BarChart2 size={16} />, label: 'Analytics' },
               ].map(tab => (
                 <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
@@ -659,10 +821,10 @@ export default function Admin({ go }) {
               ))}
             </div>
 
-            {/* ✅ ANALYTICS TAB */}
-            {activeTab === 'analytics' && (
-              <AnalyticsDashboard productsList={productsList} enquiriesList={enquiriesList} />
-            )}
+            {activeTab === 'analytics' && <AnalyticsDashboard productsList={productsList} enquiriesList={enquiriesList} />}
+
+            {/* ✅ REVIEWS TAB */}
+            {activeTab === 'reviews' && <ReviewsTab reviewsList={reviewsList} onRefresh={fetchData} />}
 
             {activeTab === 'products' && (
               <div style={{ animation: "fadeUp .4s ease" }}>
@@ -731,20 +893,15 @@ export default function Admin({ go }) {
                       <input type="text" value={thickness} onChange={e => setThickness(e.target.value)} placeholder="e.g. 8mm" style={{ width: "100%", padding: 12, background: "rgba(255,255,255,0.02)", border: "1px solid var(--brd)", borderRadius: 8, color: "#fff" }} />
                     </div>
                   </div>
-
-                  {/* ✅ Stock Status Toggle */}
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", background: inStock ? "rgba(34,197,94,0.05)" : "rgba(239,68,68,0.05)", border: `1px solid ${inStock ? "rgba(34,197,94,0.2)" : "rgba(239,68,68,0.2)"}`, borderRadius: 12 }}>
                     <div>
                       <div style={{ fontSize: 14, fontWeight: 700, color: "var(--w)", marginBottom: 2 }}>Stock Availability</div>
-                      <div style={{ fontSize: 12, color: "var(--sl3)" }}>
-                        {inStock ? "✅ Product is available for customers" : "❌ Product is out of stock"}
-                      </div>
+                      <div style={{ fontSize: 12, color: "var(--sl3)" }}>{inStock ? "✅ Product is available for customers" : "❌ Product is out of stock"}</div>
                     </div>
                     <div onClick={() => setInStock(!inStock)} style={{ cursor: "pointer", width: 52, height: 28, borderRadius: 14, background: inStock ? "#22c55e" : "#ef4444", position: "relative", transition: "background 0.3s ease", flexShrink: 0 }}>
                       <div style={{ position: "absolute", top: 3, left: inStock ? 27 : 3, width: 22, height: 22, borderRadius: "50%", background: "#fff", transition: "left 0.3s ease", boxShadow: "0 1px 4px rgba(0,0,0,0.3)" }} />
                     </div>
                   </div>
-
                   <div>
                     <label style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", fontSize: 13, color: "var(--sl3)", marginBottom: 6, fontWeight: 600 }}>
                       <span>Product Description</span>
