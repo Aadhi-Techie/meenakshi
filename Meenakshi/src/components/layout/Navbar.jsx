@@ -95,6 +95,10 @@ export default function Navbar({ page, go, lang, setLang, t }) {
               <a href="/contact" className={`nl ${page === "contact" ? "on" : ""}`} onClick={(e) => { e.preventDefault(); go("contact"); }} style={{ textDecoration: "none" }}>
                 {t.nav.contact}
               </a>
+              {/* Bulk Order Link */}
+              <a href="/bulk-order" className={`nl ${page === "bulk-order" ? "on" : ""}`} onClick={(e) => { e.preventDefault(); go("bulk-order"); }} style={{ textDecoration: "none", color: "var(--o)", fontWeight: 700 }}>
+                 Bulk Order
+              </a>
 
               <a href={MAPS} target="_blank" rel="noopener noreferrer" className="nl" style={{ display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }} title="View on Google Maps">
                 <MapPin size={14} color="var(--o)" /> {t.nav.location}
@@ -249,6 +253,10 @@ export default function Navbar({ page, go, lang, setLang, t }) {
 
           <a href="/contact" onClick={(e) => { e.preventDefault(); go("contact"); setMob(false); }} style={{ textDecoration: "none", display: "block", padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page === "contact" ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 500 }}>
             {t.nav.contact}
+          </a>
+          {/* Bulk Order Mobile */}
+          <a href="/bulk-order" onClick={(e) => { e.preventDefault(); go("bulk-order"); setMob(false); }} style={{ textDecoration: "none", display: "block", padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page === "bulk-order" ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 700 }}>
+            Bulk Order
           </a>
 
           <a href={MAPS} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "flex", padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: "var(--o)", fontSize: 15, fontWeight: 500, alignItems: "center", gap: 8 }}>

@@ -20,7 +20,7 @@ import Admin from './pages/Admin';
 import { MessageCircle } from 'lucide-react';
 import BrandSlider from './components/BrandSlider';
 import { PROD_LIST as PL } from './constants/data';
-
+import BulkOrder from './pages/BulkOrder';
 // --- Page Wrappers ---
 const AboutPage    = ({ go, t })       => <div style={{ paddingTop: 72 }}><PageBar /><About go={go} t={t} /></div>;
 const ServicesPage = ({ t })           => <div style={{ paddingTop: 72 }}><PageBar /><Services t={t} /></div>;
@@ -150,6 +150,7 @@ export default function App() {
     // ✅ FIX FAIL 3: isSignup prop passed to LoginPage
     if (page === "signup")   return <LoginPage go={go} isSignup={true} />;
     if (page === "admin")    return <Admin go={go} />;
+    if (page === "bulk-order") return <BulkOrder go={go} t={t} lang={lang} />;
     // ✅ FIX WARN 1: privacy / terms routes added
     if (page === "privacy")  return <div style={{ paddingTop: 72 }}><PageBar /><div className="wrap" style={{ padding: "40px 24px", color: "var(--w)" }}><h1>Privacy Policy</h1><p style={{ color: "var(--sl3)" }}>Privacy policy content here.</p></div></div>;
     if (page === "terms")    return <div style={{ paddingTop: 72 }}><PageBar /><div className="wrap" style={{ padding: "40px 24px", color: "var(--w)" }}><h1>Terms of Service</h1><p style={{ color: "var(--sl3)" }}>Terms of service content here.</p></div></div>;
