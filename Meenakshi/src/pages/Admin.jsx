@@ -326,6 +326,7 @@ export default function Admin({ go }) {
   const [priceUnit, setPriceUnit] = useState('Sqft');
   const [size, setSize] = useState('');
   const [thickness, setThickness] = useState('');
+  const [inStock, setInStock] = useState(true);
   const [description, setDescription] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
@@ -431,7 +432,7 @@ export default function Admin({ go }) {
   const resetForm = () => {
     setEditingId(null); setName(''); setCategory('Glass'); setSubcategory('Interior');
     setProductType(''); setBrand(''); setPriceInput(''); setPriceUnit('Sqft');
-    setSize(''); setThickness(''); setDescription(''); setImageFile(null);
+    setSize(''); setThickness(''); setInStock(true); setDescription(''); setImageFile(null);
     setImagePreview(''); setCustomSub(''); setCustomType('');
     if (document.getElementById('imageInput')) document.getElementById('imageInput').value = '';
     setStatusMessage('');
@@ -506,6 +507,7 @@ export default function Admin({ go }) {
         subcategory: finalSubcategory.trim() || null, product_type: finalType.trim() || null,
         brand: toPascalCase(brand.trim()) || null, price: finalPrice || null,
         size: toPascalCase(size.trim()) || null, thickness: toPascalCase(thickness.trim()) || null,
+        in_stock: inStock,
         description: description.trim() || null,
       };
       if (publicImageUrl) productData.image_url = publicImageUrl;
@@ -554,7 +556,7 @@ export default function Admin({ go }) {
       } else { val = rawPrice.replace(/[^\d.]/g, '').trim() || rawPrice.trim(); unit = 'None'; }
     }
     setPriceInput(val); setPriceUnit(unit); setSize(product.size || '');
-    setThickness(product.thickness || ''); setDescription(product.description || '');
+    setThickness(product.thickness || ''); setInStock(product.in_stock !== false); setDescription(product.description || '');
     setImagePreview(product.image_url || '');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -729,6 +731,20 @@ export default function Admin({ go }) {
                       <input type="text" value={thickness} onChange={e => setThickness(e.target.value)} placeholder="e.g. 8mm" style={{ width: "100%", padding: 12, background: "rgba(255,255,255,0.02)", border: "1px solid var(--brd)", borderRadius: 8, color: "#fff" }} />
                     </div>
                   </div>
+
+                  {/* ✅ Stock Status Toggle */}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", background: inStock ? "rgba(34,197,94,0.05)" : "rgba(239,68,68,0.05)", border: `1px solid ${inStock ? "rgba(34,197,94,0.2)" : "rgba(239,68,68,0.2)"}`, borderRadius: 12 }}>
+                    <div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: "var(--w)", marginBottom: 2 }}>Stock Availability</div>
+                      <div style={{ fontSize: 12, color: "var(--sl3)" }}>
+                        {inStock ? "✅ Product is available for customers" : "❌ Product is out of stock"}
+                      </div>
+                    </div>
+                    <div onClick={() => setInStock(!inStock)} style={{ cursor: "pointer", width: 52, height: 28, borderRadius: 14, background: inStock ? "#22c55e" : "#ef4444", position: "relative", transition: "background 0.3s ease", flexShrink: 0 }}>
+                      <div style={{ position: "absolute", top: 3, left: inStock ? 27 : 3, width: 22, height: 22, borderRadius: "50%", background: "#fff", transition: "left 0.3s ease", boxShadow: "0 1px 4px rgba(0,0,0,0.3)" }} />
+                    </div>
+                  </div>
+
                   <div>
                     <label style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", fontSize: 13, color: "var(--sl3)", marginBottom: 6, fontWeight: 600 }}>
                       <span>Product Description</span>

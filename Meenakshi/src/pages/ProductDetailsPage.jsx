@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, CheckCircle, MessageCircle, Info } from 'lucide-react';
-import { Helmet } from 'react-helmet-async'; 
+import { ChevronLeft, CheckCircle, MessageCircle, Info, AlertCircle } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { PageBar, Loader } from '../components/ui';
 import { supabase } from '../supabase';
 
@@ -8,130 +8,125 @@ export default function ProductDetailsPage({ id, go, t }) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check if the current language is Tamil
   const isTamil = t.nav?.home === "முகப்பு";
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const { data, error } = await supabase
-          .from('products')
-          .select('*')
-          .eq('id', id)
-          .single();
-
+        const { data, error } = await supabase.from('products').select('*').eq('id', id).single();
         if (error) throw error;
         if (data) setProduct(data);
       } catch (err) {
         console.error("Error fetching product details:", err.message);
-        // Fallback demo data if product is not found or backend fails
         setProduct({
-          id: id,
-          name: "Premium Sample Product (Demo)",
-          category: "Glass",
-          subcategory: "Toughened Glass",
-          price: "1,250",
-          description: "This is a demo product because the backend currently has no data.",
-          image_url: "https://images.unsplash.com/photo-1618220179428-22790b46a0eb?auto=format&fit=crop&w=800&q=80"
+          id, name: "Premium Sample Product (Demo)", category: "Glass",
+          subcategory: "Toughened Glass", price: "1,250",
+          description: "This is a demo product.",
+          image_url: "https://images.unsplash.com/photo-1618220179428-22790b46a0eb?auto=format&fit=crop&w=800&q=80",
+          in_stock: true
         });
       } finally {
         setLoading(false);
       }
     };
-
     if (id) fetchProduct();
   }, [id]);
 
   if (loading) return <Loader done={() => {}} />;
-  if (!product) return <div style={{ paddingTop: 120, paddingBottom: 100, textAlign: "center", color: "var(--w)", fontSize: 20 }}>Product not found!</div>;
+  if (!product) return <div style={{ paddingTop: 120, textAlign: "center", color: "var(--w)", fontSize: 20 }}>Product not found!</div>;
 
-  // Define product specifications for the details table
+  // ✅ Stock status
+  const inStock = product.in_stock !== false;
+
   const specs = [
     { label: isTamil ? "பிரிவு" : "Category", value: product.category || "General" },
     { label: isTamil ? "உட்பிரிவு" : "Sub Category", value: product.subcategory || "Standard" }
   ];
-  
-  if (product.product_type) {
-    specs.push({ label: isTamil ? "வகை" : "Type / Variety", value: product.product_type });
-  }
-  if (product.brand) {
-    specs.push({ label: isTamil ? "பிராண்டு" : "Brand", value: product.brand });
-  }
-
-  // Default specifications applied to all products
+  if (product.product_type) specs.push({ label: isTamil ? "வகை" : "Type / Variety", value: product.product_type });
+  if (product.brand) specs.push({ label: isTamil ? "பிராண்டு" : "Brand", value: product.brand });
   specs.push({ label: isTamil ? "பயன்பாடு" : "Usage/Application", value: isTamil ? "வணிகம் மற்றும் குடியிருப்பு" : "Commercial & Residential" });
   specs.push({ label: isTamil ? "தரக் குறியீடு" : "Quality Standard", value: isTamil ? "ISI சான்றளிக்கப்பட்ட தரம்" : "ISI Certified Premium Grade" });
+  if (product.size) specs.push({ label: isTamil ? "அளவு" : "Size/Dimensions", value: product.size });
+  if (product.thickness) specs.push({ label: isTamil ? "தடிமன்" : "Thickness", value: product.thickness });
 
-  if (product.size) {
-    specs.push({ label: isTamil ? "அளவு" : "Size/Dimensions", value: product.size });
-  }
-  if (product.thickness) {
-    specs.push({ label: isTamil ? "தடிமன்" : "Thickness", value: product.thickness });
-  }
-
-  // Get the current page URL to share it via WhatsApp
   const productUrl = typeof window !== 'undefined' ? window.location.href : '';
-  
-  // Format the WhatsApp text message with product details
   const rawWaMessage = `Hi SreeMeenakshi Glass & Plywoods,\n\nI am interested in this product. Please share more details and pricing.\n\n📦 *Product:* ${product.name}\n📄 *Category:* ${product.category || 'N/A'}\n\n🔗 *Product Link:* \n${productUrl}`;
   const waMessage = encodeURIComponent(rawWaMessage);
-  
-  // Generate the final WhatsApp link with the updated admin phone number
   const whatsappLink = `https://api.whatsapp.com/send?phone=919790923750&text=${waMessage}`;
 
   return (
     <div style={{ paddingTop: 72, background: "var(--bg)", minHeight: "100vh" }}>
-      
-      {/* Dynamic SEO Meta Tags Start */}
       <Helmet>
-        
         <meta name="description" content={`Buy high-quality ${product.name} at Sree Meenakshi Glass and Plywoods. ${product.description}`} />
         <meta property="og:title" content={`${product.name} - Sree Meenakshi Glass and Plywoods`} />
         <meta property="og:image" content={product.image_url} />
       </Helmet>
-      {/* Dynamic SEO Meta Tags End */}
 
       <PageBar />
       <div className="wrap" style={{ padding: "60px 24px" }}>
-        
-        {/* Back Navigation Button */}
         <button className="bw" onClick={() => go(`category-${product.category?.toLowerCase()}`)} style={{ padding: "8px 16px", marginBottom: 30 }}>
           <ChevronLeft size={16} /> {isTamil ? "பொருட்களுக்குத் திரும்பு" : "Back to Products"}
         </button>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 400px), 1fr))", gap: 50, alignItems: "start" }}>
-          
-          {/* Left Column: Product Image Gallery */}
+
+          {/* Left: Image */}
           <div style={{ animation: "slideR .6s ease both" }}>
             <div className="g" style={{ borderRadius: 20, overflow: "hidden", border: "1px solid var(--brd)", padding: 20, background: "var(--bg2)", position: "relative" }}>
-              <div className="flt" style={{ position: "absolute", top: 30, right: 30, background: "rgba(249,115,22,.15)", color: "var(--o)", padding: "6px 12px", borderRadius: 8, fontSize: 12, fontWeight: 700, border: "1px solid rgba(249,115,22,.3)", zIndex: 2 }}>
+
+              {/* ✅ Stock Badge on Image */}
+              <div style={{
+                position: "absolute", top: 28, left: 28, zIndex: 3,
+                background: inStock ? "rgba(34,197,94,0.92)" : "rgba(239,68,68,0.92)",
+                color: "#fff", fontSize: 12, fontWeight: 700,
+                padding: "6px 14px", borderRadius: 20,
+                backdropFilter: "blur(8px)",
+                display: "flex", alignItems: "center", gap: 6,
+                boxShadow: "0 2px 12px rgba(0,0,0,0.3)"
+              }}>
+                <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#fff", animation: inStock ? "pulse 2s infinite" : "none" }} />
+                {inStock
+                  ? (isTamil ? "கையிருப்பில் உள்ளது" : "In Stock")
+                  : (isTamil ? "தற்போது இல்லை" : "Out of Stock")}
+              </div>
+
+              <div className="flt" style={{ position: "absolute", top: 28, right: 28, background: "rgba(249,115,22,.15)", color: "var(--o)", padding: "6px 12px", borderRadius: 8, fontSize: 12, fontWeight: 700, border: "1px solid rgba(249,115,22,.3)", zIndex: 2 }}>
                 {isTamil ? "பிரீமியம் தரம்" : "Premium Quality"}
               </div>
-              
+
               {product.image_url ? (
-                <img
-                  src={product.image_url}
-                  alt={product.name}
-                  style={{ width: "100%", height: "auto", maxHeight: 500, objectFit: "cover", borderRadius: 12, transition: "transform .5s ease" }}
+                <img src={product.image_url} alt={product.name}
+                  style={{ width: "100%", height: "auto", maxHeight: 500, objectFit: "cover", borderRadius: 12, transition: "transform .5s ease", opacity: inStock ? 1 : 0.7 }}
                   onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
                   onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
                 />
               ) : (
-                 <div style={{ width: "100%", height: 300, background: "#1a1a1a", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", color: "#666" }}>
-                   {isTamil ? "படம் இல்லை" : "No Image Available"}
-                 </div>
+                <div style={{ width: "100%", height: 300, background: "#1a1a1a", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", color: "#666" }}>
+                  {isTamil ? "படம் இல்லை" : "No Image Available"}
+                </div>
               )}
             </div>
           </div>
 
-          {/* Right Column: Product Details & Action Buttons */}
+          {/* Right: Details */}
           <div style={{ animation: "fadeUp .8s ease both" }}>
             <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(28px,4vw,42px)", fontWeight: 800, color: "var(--w)", marginBottom: 12, lineHeight: 1.1, textTransform: "capitalize" }}>
               {product.name}
             </h1>
-            
-            {product.price && (
+
+            {/* ✅ Out of Stock Banner */}
+            {!inStock && (
+              <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)", borderRadius: 10, marginBottom: 16 }}>
+                <AlertCircle size={18} color="#ef4444" />
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: "#ef4444" }}>{isTamil ? "தற்போது கையிருப்பில் இல்லை" : "Currently Out of Stock"}</div>
+                  <div style={{ fontSize: 12, color: "var(--sl3)" }}>{isTamil ? "விரைவில் வரும். இப்போதே enquiry பண்ணுங்கள்!" : "Coming soon. Enquire now to be notified!"}</div>
+                </div>
+              </div>
+            )}
+
+            {product.price && inStock && (
               <div style={{ fontSize: 26, fontWeight: 800, color: "var(--o)", marginBottom: 20, display: "flex", alignItems: "baseline", gap: 6 }}>
                 {product.price}
               </div>
@@ -141,7 +136,7 @@ export default function ProductDetailsPage({ id, go, t }) {
               {product.description}
             </p>
 
-            {/* Product Specifications Table */}
+            {/* Specs Table */}
             <div style={{ marginBottom: 36 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 18, fontWeight: 700, color: "var(--w)", marginBottom: 16 }}>
                 <Info size={18} color="var(--o)" /> {isTamil ? "பொருளின் விவரங்கள்" : "Product Specifications"}
@@ -156,24 +151,33 @@ export default function ProductDetailsPage({ id, go, t }) {
               </div>
             </div>
 
-            {/* Call to Action (CTA) Buttons */}
+            {/* CTA Buttons */}
             <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-              <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="bo" style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12, flex: 1, display: "flex", justifyContent: "center", gap: 10, textDecoration: "none" }}>
-                 <CheckCircle size={20} /> {isTamil ? "ஆம்! எனக்கு விருப்பம்" : "Yes! I am Interested"}
-              </a>
-              
-              {/* WhatsApp Enquiry Button */}
-              <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="bw" 
-                 style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12, flex: 1, display: "flex", justifyContent: "center", gap: 10, color: "#25d366", borderColor: "rgba(37,211,102,.3)", textDecoration: "none" }}>
-                <MessageCircle size={20} /> {isTamil ? "விலை கேட்க" : "Ask for Price"}
-              </a>
-            </div>
-            
-            {/* Disclaimer Text */}
-            <div style={{ marginTop: 16, fontSize: 12, color: "var(--sl3)", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
-               <CheckCircle size={14} color="var(--gr)" /> {isTamil ? "குறைந்தபட்ச ஆர்டர் அளவு பொருந்தும். மொத்த விலைக்குத் தொடர்பு கொள்ளவும்." : "Minimum Order Value might apply. Contact for bulk pricing."}
+              {inStock ? (
+                <>
+                  <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="bo"
+                    style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12, flex: 1, display: "flex", justifyContent: "center", gap: 10, textDecoration: "none" }}>
+                    <CheckCircle size={20} /> {isTamil ? "ஆம்! எனக்கு விருப்பம்" : "Yes! I am Interested"}
+                  </a>
+                  <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="bw"
+                    style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12, flex: 1, display: "flex", justifyContent: "center", gap: 10, color: "#25d366", borderColor: "rgba(37,211,102,.3)", textDecoration: "none" }}>
+                    <MessageCircle size={20} /> {isTamil ? "விலை கேட்க" : "Ask for Price"}
+                  </a>
+                </>
+              ) : (
+                <>
+                  <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="bw"
+                    style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12, flex: 1, display: "flex", justifyContent: "center", gap: 10, color: "#f59e0b", borderColor: "rgba(245,158,11,.3)", textDecoration: "none" }}>
+                    <MessageCircle size={20} /> {isTamil ? "வரும்போது தெரிவிக்கவும்" : "Notify When Available"}
+                  </a>
+                </>
+              )}
             </div>
 
+            <div style={{ marginTop: 16, fontSize: 12, color: "var(--sl3)", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+              <CheckCircle size={14} color="var(--gr)" />
+              {isTamil ? "குறைந்தபட்ச ஆர்டர் அளவு பொருந்தும். மொத்த விலைக்குத் தொடர்பு கொள்ளவும்." : "Minimum Order Value might apply. Contact for bulk pricing."}
+            </div>
           </div>
         </div>
       </div>
