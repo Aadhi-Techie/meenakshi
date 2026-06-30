@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, CheckCircle, MessageCircle, Info, AlertCircle } from 'lucide-react';
+import { ChevronLeft, CheckCircle, MessageCircle, Info, AlertCircle, Sparkles } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { PageBar, Loader } from '../components/ui';
 import { supabase } from '../supabase';
 
 export default function ProductDetailsPage({ id, go, t }) {
   const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [relatedLoading, setRelatedLoading] = useState(true);
 
   const isTamil = t.nav?.home === "முகப்பு";
 
@@ -31,12 +33,45 @@ export default function ProductDetailsPage({ id, go, t }) {
       }
     };
     if (id) fetchProduct();
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, [id]);
+
+  // ✅ Fetch Related Products (same category, excluding current product)
+  useEffect(() => {
+    const fetchRelated = async () => {
+      if (!product?.category) return;
+      try {
+        setRelatedLoading(true);
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .eq('category', product.category)
+          .neq('id', product.id)
+          .limit(20);
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          const sameSub = data.filter(p => p.subcategory === product.subcategory);
+          const otherSub = data.filter(p => p.subcategory !== product.subcategory);
+          const combined = [...sameSub, ...otherSub].slice(0, 4);
+          setRelatedProducts(combined);
+        } else {
+          setRelatedProducts([]);
+        }
+      } catch (err) {
+        console.error("Error fetching related products:", err.message);
+        setRelatedProducts([]);
+      } finally {
+        setRelatedLoading(false);
+      }
+    };
+    fetchRelated();
+  }, [product]);
 
   if (loading) return <Loader done={() => {}} />;
   if (!product) return <div style={{ paddingTop: 120, textAlign: "center", color: "var(--w)", fontSize: 20 }}>Product not found!</div>;
 
-  // ✅ Stock status
   const inStock = product.in_stock !== false;
 
   const specs = [
@@ -75,7 +110,6 @@ export default function ProductDetailsPage({ id, go, t }) {
           <div style={{ animation: "slideR .6s ease both" }}>
             <div className="g" style={{ borderRadius: 20, overflow: "hidden", border: "1px solid var(--brd)", padding: 20, background: "var(--bg2)", position: "relative" }}>
 
-              {/* ✅ Stock Badge on Image */}
               <div style={{
                 position: "absolute", top: 28, left: 28, zIndex: 3,
                 background: inStock ? "rgba(34,197,94,0.92)" : "rgba(239,68,68,0.92)",
@@ -115,7 +149,6 @@ export default function ProductDetailsPage({ id, go, t }) {
               {product.name}
             </h1>
 
-            {/* ✅ Out of Stock Banner */}
             {!inStock && (
               <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)", borderRadius: 10, marginBottom: 16 }}>
                 <AlertCircle size={18} color="#ef4444" />
@@ -136,7 +169,6 @@ export default function ProductDetailsPage({ id, go, t }) {
               {product.description}
             </p>
 
-            {/* Specs Table */}
             <div style={{ marginBottom: 36 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 18, fontWeight: 700, color: "var(--w)", marginBottom: 16 }}>
                 <Info size={18} color="var(--o)" /> {isTamil ? "பொருளின் விவரங்கள்" : "Product Specifications"}
@@ -151,7 +183,6 @@ export default function ProductDetailsPage({ id, go, t }) {
               </div>
             </div>
 
-            {/* CTA Buttons */}
             <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
               {inStock ? (
                 <>
@@ -165,12 +196,10 @@ export default function ProductDetailsPage({ id, go, t }) {
                   </a>
                 </>
               ) : (
-                <>
-                  <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="bw"
-                    style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12, flex: 1, display: "flex", justifyContent: "center", gap: 10, color: "#f59e0b", borderColor: "rgba(245,158,11,.3)", textDecoration: "none" }}>
-                    <MessageCircle size={20} /> {isTamil ? "வரும்போது தெரிவிக்கவும்" : "Notify When Available"}
-                  </a>
-                </>
+                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="bw"
+                  style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12, flex: 1, display: "flex", justifyContent: "center", gap: 10, color: "#f59e0b", borderColor: "rgba(245,158,11,.3)", textDecoration: "none" }}>
+                  <MessageCircle size={20} /> {isTamil ? "வரும்போது தெரிவிக்கவும்" : "Notify When Available"}
+                </a>
               )}
             </div>
 
@@ -180,6 +209,71 @@ export default function ProductDetailsPage({ id, go, t }) {
             </div>
           </div>
         </div>
+
+        {/* ✅ Related Products Section */}
+        {(relatedLoading || relatedProducts.length > 0) && (
+          <div style={{ marginTop: 80, animation: "fadeUp .6s ease" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 28 }}>
+              <Sparkles size={20} color="var(--o)" />
+              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(24px,3vw,32px)", fontWeight: 800, color: "var(--w)" }}>
+                {isTamil ? "இதையும் பாருங்கள்" : "You May Also Like"}
+              </h2>
+            </div>
+
+            {relatedLoading ? (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(240px,1fr))", gap: 20 }}>
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="g" style={{ borderRadius: 14, overflow: "hidden", border: "1px solid var(--brd)" }}>
+                    <div style={{ width: "100%", height: 160, background: "var(--bg2)", animation: "pulse 1.5s ease infinite" }} />
+                    <div style={{ padding: 16 }}>
+                      <div style={{ height: 14, background: "var(--bg2)", borderRadius: 4, marginBottom: 8, width: "70%" }} />
+                      <div style={{ height: 12, background: "var(--bg2)", borderRadius: 4, width: "40%" }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(240px,1fr))", gap: 20 }}>
+                {relatedProducts.map(rp => {
+                  const rpInStock = rp.in_stock !== false;
+                  return (
+                    <div key={rp.id} className="g ch" onClick={() => go(`product-${rp.id}`)}
+                      style={{ borderRadius: 14, overflow: "hidden", border: "1px solid var(--brd)", cursor: "pointer", display: "flex", flexDirection: "column", position: "relative" }}>
+
+                      <div style={{
+                        position: "absolute", top: 10, left: 10, zIndex: 3,
+                        background: rpInStock ? "rgba(34,197,94,0.9)" : "rgba(239,68,68,0.9)",
+                        color: "#fff", fontSize: 10, fontWeight: 700,
+                        padding: "3px 8px", borderRadius: 16,
+                        display: "flex", alignItems: "center", gap: 4
+                      }}>
+                        {rpInStock ? (isTamil ? "உள்ளது" : "In Stock") : (isTamil ? "இல்லை" : "Out")}
+                      </div>
+
+                      {rp.image_url ? (
+                        <img src={rp.image_url} alt={rp.name} style={{ width: "100%", height: 160, objectFit: "cover", opacity: rpInStock ? 1 : 0.6 }} />
+                      ) : (
+                        <div style={{ width: "100%", height: 160, background: "var(--bg2)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--sl3)", fontSize: 12 }}>
+                          {isTamil ? "படம் இல்லை" : "No Image"}
+                        </div>
+                      )}
+
+                      <div style={{ padding: 16 }}>
+                        <h3 style={{ fontSize: 14.5, fontWeight: 700, color: "var(--w)", marginBottom: 4, textTransform: "capitalize", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {rp.name}
+                        </h3>
+                        <div style={{ fontSize: 12, color: "var(--sl3)" }}>{rp.subcategory || rp.category}</div>
+                        {rp.price && (
+                          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--o)", marginTop: 6 }}>{rp.price}</div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
