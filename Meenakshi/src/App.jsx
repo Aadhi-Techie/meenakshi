@@ -241,21 +241,22 @@ export default function App() {
     return <HomePage go={go} t={t} lang={lang} />;
   };
 
-  if (loading) return <Loader done={() => setLoading(false)} />;
+  //if (loading) return <Loader done={() => setLoading(false)} />;
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }}>
-      <Helmet
-        key={page}>
+      <Helmet key={page}>
         <title>{currentTitle}</title>
         <link rel="canonical" href={canonicalUrl} />
-        {/* ✅ Injecting FAQ Schema only on Home Page */}
         {page === 'home' && (
           <script type="application/ld+json">
             {JSON.stringify(faqSchema)}
           </script>
         )}
       </Helmet>
+
+      {/* ✅ லோடரை வெப்சைட்டின் கட்டமைப்பை உடைக்காமல் இப்படி Overlay-ஆகக் காட்டவும் */}
+      {loading && <Loader done={() => setLoading(false)} />}
 
       {!noChrome && <Navbar page={page} go={go} lang={lang} setLang={setLang} t={t} />}
       <main>{renderPage()}</main>
