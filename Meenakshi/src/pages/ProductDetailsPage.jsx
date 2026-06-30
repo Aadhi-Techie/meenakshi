@@ -277,4 +277,4 @@ export default function ProductDetailsPage({ id, go, t }) {
       </div>
     </div>
   );
-}
+}  
