@@ -85,7 +85,7 @@ const getInitialPage = () => {
 };
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !import.meta.env.SSR);
   const [page, setPage]       = useState(getInitialPage());
   const [lang, setLang]       = useState("en");
 
@@ -241,7 +241,7 @@ export default function App() {
     return <HomePage go={go} t={t} lang={lang} />;
   };
 
-  if (loading && typeof window !== 'undefined') return <Loader done={() => setLoading(false)} />;
+  if (loading) return <Loader done={() => setLoading(false)} />;
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }}>
