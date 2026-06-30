@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async'; // ✅ Helmet import செய்யப்பட்டுள்ளது
 import './styles/globals.css';
 import { LANG } from './constants/translations';
 import { PageBar, Loader } from './components/ui';
@@ -21,6 +22,7 @@ import { MessageCircle } from 'lucide-react';
 import BrandSlider from './components/BrandSlider';
 import { PROD_LIST as PL } from './constants/data';
 import BulkOrder from './pages/BulkOrder';
+
 // --- Page Wrappers ---
 const AboutPage    = ({ go, t })       => <div style={{ paddingTop: 72 }}><PageBar /><About go={go} t={t} /></div>;
 const ServicesPage = ({ t })           => <div style={{ paddingTop: 72 }}><PageBar /><Services t={t} /></div>;
@@ -38,7 +40,9 @@ const HomePage = ({ go, t, lang }) => (
   </>
 );
 
+// ✅ FIX 1: SSG Build-ல் crash ஆகாமல் இருக்க window check சேர்க்கப்பட்டுள்ளது
 const getInitialPage = () => {
+  if (typeof window === 'undefined') return 'home';
   const path = window.location.pathname.replace(/^\/+/, '');
   return path ? path : 'home';
 };
@@ -50,7 +54,6 @@ export default function App() {
 
   const t = LANG[lang];
 
-  // ✅ Browser Back / Forward button support
   useEffect(() => {
     const handleBackButton = (event) => {
       if (event.state && event.state.page) {
@@ -60,18 +63,35 @@ export default function App() {
       }
     };
 
-    window.addEventListener('popstate', handleBackButton);
-
-    if (!window.history.state) {
-      window.history.replaceState({ page: getInitialPage() }, '');
+    if (typeof window !== 'undefined') {
+      window.addEventListener('popstate', handleBackButton);
+      if (!window.history.state) {
+        window.history.replaceState({ page: getInitialPage() }, '');
+      }
     }
 
-    return () => window.removeEventListener('popstate', handleBackButton);
+    return () => {
+      if (typeof window !== 'undefined') window.removeEventListener('popstate', handleBackButton);
+    };
   }, []);
 
-  // ✅ Dynamic Page Title + Canonical Tag (per-page SEO)
-  // ✅ FIX WARN 3: Tamil titles added
-  useEffect(() => {
+  const go = useCallback((newPage) => {
+    setPage(newPage);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      const urlPath = newPage === 'home' ? '/' : `/${newPage}`;
+      window.history.pushState({ page: newPage }, '', urlPath);
+    }
+  }, []);
+
+  const goBack = useCallback(() => {
+    if (typeof window !== 'undefined') window.history.back();
+  }, []);
+
+  const noChrome = ["login", "signup", "admin"].includes(page);
+
+  // ✅ FIX 2: useEffect-ல் இருந்து Titles-ஐ எடுத்து நேரடியாக Helmet-க்கு மாற்றுவதற்கான Logic
+  const getPageSEO = () => {
     const titles = {
       en: {
         home:    "SreeMeenakshi Glass & Plywoods | Wholesale Dealers in Chennai",
@@ -105,41 +125,20 @@ export default function App() {
       const name    = isTamil && product?.tn ? product.tn : (product?.name || catId);
       currentTitle  = `${name} | SreeMeenakshi Glass & Plywoods`;
     } else if (page.startsWith("product-")) {
-      currentTitle = isTamil
-        ? "தயாரிப்பு விவரங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
-        : "Product Details | Sree Meenakshi Glass & Plywoods";
+      currentTitle = isTamil ? "தயாரிப்பு விவரங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Product Details | Sree Meenakshi Glass & Plywoods";
     } else if (page.startsWith("gallery-")) {
-      currentTitle = isTamil
-        ? "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
-        : "Gallery | Sree Meenakshi Glass & Plywoods";
+      currentTitle = isTamil ? "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Gallery | Sree Meenakshi Glass & Plywoods";
     } else if (page.startsWith("search-")) {
-      currentTitle = isTamil
-        ? "தேடல் முடிவுகள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்"
-        : "Search Results | SreeMeenakshi Glass & Plywoods";
+      currentTitle = isTamil ? "தேடல் முடிவுகள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Search Results | SreeMeenakshi Glass & Plywoods";
     }
 
-    document.title = currentTitle;
+    const urlPath = page === 'home' ? '/' : `/${page}`;
+    const canonicalUrl = `https://srimeenakshiglassandply.in${urlPath}`;
 
-    const urlPath      = page === 'home' ? '/' : `/${page}`;
-    const canonicalTag = document.querySelector('link[rel="canonical"]');
-    if (canonicalTag) {
-      canonicalTag.href = `https://srimeenakshiglassandply.in${urlPath}`;
-    }
-  }, [page, lang]);
+    return { currentTitle, canonicalUrl };
+  };
 
-  // ✅ URL address bar update
-  const go = useCallback((newPage) => {
-    setPage(newPage);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    const urlPath = newPage === 'home' ? '/' : `/${newPage}`;
-    window.history.pushState({ page: newPage }, '', urlPath);
-  }, []);
-
-  const goBack = useCallback(() => {
-    window.history.back();
-  }, []);
-
-  const noChrome = ["login", "signup", "admin"].includes(page);
+  const { currentTitle, canonicalUrl } = getPageSEO();
 
   const renderPage = () => {
     if (page === "home")     return <HomePage go={go} t={t} lang={lang} />;
@@ -147,11 +146,9 @@ export default function App() {
     if (page === "services") return <ServicesPage t={t} />;
     if (page === "contact")  return <ContactPage t={t} lang={lang} />;
     if (page === "login")    return <LoginPage go={go} isSignup={false} />;
-    // ✅ FIX FAIL 3: isSignup prop passed to LoginPage
     if (page === "signup")   return <LoginPage go={go} isSignup={true} />;
     if (page === "admin")    return <Admin go={go} />;
     if (page === "bulk-order") return <BulkOrder go={go} t={t} lang={lang} />;
-    // ✅ FIX WARN 1: privacy / terms routes added
     if (page === "privacy")  return <div style={{ paddingTop: 72 }}><PageBar /><div className="wrap" style={{ padding: "40px 24px", color: "var(--w)" }}><h1>Privacy Policy</h1><p style={{ color: "var(--sl3)" }}>Privacy policy content here.</p></div></div>;
     if (page === "terms")    return <div style={{ paddingTop: 72 }}><PageBar /><div className="wrap" style={{ padding: "40px 24px", color: "var(--w)" }}><h1>Terms of Service</h1><p style={{ color: "var(--sl3)" }}>Terms of service content here.</p></div></div>;
 
@@ -179,11 +176,16 @@ export default function App() {
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }}>
+      {/* ✅ FIX 2: Helmet மூலமாக Static HTML-ல் Title & Canonical Tag-ஐ செலுத்துகிறோம் */}
+      <Helmet>
+        <title>{currentTitle}</title>
+        <link rel="canonical" href={canonicalUrl} />
+      </Helmet>
+
       {!noChrome && <Navbar page={page} go={go} lang={lang} setLang={setLang} t={t} />}
       <main>{renderPage()}</main>
       {!noChrome && <Footer go={go} t={t} />}
 
-      {/* ✅ FIX FAIL 1: wa.me URL — correct WhatsApp format */}
       <a
         href="https://wa.me/919790923750"
         target="_blank"
