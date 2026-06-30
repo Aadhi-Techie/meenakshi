@@ -245,7 +245,8 @@ export default function App() {
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }}>
-      <Helmet>
+      <Helmet
+        key={page}>
         <title>{currentTitle}</title>
         <link rel="canonical" href={canonicalUrl} />
         {/* ✅ Injecting FAQ Schema only on Home Page */}
