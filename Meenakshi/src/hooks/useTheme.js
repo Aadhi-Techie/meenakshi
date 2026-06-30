@@ -1,27 +1,24 @@
 import { useState, useEffect } from 'react';
 
 export default function useTheme() {
-  const [theme, setTheme] = useState(() => {
-    // 1. சர்வர் பக்கத்தில் இருந்தால் 'light'-ஐ ரிட்டர்ன் செய்யவும்
+  // 1. ஆரம்பத்திலிருந்தே சரியான theme-ஐத் தீர்மானிக்க ஒரு ஹெல்பர் பங்க்ஷன்
+  const getInitialTheme = () => {
     if (typeof window === 'undefined') return 'light';
-
-    // 2. பிரௌசரில் இருந்தால் மட்டும் localStorage-ஐ செக் செய்யவும்
     const saved = localStorage.getItem('sm-theme');
     if (saved) return saved;
-
-    // 3. சிஸ்டம் செட்டிங்ஸை எடுக்கவும்
     return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-  });
+  };
+
+  // 2. நேரடியாக useState-லேயே பங்க்ஷனை அழைத்தால், இது ஒரே ஒருமுறை மட்டுமே நடக்கும் (No cascading renders)
+  const [theme, setTheme] = useState(getInitialTheme);
 
   useEffect(() => {
-    // 4. பிரௌசரில் இருக்கும்போது மட்டும் DOM-ல் செட் செய்யவும்
-    if (typeof window !== 'undefined') {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('sm-theme', theme);
-    }
+    // 3. theme மாறும்போது மட்டும் அப்டேட் செய்ய இது போதும்
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('sm-theme', theme);
   }, [theme]);
 
-  const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  const toggleTheme = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
 
   return { theme, toggleTheme };
 }
