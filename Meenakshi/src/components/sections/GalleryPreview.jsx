@@ -130,7 +130,10 @@ export default function GalleryPreview({ go, t }) {
                 {hasImage && (
                   <img 
                     src={hasImage} 
-                    alt={`${cat.name} - Sree Meenakshi Glass and Plywoods Chennai`} 
+                    alt={`${cat.name} - Sree Meenakshi Glass and Plywoods Chennai`}
+                    // ✅ This section sits below the Hero — always below the fold on first paint, safe to lazy-load
+                    loading="lazy"
+                    decoding="async"
                     style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} 
                   />
                 )}

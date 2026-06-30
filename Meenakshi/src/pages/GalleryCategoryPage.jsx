@@ -125,7 +125,7 @@ export default function GalleryCategoryPage({ id, go, t }) {
            </div>
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
-            {filteredImages.map((img) => (
+            {filteredImages.map((img, idx) => (
               <div 
                 key={img.id} 
                 onClick={() => setLb(img)}
@@ -142,7 +142,10 @@ export default function GalleryCategoryPage({ id, go, t }) {
               >
                 <img 
                   src={img.image_url} 
-                  alt={img.name} 
+                  alt={img.name}
+                  // ✅ First 6 thumbnails (typically visible above the fold) load eagerly, rest lazy-load
+                  loading={idx < 6 ? "eager" : "lazy"}
+                  decoding="async"
                   style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s ease" }} 
                   onMouseEnter={e => e.currentTarget.style.transform = "scale(1.1)"}
                   onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
@@ -179,7 +182,8 @@ export default function GalleryCategoryPage({ id, go, t }) {
           </button>
           
           <div style={{ maxWidth: 1000, width: "100%", animation: "scaleIn .3s ease" }}>
-            <img src={lb.image_url} alt={lb.name} style={{ width: "100%", maxHeight: "80vh", objectFit: "contain", borderRadius: 12 }} />
+            {/* ✅ Lightbox opens on click — image needed immediately, so eager load */}
+            <img src={lb.image_url} alt={lb.name} loading="eager" decoding="async" style={{ width: "100%", maxHeight: "80vh", objectFit: "contain", borderRadius: 12 }} />
             <div style={{ textAlign: "center", marginTop: 20 }}>
               <span style={{ color: "var(--o)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{lb.category}</span>
               <h2 style={{ color: "#fff", fontSize: 24, fontWeight: 600, marginTop: 8, textTransform: "capitalize" }}>{lb.name}</h2>

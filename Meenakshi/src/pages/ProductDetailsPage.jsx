@@ -130,7 +130,13 @@ export default function ProductDetailsPage({ id, go, t }) {
               </div>
 
               {product.image_url ? (
-                <img src={product.image_url} alt={product.name}
+                <img
+                  src={product.image_url}
+                  alt={product.name}
+                  // ✅ Main product image is above the fold — load eagerly with high priority
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                   style={{ width: "100%", height: "auto", maxHeight: 500, objectFit: "cover", borderRadius: 12, transition: "transform .5s ease", opacity: inStock ? 1 : 0.7 }}
                   onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
                   onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
@@ -251,7 +257,16 @@ export default function ProductDetailsPage({ id, go, t }) {
                       </div>
 
                       {rp.image_url ? (
-                        <img src={rp.image_url} alt={rp.name} style={{ width: "100%", height: 160, objectFit: "cover", opacity: rpInStock ? 1 : 0.6 }} />
+                        <img
+                          src={rp.image_url}
+                          alt={rp.name}
+                          // ✅ Related products are below the fold — always lazy-load
+                          loading="lazy"
+                          decoding="async"
+                          width="240"
+                          height="160"
+                          style={{ width: "100%", height: 160, objectFit: "cover", opacity: rpInStock ? 1 : 0.6 }}
+                        />
                       ) : (
                         <div style={{ width: "100%", height: 160, background: "var(--bg2)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--sl3)", fontSize: 12 }}>
                           {isTamil ? "படம் இல்லை" : "No Image"}
@@ -277,4 +292,4 @@ export default function ProductDetailsPage({ id, go, t }) {
       </div>
     </div>
   );
-}  
+}

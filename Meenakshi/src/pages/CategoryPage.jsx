@@ -47,6 +47,9 @@ export default function CategoryPage({ id, go, t }) {
 
   if (loading) return <Loader done={() => {}} />;
 
+  // ✅ Track global card index across all varieties for lazy-loading priority
+  let cardIndex = 0;
+
   return (
     <div style={{ paddingTop: 72, background: "var(--bg)", minHeight: "100vh" }}>
       <PageBar />
@@ -76,14 +79,16 @@ export default function CategoryPage({ id, go, t }) {
                   const waMessage = encodeURIComponent(rawWaMessage);
                   const whatsappLink = `https://api.whatsapp.com/send?phone=919790923750&text=${waMessage}`;
 
-                  // ✅ Stock status
-                  const inStock = item.in_stock !== false; // default true
+                  const inStock = item.in_stock !== false;
+
+                  // ✅ First 4 cards (visible on initial load) load eagerly, rest lazy-load
+                  const isAboveFold = cardIndex < 4;
+                  cardIndex++;
 
                   return (
                     <div key={item.id} className="g ch" onClick={() => go(`product-${item.id}`)}
                       style={{ borderRadius: 16, overflow: "hidden", border: `1px solid ${inStock ? 'var(--brd)' : 'rgba(239,68,68,0.3)'}`, cursor: "pointer", display: "flex", flexDirection: "column", position: "relative" }}>
 
-                      {/* ✅ Stock Badge */}
                       <div style={{
                         position: "absolute", top: 12, left: 12, zIndex: 3,
                         background: inStock ? "rgba(34,197,94,0.9)" : "rgba(239,68,68,0.9)",
@@ -99,7 +104,15 @@ export default function CategoryPage({ id, go, t }) {
                       </div>
 
                       {item.image_url ? (
-                        <img src={item.image_url} alt={item.name} style={{ width: "100%", height: 240, objectFit: "cover", opacity: inStock ? 1 : 0.6 }} />
+                        <img
+                          src={item.image_url}
+                          alt={item.name}
+                          loading={isAboveFold ? "eager" : "lazy"}
+                          decoding="async"
+                          width="300"
+                          height="240"
+                          style={{ width: "100%", height: 240, objectFit: "cover", opacity: inStock ? 1 : 0.6 }}
+                        />
                       ) : (
                         <div style={{ width: "100%", height: 240, background: "var(--bg2)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--sl3)", opacity: inStock ? 1 : 0.6 }}>
                           {textNoImage}
