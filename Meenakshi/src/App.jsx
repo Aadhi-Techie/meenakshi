@@ -241,7 +241,7 @@ export default function App() {
     return <HomePage go={go} t={t} lang={lang} />;
   };
 
-  if (loading) return <Loader done={() => setLoading(false)} />;
+  if (loading && typeof window !== 'undefined') return <Loader done={() => setLoading(false)} />;
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }}>

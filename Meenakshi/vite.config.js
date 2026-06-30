@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa' // இதைச் சேர்க்கவும்
+import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: './', // <--- இதை மட்டும் இங்கே சேர்த்துவிடுங்கள்
   plugins: [
     react(),
     VitePWA({
@@ -12,7 +13,7 @@ export default defineConfig({
         name: 'Sree Meenakshi Glass & Plywoods',
         short_name: 'SreeMeenakshi',
         description: 'Premium Glass, Plywood, and UPVC supplier in Chennai',
-        theme_color: '#f97316', // உங்களோட பிராண்ட் கலர்
+        theme_color: '#f97316',
         icons: [
           {
             src: 'apple-touch-icon.webp',
