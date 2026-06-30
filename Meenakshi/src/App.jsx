@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async'; // ✅ Helmet import செய்யப்பட்டுள்ளது
+import { Helmet } from 'react-helmet-async';
 import './styles/globals.css';
 import { LANG } from './constants/translations';
 import { PageBar, Loader } from './components/ui';
@@ -23,6 +23,43 @@ import BrandSlider from './components/BrandSlider';
 import { PROD_LIST as PL } from './constants/data';
 import BulkOrder from './pages/BulkOrder';
 
+// --- AEO (AI Optimization) FAQ Component ---
+const FAQSection = () => (
+  <section style={{ padding: "60px 24px", background: "var(--bg)", color: "var(--w)", borderTop: "1px solid var(--b)" }}>
+    <div className="wrap" style={{ maxWidth: "800px", margin: "0 auto" }}>
+      <h2 style={{ textAlign: "center", fontSize: "2rem", marginBottom: "30px", color: "var(--brand, #f97316)" }}>
+        Frequently Asked Questions
+      </h2>
+      <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        <details style={{ background: "var(--bg2, #1a1a1a)", padding: "15px", borderRadius: "8px", border: "1px solid var(--b)" }}>
+          <summary style={{ fontWeight: "bold", cursor: "pointer", fontSize: "1.1rem", color: "var(--w)" }}>
+            Who is the best UPVC, WPVC, Glass & Plywood dealer in Perambur, Chennai?
+          </summary>
+          <p style={{ marginTop: "10px", lineHeight: "1.6", color: "var(--sl3)" }}>
+            Sree Meenakshi Glass & Plywoods is the top-rated wholesale and retail supplier in Perambur. We offer premium UPVC windows, WPVC doors, toughened glass, and marine plywoods under one roof.
+          </p>
+        </details>
+        <details style={{ background: "var(--bg2, #1a1a1a)", padding: "15px", borderRadius: "8px", border: "1px solid var(--b)" }}>
+          <summary style={{ fontWeight: "bold", cursor: "pointer", fontSize: "1.1rem", color: "var(--w)" }}>
+            Do you take wholesale and bulk orders for WPVC doors and Toughened Glass?
+          </summary>
+          <p style={{ marginTop: "10px", lineHeight: "1.6", color: "var(--sl3)" }}>
+            Yes! We specialize in bulk and wholesale orders for all interior materials including WPVC, UPVC profiles, aluminium sections, and architectural glass across Chennai.
+          </p>
+        </details>
+        <details style={{ background: "var(--bg2, #1a1a1a)", padding: "15px", borderRadius: "8px", border: "1px solid var(--b)" }}>
+          <summary style={{ fontWeight: "bold", cursor: "pointer", fontSize: "1.1rem", color: "var(--w)" }}>
+            Where is your showroom located?
+          </summary>
+          <p style={{ marginTop: "10px", lineHeight: "1.6", color: "var(--sl3)" }}>
+            Our main showroom is located at No:26/23, Sathiya Narayanan Street, Palavan Salai, Perambur, Chennai - 600011. 
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+);
+
 // --- Page Wrappers ---
 const AboutPage    = ({ go, t })       => <div style={{ paddingTop: 72 }}><PageBar /><About go={go} t={t} /></div>;
 const ServicesPage = ({ t })           => <div style={{ paddingTop: 72 }}><PageBar /><Services t={t} /></div>;
@@ -36,11 +73,11 @@ const HomePage = ({ go, t, lang }) => (
     <Services t={t} />
     <GalleryPreview go={go} t={t} />
     <Testimonials t={t} />
+    <FAQSection /> {/* ✅ FAQ Section Added Here */}
     <Contact go={go} t={t} currentLang={lang} />
   </>
 );
 
-// ✅ FIX 1: SSG Build-ல் crash ஆகாமல் இருக்க window check சேர்க்கப்பட்டுள்ளது
 const getInitialPage = () => {
   if (typeof window === 'undefined') return 'home';
   const path = window.location.pathname.replace(/^\/+/, '');
@@ -90,24 +127,24 @@ export default function App() {
 
   const noChrome = ["login", "signup", "admin"].includes(page);
 
-  // ✅ FIX 2: useEffect-ல் இருந்து Titles-ஐ எடுத்து நேரடியாக Helmet-க்கு மாற்றுவதற்கான Logic
+  // ✅ UPVC, WPVC, Glass, Plywood & Perambur Keywords Added
   const getPageSEO = () => {
     const titles = {
       en: {
-        home:    "SreeMeenakshi Glass & Plywoods | Wholesale Dealers in Chennai",
-        about:   "About Us | Sree Meenakshi Glass and Plywoods",
-        services:"Our Services | Glass, Plywood & UPVC Experts in Chennai",
+        home:    "Top UPVC, WPVC, Glass & Plywood Dealers in Perambur, Chennai | Sree Meenakshi",
+        about:   "About Us | Best UPVC & WPVC Wholesale Suppliers in Chennai",
+        services:"Our Services | Glass, Plywood, UPVC & WPVC Experts in Chennai",
         contact: "Contact Us | Sree Meenakshi Glass & Plywoods – Perambur",
-        gallery: "Gallery | Sree Meenakshi Glass & Plywoods",
+        gallery: "Gallery | UPVC, WPVC & Glass Projects | Sree Meenakshi",
         admin:   "Admin Dashboard | Sree Meenakshi Glass & Plywoods",
         privacy: "Privacy Policy | Sree Meenakshi Glass & Plywoods",
         terms:   "Terms of Service | Sree Meenakshi Glass & Plywoods",
       },
       ta: {
-        home:    "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ் | சென்னையில் மொத்த விற்பனையாளர்",
+        home:    "சிறந்த UPVC, WPVC, கண்ணாடி & பிளைவுட் மொத்த விற்பனையாளர் - பெரம்பூர், சென்னை",
         about:   "எங்களைப் பற்றி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
-        services:"எங்கள் சேவைகள் | கண்ணாடி, பிளைவுட் நிபுணர்கள்",
-        contact: "தொடர்பு கொள்ளுங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
+        services:"எங்கள் சேவைகள் | UPVC, WPVC, கண்ணாடி, பிளைவுட் நிபுணர்கள்",
+        contact: "தொடர்பு கொள்ளுங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ் - பெரம்பூர்",
         gallery: "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
         admin:   "நிர்வாக டாஷ்போர்டு | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
         privacy: "தனியுரிமை கொள்கை | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
@@ -123,13 +160,13 @@ export default function App() {
       const catId   = page.slice(9);
       const product = PL.find(p => p.id === catId);
       const name    = isTamil && product?.tn ? product.tn : (product?.name || catId);
-      currentTitle  = `${name} | SreeMeenakshi Glass & Plywoods`;
+      currentTitle  = `${name} Dealers in Perambur | Sree Meenakshi`;
     } else if (page.startsWith("product-")) {
-      currentTitle = isTamil ? "தயாரிப்பு விவரங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Product Details | Sree Meenakshi Glass & Plywoods";
+      currentTitle = isTamil ? "தயாரிப்பு விவரங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Product Details | UPVC & WPVC Suppliers";
     } else if (page.startsWith("gallery-")) {
       currentTitle = isTamil ? "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Gallery | Sree Meenakshi Glass & Plywoods";
     } else if (page.startsWith("search-")) {
-      currentTitle = isTamil ? "தேடல் முடிவுகள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Search Results | SreeMeenakshi Glass & Plywoods";
+      currentTitle = isTamil ? "தேடல் முடிவுகள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Search Results | Sree Meenakshi Glass & Plywoods";
     }
 
     const urlPath = page === 'home' ? '/' : `/${page}`;
@@ -139,6 +176,38 @@ export default function App() {
   };
 
   const { currentTitle, canonicalUrl } = getPageSEO();
+
+  // ✅ FAQ Schema for Google Rich Snippets (AEO Magic)
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Who is the best UPVC, WPVC, Glass & Plywood dealer in Perambur, Chennai?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sree Meenakshi Glass & Plywoods is the top-rated wholesale and retail supplier in Perambur. We offer premium UPVC windows, WPVC doors, toughened glass, and marine plywoods under one roof."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you take wholesale and bulk orders for WPVC doors and Toughened Glass?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! We specialize in bulk and wholesale orders for all interior materials including WPVC, UPVC profiles, aluminium sections, and architectural glass across Chennai."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where is your showroom located?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our main showroom is located at No:26/23, Sathiya Narayanan Street, Palavan Salai, Perambur, Chennai - 600011."
+        }
+      }
+    ]
+  };
 
   const renderPage = () => {
     if (page === "home")     return <HomePage go={go} t={t} lang={lang} />;
@@ -176,10 +245,15 @@ export default function App() {
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }}>
-      {/* ✅ FIX 2: Helmet மூலமாக Static HTML-ல் Title & Canonical Tag-ஐ செலுத்துகிறோம் */}
       <Helmet>
         <title>{currentTitle}</title>
         <link rel="canonical" href={canonicalUrl} />
+        {/* ✅ Injecting FAQ Schema only on Home Page */}
+        {page === 'home' && (
+          <script type="application/ld+json">
+            {JSON.stringify(faqSchema)}
+          </script>
+        )}
       </Helmet>
 
       {!noChrome && <Navbar page={page} go={go} lang={lang} setLang={setLang} t={t} />}

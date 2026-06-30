@@ -5,12 +5,12 @@ import { Helmet } from 'react-helmet-async';
 
 const tData = {
   en: {
-    visit_us: "Visit Us", call: "Call", email: "Email", hours: "Hours",
+    visit_us: "Visit Our Perambur Showroom", call: "Call Sree Meenakshi", email: "Email", hours: "Opening Hours",
     hours_mon_sat: "Mon-Sat: 8.30 AM - 9 PM", hours_sun: "Sunday: 10 AM - 5 PM",
     call_now: "Call Now", whatsapp_us: "WhatsApp Us",
-    send_enquiry: "Send an Enquiry",
-    form_title: "SreeMeenakshi Glass & Plywoods Traders",
-    form_subtitle: "Send an Enquiry",
+    send_enquiry: "Enquiry | UPVC, WPVC & Plywood Shop in Perambur",
+    form_title: "Sree Meenakshi Glass & Plywoods, Perambur",
+    form_subtitle: "Contact us for wholesale price list",
     full_name: "Full Name", email_address: "Email Address",
     phone_number: "Phone Number", product_interest: "Product Interest", your_message: "Your Message",
     send_message: "Send Message", sending: "Sending...",
@@ -24,12 +24,12 @@ const tData = {
     ph_message: "Tell us about your requirement..."
   },
   ta: {
-    visit_us: "முகவரி", call: "அழைக்க", email: "மின்னஞ்சல்", hours: "வேலை நேரம்",
+    visit_us: "எங்கள் பெரம்பூர் கிளைக்கு வருகை தாருங்கள்", call: "அழைக்க", email: "மின்னஞ்சல்", hours: "வேலை நேரம்",
     hours_mon_sat: "திங்கள்-சனி: காலை 8.30 - இரவு 9 மணி", hours_sun: "ஞாயிறு: காலை 10 - மாலை 5 மணி",
     call_now: "அழைக்க", whatsapp_us: "வாட்ஸ்அப்",
-    send_enquiry: "விசாரணை அனுப்புங்கள்",
-    form_title: "ஸ்ரீ மீனாக்ஷி கிளாஸ் & பிளைவுட்ஸ் டிரேடர்ஸ்",
-    form_subtitle: "விசாரணை அனுப்புங்கள்",
+    send_enquiry: "விசாரணை | பெரம்பூர் கிளாஸ் & பிளைவுட் கடை",
+    form_title: "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ், பெரம்பூர்",
+    form_subtitle: "மொத்த விலைப் பட்டியலுக்கு தொடர்பு கொள்ளுங்கள்",
     full_name: "முழு பெயர்", email_address: "மின்னஞ்சல்",
     phone_number: "தொலைபேசி எண்", product_interest: "தேவைப்படும் பொருள்", your_message: "உங்கள் கருத்து",
     send_message: "அனுப்பவும்", sending: "அனுப்பப்படுகிறது...",
@@ -160,7 +160,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 <div>
                   <p style={labelStyle}>{t('visit_us')}</p>
                   <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
-                    No:26/23, Sathiya Narayanan Street, Palavan Salai,<br />Perambur, Chennai – 600011
+                    No:26/23, Sathiya Narayanan Street, Palavan Salai,<br />Perambur, Chennai – 600011, Tamil Nadu.
                   </p>
                 </div>
               </div>

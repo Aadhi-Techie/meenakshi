@@ -41,7 +41,6 @@ export default function About({ go, t }) {
   return (
     <section id="about" aria-labelledby="about-heading" style={{ padding: "80px 24px", background: "var(--bg)", position: "relative", overflow: "hidden" }}>
 
-      {/* ✅ FIX FAIL 2: Helmet moved to top of section, title added */}
       <Helmet>
         <title>{isTamil ? "எங்களைப் பற்றி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "About Us | Sree Meenakshi Glass and Plywoods"}</title>
         <meta name="description" content="Discover the legacy of Sree Meenakshi Glass and Plywoods. With over 20 years of excellence, we are Chennai's most trusted wholesale dealer for premium glass and plywoods." />
@@ -62,7 +61,6 @@ export default function About({ go, t }) {
             style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", borderRadius: 24, overflow: "hidden", transition: "transform 0.1s ease-out", transformStyle: "preserve-3d", boxShadow: "0 20px 40px rgba(0,0,0,0.3)", position: "relative" }}
           >
             <div style={{ height: 280, position: "relative" }}>
-              {/* ✅ FIX FAIL 3: onError fallback added */}
               <img
                 src={shopImageUrl}
                 alt="Sree Meenakshi Glass and Plywoods Showroom - Premium Glass, Plywood, UPVC and Aluminium Suppliers in Perambur, Chennai"
