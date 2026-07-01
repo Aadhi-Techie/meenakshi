@@ -79,11 +79,27 @@ const HomePage = ({ go, t, lang }) => (
 );
 
 export default function App() {
+  // 🌟 எர்ரர் #418-ஐத் தடுக்க சர்வர் மற்றும் கிளையண்ட் இரண்டு பக்கமும் சமமாக 'home'ல் தொடங்குகிறோம்
   const [loading, setLoading] = useState(false);
   const [page, setPage]       = useState('home');
   const [lang, setLang]       = useState("en");
 
   const t = LANG[lang];
+
+  // 🌟 'go' ஃபங்ஷன் கச்சிதமாக வரையறுக்கப்பட்டுள்ளது (ESLint 'useCallback' மற்றும் 'go' நாட் டிஃபைன்ட் எர்ரர் வராது)
+  const go = useCallback((newPage) => {
+    setPage(newPage);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      const urlPath = newPage === 'home' ? '/' : `/${newPage}`;
+      window.history.pushState({ page: newPage }, '', urlPath);
+    }
+  }, []);
+
+  // 🌟 'goBack' ஃபங்ஷன் கச்சிதமாக வரையறுக்கப்பட்டுள்ளது
+  const goBack = useCallback(() => {
+    if (typeof window !== 'undefined') window.history.back();
+  }, []);
 
   useEffect(() => {
     const handleBackButton = (event) => {
@@ -103,7 +119,7 @@ export default function App() {
         window.history.replaceState({ page: initialPath || 'home' }, '');
       }
 
-      // ✅ ESLint ஸ்ட்ரிக்ட் விதியை மீறாமல் இருக்க 'setTimeout' குடைக்குள் அசென்சிங் செய்யப்படுகிறது
+      // 🌟 எல்இன்ட் விதியைத் திருப்திப்படுத்தவும், ஹைட்ரேஷன் முடிந்த பின் பாதுகாப்பாகப் பக்கம் மாறவும் அசின்க்ரோனஸ் செட்டப்
       setTimeout(() => {
         setLoading(true);
         if (initialPath && initialPath !== 'home') {
@@ -117,21 +133,6 @@ export default function App() {
         window.removeEventListener('popstate', handleBackButton);
       }
     };
-  }, []);
-
-  // ✅ விடுபட்ட 'go' ஃபங்ஷன் மீண்டும் பாதுகாப்பாக இணைக்கப்பட்டுள்ளது
-  const go = useCallback((newPage) => {
-    setPage(newPage);
-    if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      const urlPath = newPage === 'home' ? '/' : `/${newPage}`;
-      window.history.pushState({ page: newPage }, '', urlPath);
-    }
-  }, []);
-
-  // ✅ விடுபட்ட 'goBack' ஃபங்ஷன் மீண்டும் பாதுகாப்பாக இணைக்கப்பட்டுள்ளது
-  const goBack = useCallback(() => {
-    if (typeof window !== 'undefined') window.history.back();
   }, []);
 
   const noChrome = ["login", "signup", "admin"].includes(page);
