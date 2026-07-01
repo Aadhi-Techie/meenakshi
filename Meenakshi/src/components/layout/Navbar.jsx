@@ -175,9 +175,15 @@ export default function Navbar({ page, go, lang, setLang, t }) {
       {/* ✅ FIX FAIL 2: aria-hidden on backdrop */}
       <div className={`mmo ${mob ? "open" : ""}`} onClick={() => setMob(false)} aria-hidden="true" />
 
-      {/* Mobile Menu */}
-      <div id="mobile-menu" className={`mm gd ${mob ? "open" : ""}`} aria-hidden={!mob}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 22px", borderBottom: "1px solid var(--brd)" }}>
+      {/* Mobile Menu ➡️ ✅ 🌟 திருத்தப்பட்ட பகுதி: display மற்றும் inert இணைக்கப்பட்டுள்ளது */}
+      <div 
+        id="mobile-menu" 
+        className={`mm gd ${mob ? "open" : ""}`} 
+        aria-hidden={!mob}
+        inert={!mob ? "" : undefined}
+        style={{ display: mob ? 'block' : 'none' }}
+      >
+        <div style={{ display: "flex", alignItems: "center", justifycontent: "space-between", padding: "20px 22px", borderBottom: "1px solid var(--brd)" }}>
           <div style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 700, fontSize: 18, color: "var(--w)" }}>SreeMeenakshi</div>
           <button onClick={() => setMob(false)} aria-label="Close Mobile Menu" style={{ background: "rgba(255,255,255,.07)", border: "1px solid var(--brd)", color: "var(--w)", padding: 7, borderRadius: 8, cursor: "pointer" }}><X size={16} /></button>
         </div>
