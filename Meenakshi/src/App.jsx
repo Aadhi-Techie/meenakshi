@@ -79,6 +79,7 @@ const HomePage = ({ go, t, lang }) => (
 );
 
 export default function App() {
+  // 🌟 சரிசெய்யப்பட்ட பகுதி 1: சர்வர் மற்றும் கிளைண்ட் இரண்டிலும் சமமாகத் தொடங்குகிறோம்
   const [loading, setLoading] = useState(false);
   const [page, setPage]       = useState('home');
   const [lang, setLang]       = useState("en");
@@ -103,7 +104,7 @@ export default function App() {
         window.history.replaceState({ page: initialPath || 'home' }, '');
       }
 
-      // 💡 ESLint மற்றும் ஹைட்ரேஷன் விதிகளைத் திருப்திப்படுத்த அசின்க்ரோனஸ் டிக்
+      // 🌟 சரிசெய்யப்பட்ட பகுதி 2: ESLint மற்றும் ஹைட்ரேஷன் வார்னிங் வராதவாறு நெக்ஸ்ட் டிக் அசென்சிங் செய்கிறோம்
       setTimeout(() => {
         setLoading(true);
         if (initialPath && initialPath !== 'home') {
@@ -119,7 +120,7 @@ export default function App() {
     };
   }, []);
 
-  // 💡 விடுபட்ட 'go' ஃபங்ஷன் மீண்டும் கச்சிதமாக இணைக்கப்பட்டுள்ளது (useCallback எர்ரர் தீர்ந்தது)
+  // 🌟 சரிசெய்யப்பட்ட பகுதி 3: விடுபட்ட 'go' மற்றும் 'goBack' கச்சிதமாகப் பராமரிக்கப்படுகிறது
   const go = useCallback((newPage) => {
     setPage(newPage);
     if (typeof window !== 'undefined') {
@@ -129,7 +130,6 @@ export default function App() {
     }
   }, []);
 
-  // 💡 விடுபட்ட 'goBack' ஃபங்ஷன் மீண்டும் கச்சிதமாக இணைக்கப்பட்டுள்ளது
   const goBack = useCallback(() => {
     if (typeof window !== 'undefined') window.history.back();
   }, []);
@@ -217,16 +217,16 @@ export default function App() {
   };
 
   const renderPage = () => {
-    if (page === "home")     return <HomePage go={go} t={t} lang={lang} />;
-    if (page === "about")    return <AboutPage go={go} t={t} />;
-    if (page === "services") return <ServicesPage t={t} />;
-    if (page === "contact")  return <ContactPage t={t} lang={lang} />;
-    if (page === "login")    return <LoginPage go={go} isSignup={false} />;
-    if (page === "signup")   return <LoginPage go={go} isSignup={true} />;
-    if (page === "admin")    return <Admin go={go} />;
+    if (page === "home")       return <HomePage go={go} t={t} lang={lang} />;
+    if (page === "about")      return <AboutPage go={go} t={t} />;
+    if (page === "services")   return <ServicesPage t={t} />;
+    if (page === "contact")    return <ContactPage t={t} lang={lang} />;
+    if (page === "login")      return <LoginPage go={go} isSignup={false} />;
+    if (page === "signup")     return <LoginPage go={go} isSignup={true} />;
+    if (page === "admin")      return <Admin go={go} />;
     if (page === "bulk-order") return <BulkOrder go={go} t={t} lang={lang} />;
-    if (page === "privacy")  return <div style={{ paddingTop: 72 }}><PageBar /><div className="wrap" style={{ padding: "40px 24px", color: "var(--w)" }}><h1>Privacy Policy</h1><p style={{ color: "var(--sl3)" }}>Privacy policy content here.</p></div></div>;
-    if (page === "terms")    return <div style={{ paddingTop: 72 }}><PageBar /><div className="wrap" style={{ padding: "40px 24px", color: "var(--w)" }}><h1>Terms of Service</h1><p style={{ color: "var(--sl3)" }}>Terms of service content here.</p></div></div>;
+    if (page === "privacy")    return <div style={{ paddingTop: 72 }}><PageBar /><div className="wrap" style={{ padding: "40px 24px", color: "var(--w)" }}><h1>Privacy Policy</h1><p style={{ color: "var(--sl3)" }}>Privacy policy content here.</p></div></div>;
+    if (page === "terms")      return <div style={{ paddingTop: 72 }}><PageBar /><div className="wrap" style={{ padding: "40px 24px", color: "var(--w)" }}><h1>Terms of Service</h1><p style={{ color: "var(--sl3)" }}>Terms of service content here.</p></div></div>;
 
     if (page.startsWith("product-")) {
       const id = page.slice(8);
