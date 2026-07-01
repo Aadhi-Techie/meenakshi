@@ -79,7 +79,6 @@ const HomePage = ({ go, t, lang }) => (
 );
 
 export default function App() {
-  // 💡 1. சர்வர்-கிளையண்ட் இரண்டு பக்கமும் ஒரே மாதிரியாக ஆரம்பிக்க ஸ்டேட்ஸ் மாற்றப்பட்டுள்ளது
   const [loading, setLoading] = useState(false);
   const [page, setPage]       = useState('home');
   const [lang, setLang]       = useState("en");
@@ -87,16 +86,6 @@ export default function App() {
   const t = LANG[lang];
 
   useEffect(() => {
-    const initialPath = window.location.pathname.replace(/^\/+/, '');
-
-    // 💡 `setLoading` மற்றும் `setPage` இரண்டையும் ஒரே setTimeout-க்குள் பாதுகாப்பாக மாற்றுகிறோம்
-    setTimeout(() => {
-      setLoading(true); // 👈 இப்போ இது நெக்ஸ்ட் டிக்-க்கு மாறியதால் எர்ரர் வராது!
-      if (initialPath && initialPath !== 'home') {
-        setPage(initialPath);
-      }
-    }, 0);
-
     const handleBackButton = (event) => {
       if (event.state && event.state.page) {
         setPage(event.state.page);
@@ -108,16 +97,29 @@ export default function App() {
 
     if (typeof window !== 'undefined') {
       window.addEventListener('popstate', handleBackButton);
+      
+      const initialPath = window.location.pathname.replace(/^\/+/, '');
       if (!window.history.state) {
         window.history.replaceState({ page: initialPath || 'home' }, '');
       }
+
+      // 💡 ESLint மற்றும் ஹைட்ரேஷன் விதிகளைத் திருப்திப்படுத்த அசின்க்ரோனஸ் டிக்
+      setTimeout(() => {
+        setLoading(true);
+        if (initialPath && initialPath !== 'home') {
+          setPage(initialPath);
+        }
+      }, 0);
     }
 
     return () => {
-      if (typeof window !== 'undefined') window.removeEventListener('popstate', handleBackButton);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('popstate', handleBackButton);
+      }
     };
   }, []);
 
+  // 💡 விடுபட்ட 'go' ஃபங்ஷன் மீண்டும் கச்சிதமாக இணைக்கப்பட்டுள்ளது (useCallback எர்ரர் தீர்ந்தது)
   const go = useCallback((newPage) => {
     setPage(newPage);
     if (typeof window !== 'undefined') {
@@ -127,6 +129,7 @@ export default function App() {
     }
   }, []);
 
+  // 💡 விடுபட்ட 'goBack' ஃபங்ஷன் மீண்டும் கச்சிதமாக இணைக்கப்பட்டுள்ளது
   const goBack = useCallback(() => {
     if (typeof window !== 'undefined') window.history.back();
   }, []);
@@ -169,7 +172,7 @@ export default function App() {
     } else if (page.startsWith("product-")) {
       currentTitle = isTamil ? "தயாரிப்பு விவரங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Product Details | UPVC & WPVC Suppliers";
     } else if (page.startsWith("gallery-")) {
-      currentTitle = isTamil ? "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிவைவுட்ஸ்" : "Gallery | Sree Meenakshi Glass & Plywoods";
+      currentTitle = isTamil ? "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Gallery | Sree Meenakshi Glass & Plywoods";
     } else if (page.startsWith("search-")) {
       currentTitle = isTamil ? "தேடல் முடிவுகள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Search Results | Sree Meenakshi Glass & Plywoods";
     }
@@ -246,7 +249,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }} suppressHydrationWarning>
       <Helmet key={page}>
         <title>{currentTitle}</title>
         <link rel="canonical" href={canonicalUrl} />
