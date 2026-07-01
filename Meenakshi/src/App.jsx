@@ -79,7 +79,6 @@ const HomePage = ({ go, t, lang }) => (
 );
 
 export default function App() {
-  // 🌟 சரிசெய்யப்பட்ட பகுதி 1: சர்வர் மற்றும் கிளைண்ட் இரண்டிலும் சமமாகத் தொடங்குகிறோம்
   const [loading, setLoading] = useState(false);
   const [page, setPage]       = useState('home');
   const [lang, setLang]       = useState("en");
@@ -104,7 +103,7 @@ export default function App() {
         window.history.replaceState({ page: initialPath || 'home' }, '');
       }
 
-      // 🌟 சரிசெய்யப்பட்ட பகுதி 2: ESLint மற்றும் ஹைட்ரேஷன் வார்னிங் வராதவாறு நெக்ஸ்ட் டிக் அசென்சிங் செய்கிறோம்
+      // ✅ ESLint ஸ்ட்ரிக்ட் விதியை மீறாமல் இருக்க 'setTimeout' குடைக்குள் அசென்சிங் செய்யப்படுகிறது
       setTimeout(() => {
         setLoading(true);
         if (initialPath && initialPath !== 'home') {
@@ -120,7 +119,7 @@ export default function App() {
     };
   }, []);
 
-  // 🌟 சரிசெய்யப்பட்ட பகுதி 3: விடுபட்ட 'go' மற்றும் 'goBack' கச்சிதமாகப் பராமரிக்கப்படுகிறது
+  // ✅ விடுபட்ட 'go' ஃபங்ஷன் மீண்டும் பாதுகாப்பாக இணைக்கப்பட்டுள்ளது
   const go = useCallback((newPage) => {
     setPage(newPage);
     if (typeof window !== 'undefined') {
@@ -130,6 +129,7 @@ export default function App() {
     }
   }, []);
 
+  // ✅ விடுபட்ட 'goBack' ஃபங்ஷன் மீண்டும் பாதுகாப்பாக இணைக்கப்பட்டுள்ளது
   const goBack = useCallback(() => {
     if (typeof window !== 'undefined') window.history.back();
   }, []);
