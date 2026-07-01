@@ -81,7 +81,14 @@ const HomePage = ({ go, t, lang }) => (
 export default function App() {
   // 🌟 எர்ரர் #418-ஐத் தடுக்க சர்வர் மற்றும் கிளையண்ட் இரண்டு பக்கமும் சமமாக 'home'ல் தொடங்குகிறோம்
   const [loading, setLoading] = useState(false);
-  const [page, setPage]       = useState('home');
+  
+  const [page, setPage] = useState(() => {
+  if (typeof window !== 'undefined') {
+    const path = window.location.pathname.replace(/^\/+/, '');
+    return path || 'home';
+  }
+  return 'home';
+});
   const [lang, setLang]       = useState("en");
 
   const t = LANG[lang];
