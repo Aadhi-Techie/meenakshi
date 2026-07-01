@@ -47,11 +47,28 @@ export default function CategoryPage({ id, go, t }) {
 
   if (loading) return <Loader done={() => {}} />;
 
-  // ✅ Track global card index across all varieties for lazy-loading priority
   let cardIndex = 0;
 
   return (
     <div style={{ paddingTop: 72, background: "var(--bg)", minHeight: "100vh" }}>
+      
+      {/* ── 🌟 INJECTING 3D HOVER CSS FOR CARDS ── */}
+      <style>{`
+        .product-card-3d {
+          transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease, border-color 0.3s ease !important;
+          transform-style: preserve-3d;
+          perspective: 1000px;
+        }
+        .product-card-3d:hover {
+          transform: translateY(-8px) rotateX(4deg) rotateY(2deg) scale(1.01) !important;
+          box-shadow: 0 20px 35px rgba(249, 115, 22, 0.1) !important;
+          border-color: rgba(249, 115, 22, 0.4) !important;
+        }
+        .product-3d-lift {
+          transform: translateZ(20px);
+        }
+      `}</style>
+
       <PageBar />
       <div className="wrap" style={{ padding: "60px 24px" }}>
         <button className="bw" onClick={() => go("home")} style={{ padding: "8px 16px", marginBottom: 30 }}>
@@ -80,15 +97,16 @@ export default function CategoryPage({ id, go, t }) {
                   const whatsappLink = `https://api.whatsapp.com/send?phone=919790923750&text=${waMessage}`;
 
                   const inStock = item.in_stock !== false;
-
-                  // ✅ First 4 cards (visible on initial load) load eagerly, rest lazy-load
                   const isAboveFold = cardIndex < 4;
                   cardIndex++;
 
                   return (
-                    <div key={item.id} className="g ch" onClick={() => go(`product-${item.id}`)}
-                      style={{ borderRadius: 16, overflow: "hidden", border: `1px solid ${inStock ? 'var(--brd)' : 'rgba(239,68,68,0.3)'}`, cursor: "pointer", display: "flex", flexDirection: "column", position: "relative" }}>
-
+                    <div 
+                      key={item.id} 
+                      className="g ch product-card-3d" 
+                      onClick={() => go(`product-${item.id}`)}
+                      style={{ borderRadius: 16, overflow: "hidden", border: `1px solid ${inStock ? 'var(--brd)' : 'rgba(239,68,68,0.3)'}`, cursor: "pointer", display: "flex", flexDirection: "column", position: "relative" }}
+                    >
                       <div style={{
                         position: "absolute", top: 12, left: 12, zIndex: 3,
                         background: inStock ? "rgba(34,197,94,0.9)" : "rgba(239,68,68,0.9)",
@@ -96,11 +114,9 @@ export default function CategoryPage({ id, go, t }) {
                         padding: "4px 10px", borderRadius: 20,
                         backdropFilter: "blur(4px)",
                         display: "flex", alignItems: "center", gap: 4
-                      }}>
+                      }} className="product-3d-lift">
                         <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#fff", opacity: 0.8 }} />
-                        {inStock
-                          ? (isTamil ? "கையிருப்பில் உள்ளது" : "In Stock")
-                          : (isTamil ? "தற்போது இல்லை" : "Out of Stock")}
+                        {inStock ? (isTamil ? "கையிருப்பில் உள்ளது" : "In Stock") : (isTamil ? "தற்போது இல்லை" : "Out of Stock")}
                       </div>
 
                       {item.image_url ? (
@@ -119,7 +135,7 @@ export default function CategoryPage({ id, go, t }) {
                         </div>
                       )}
 
-                      <div style={{ padding: 20, display: "flex", flexDirection: "column", flex: 1 }}>
+                      <div style={{ padding: 20, display: "flex", flexDirection: "column", flex: 1 }} className="product-3d-lift">
                         <h3 style={{ fontSize: 18, fontWeight: 700, color: inStock ? "var(--w)" : "var(--sl3)", marginBottom: 8, textTransform: "capitalize" }}>
                           {item.name}
                         </h3>

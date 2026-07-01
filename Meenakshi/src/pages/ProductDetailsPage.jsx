@@ -36,7 +36,6 @@ export default function ProductDetailsPage({ id, go, t }) {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [id]);
 
-  // ✅ Fetch Related Products (same category, excluding current product)
   useEffect(() => {
     const fetchRelated = async () => {
       if (!product?.category) return;
@@ -92,7 +91,29 @@ export default function ProductDetailsPage({ id, go, t }) {
 
   return (
     <div style={{ paddingTop: 72, background: "var(--bg)", minHeight: "100vh" }}>
+      
+      {/* ── 🌟 INJECTING UNIQUE 3D EFFECTS FOR DETAILS PAGE ── */}
+      <style>{`
+        .main-img-container-3d {
+          transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.5s ease !important;
+          transform-style: preserve-3d;
+          perspective: 1000px;
+        }
+        .main-img-container-3d:hover {
+          transform: scale(1.02) rotateY(-3deg) rotateX(2deg) !important;
+          box-shadow: 0 25px 50px rgba(0,0,0,0.5) !important;
+        }
+        .related-card-3d {
+          transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease !important;
+        }
+        .related-card-3d:hover {
+          transform: translateY(-6px) scale(1.02) !important;
+          border-color: var(--o) !important;
+        }
+      `}</style>
+
       <Helmet>
+        <title>{`Sree Meenakshi | ${product.name}`}</title>
         <meta name="description" content={`Buy high-quality ${product.name} at Sree Meenakshi Glass and Plywoods. ${product.description}`} />
         <meta property="og:title" content={`${product.name} - Sree Meenakshi Glass and Plywoods`} />
         <meta property="og:image" content={product.image_url} />
@@ -106,9 +127,9 @@ export default function ProductDetailsPage({ id, go, t }) {
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 400px), 1fr))", gap: 50, alignItems: "start" }}>
 
-          {/* Left: Image */}
+          {/* Left: Image ➡️ 🌟 3D Class Added */}
           <div style={{ animation: "slideR .6s ease both" }}>
-            <div className="g" style={{ borderRadius: 20, overflow: "hidden", border: "1px solid var(--brd)", padding: 20, background: "var(--bg2)", position: "relative" }}>
+            <div className="g main-img-container-3d" style={{ borderRadius: 20, overflow: "hidden", border: "1px solid var(--brd)", padding: 20, background: "var(--bg2)", position: "relative" }}>
 
               <div style={{
                 position: "absolute", top: 28, left: 28, zIndex: 3,
@@ -117,15 +138,14 @@ export default function ProductDetailsPage({ id, go, t }) {
                 padding: "6px 14px", borderRadius: 20,
                 backdropFilter: "blur(8px)",
                 display: "flex", alignItems: "center", gap: 6,
-                boxShadow: "0 2px 12px rgba(0,0,0,0.3)"
+                boxShadow: "0 2px 12px rgba(0,0,0,0.3)",
+                transform: "translateZ(30px)"
               }}>
                 <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#fff", animation: inStock ? "pulse 2s infinite" : "none" }} />
-                {inStock
-                  ? (isTamil ? "கையிருப்பில் உள்ளது" : "In Stock")
-                  : (isTamil ? "தற்போது இல்லை" : "Out of Stock")}
+                {inStock ? (isTamil ? "கையிருப்பில் உள்ளது" : "In Stock") : (isTamil ? "தற்போது இல்லை" : "Out of Stock")}
               </div>
 
-              <div className="flt" style={{ position: "absolute", top: 28, right: 28, background: "rgba(249,115,22,.15)", color: "var(--o)", padding: "6px 12px", borderRadius: 8, fontSize: 12, fontWeight: 700, border: "1px solid rgba(249,115,22,.3)", zIndex: 2 }}>
+              <div className="flt" style={{ position: "absolute", top: 28, right: 28, background: "rgba(249,115,22,.15)", color: "var(--o)", padding: "6px 12px", borderRadius: 8, fontSize: 12, fontWeight: 700, border: "1px solid rgba(249,115,22,.3)", zIndex: 2, transform: "translateZ(30px)" }}>
                 {isTamil ? "பிரீமியம் தரம்" : "Premium Quality"}
               </div>
 
@@ -133,13 +153,10 @@ export default function ProductDetailsPage({ id, go, t }) {
                 <img
                   src={product.image_url}
                   alt={product.name}
-                  // ✅ Main product image is above the fold — load eagerly with high priority
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
-                  style={{ width: "100%", height: "auto", maxHeight: 500, objectFit: "cover", borderRadius: 12, transition: "transform .5s ease", opacity: inStock ? 1 : 0.7 }}
-                  onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
-                  onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
+                  style={{ width: "100%", height: "auto", maxHeight: 500, objectFit: "cover", borderRadius: 12, opacity: inStock ? 1 : 0.7, transform: "translateZ(10px)" }}
                 />
               ) : (
                 <div style={{ width: "100%", height: 300, background: "#1a1a1a", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", color: "#666" }}>
@@ -243,7 +260,7 @@ export default function ProductDetailsPage({ id, go, t }) {
                 {relatedProducts.map(rp => {
                   const rpInStock = rp.in_stock !== false;
                   return (
-                    <div key={rp.id} className="g ch" onClick={() => go(`product-${rp.id}`)}
+                    <div key={rp.id} className="g ch related-card-3d" onClick={() => go(`product-${rp.id}`)}
                       style={{ borderRadius: 14, overflow: "hidden", border: "1px solid var(--brd)", cursor: "pointer", display: "flex", flexDirection: "column", position: "relative" }}>
 
                       <div style={{
@@ -260,7 +277,6 @@ export default function ProductDetailsPage({ id, go, t }) {
                         <img
                           src={rp.image_url}
                           alt={rp.name}
-                          // ✅ Related products are below the fold — always lazy-load
                           loading="lazy"
                           decoding="async"
                           width="240"

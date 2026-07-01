@@ -180,7 +180,7 @@ export default function Navbar({ page, go, lang, setLang, t }) {
         id="mobile-menu" 
         className={`mm gd ${mob ? "open" : ""}`} 
         aria-hidden={!mob}
-        inert={!mob ? "" : undefined}
+        inert={!mob}
         style={{ display: mob ? 'block' : 'none' }}
       >
         <div style={{ display: "flex", alignItems: "center", justifycontent: "space-between", padding: "20px 22px", borderBottom: "1px solid var(--brd)" }}>

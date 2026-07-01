@@ -171,7 +171,7 @@ export default function App() {
     const isTamil    = lang === "ta";
     const langTitles = titles[lang] || titles.en;
     let currentTitle = langTitles[page] || "Sree Meenakshi Glass & Plywoods";
-
+    
     if (page.startsWith("category-")) {
       const catId   = page.slice(9);
       const product = PL.find(p => p.id === catId);
@@ -259,7 +259,7 @@ export default function App() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }} suppressHydrationWarning>
       <Helmet key={page}>
-        <title>{currentTitle}</title>
+        <title>{ String (currentTitle || "Sree Meenakshi Glass & Plywoods") }</title>
         <link rel="canonical" href={canonicalUrl} />
         {page === 'home' && (
           <script type="application/ld+json">
