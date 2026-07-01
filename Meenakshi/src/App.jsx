@@ -78,39 +78,40 @@ const HomePage = ({ go, t, lang }) => (
   </>
 );
 
-const getInitialPage = () => {
-  if (typeof window === 'undefined') return 'home';
-  const path = window.location.pathname.replace(/^\/+/, '');
-  return path ? path : 'home';
-};
+
 
 export default function App() {
-  const [loading, setLoading] = useState(() => !import.meta.env.SSR);
-  const [page, setPage]       = useState(getInitialPage());
+  const [loading, setLoading] = useState((true));
+  
+  // 💡 ஹைட்ரேஷன் எர்ரரைத் தடுக்க ஆரம்பத்தில் எப்போதும் 'home' என்று வைக்கிறோம்
+  const [page, setPage] = useState(() => {
+  if (typeof window === 'undefined') return 'home';
+  const path = window.location.pathname.replace(/^\/+/, '');
+  return path || 'home';
+});
   const [lang, setLang]       = useState("en");
 
   const t = LANG[lang];
 
-  useEffect(() => {
+  useEffect(() => { 
+
     const handleBackButton = (event) => {
       if (event.state && event.state.page) {
         setPage(event.state.page);
       } else {
-        setPage(getInitialPage());
+        const path = window.location.pathname.replace(/^\/+/, '');
+        setPage(path || 'home');
       }
     };
+ window.addEventListener('popstate', handleBackButton);
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('popstate', handleBackButton);
-      if (!window.history.state) {
-        window.history.replaceState({ page: getInitialPage() }, '');
-      }
-    }
+  if (!window.history.state) {
+    const initialPath = window.location.pathname.replace(/^\/+/, '');
+    window.history.replaceState({ page: initialPath || 'home' }, '');
+  }
 
-    return () => {
-      if (typeof window !== 'undefined') window.removeEventListener('popstate', handleBackButton);
-    };
-  }, []);
+  return () => window.removeEventListener('popstate', handleBackButton);
+}, []);
 
   const go = useCallback((newPage) => {
     setPage(newPage);
