@@ -1,24 +1,24 @@
+// useTheme.js
 import { useState, useEffect } from 'react';
 
 export default function useTheme() {
-  // 1. ஆரம்பத்திலிருந்தே சரியான theme-ஐத் தீர்மானிக்க ஒரு ஹெல்பர் பங்க்ஷன்
-  const getInitialTheme = () => {
-    if (typeof window === 'undefined') return 'light';
-    const saved = localStorage.getItem('sm-theme');
-    if (saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-  };
-
-  // 2. நேரடியாக useState-லேயே பங்க்ஷனை அழைத்தால், இது ஒரே ஒருமுறை மட்டுமே நடக்கும் (No cascading renders)
-  const [theme, setTheme] = useState(getInitialTheme);
+  const [theme, setTheme] = useState('dark'); // fixed default, server-safe
 
   useEffect(() => {
-    // 3. theme மாறும்போது மட்டும் அப்டேட் செய்ய இது போதும்
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('sm-theme', theme);
+    const saved = localStorage.getItem('theme');
+    if (saved && saved !== theme) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTheme(saved);
+    }
   }, [theme]);
 
-  const toggleTheme = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+  const toggleTheme = () => {
+    setTheme(prev => {
+      const next = prev === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      return next;
+    });
+  };
 
   return { theme, toggleTheme };
 }
