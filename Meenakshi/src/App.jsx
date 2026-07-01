@@ -73,27 +73,29 @@ const HomePage = ({ go, t, lang }) => (
     <Services t={t} />
     <GalleryPreview go={go} t={t} />
     <Testimonials t={t} />
-    <FAQSection /> {/* ✅ FAQ Section Added Here */}
+    <FAQSection />
     <Contact go={go} t={t} currentLang={lang} />
   </>
 );
 
-
-
 export default function App() {
-  const [loading, setLoading] = useState((true));
-  
-  // 💡 ஹைட்ரேஷன் எர்ரரைத் தடுக்க ஆரம்பத்தில் எப்போதும் 'home' என்று வைக்கிறோம்
-  const [page, setPage] = useState(() => {
-  if (typeof window === 'undefined') return 'home';
-  const path = window.location.pathname.replace(/^\/+/, '');
-  return path || 'home';
-});
+  // 💡 1. சர்வர்-கிளையண்ட் இரண்டு பக்கமும் ஒரே மாதிரியாக ஆரம்பிக்க ஸ்டேட்ஸ் மாற்றப்பட்டுள்ளது
+  const [loading, setLoading] = useState(false);
+  const [page, setPage]       = useState('home');
   const [lang, setLang]       = useState("en");
 
   const t = LANG[lang];
 
-  useEffect(() => { 
+  useEffect(() => {
+    const initialPath = window.location.pathname.replace(/^\/+/, '');
+
+    // 💡 `setLoading` மற்றும் `setPage` இரண்டையும் ஒரே setTimeout-க்குள் பாதுகாப்பாக மாற்றுகிறோம்
+    setTimeout(() => {
+      setLoading(true); // 👈 இப்போ இது நெக்ஸ்ட் டிக்-க்கு மாறியதால் எர்ரர் வராது!
+      if (initialPath && initialPath !== 'home') {
+        setPage(initialPath);
+      }
+    }, 0);
 
     const handleBackButton = (event) => {
       if (event.state && event.state.page) {
@@ -103,15 +105,18 @@ export default function App() {
         setPage(path || 'home');
       }
     };
- window.addEventListener('popstate', handleBackButton);
 
-  if (!window.history.state) {
-    const initialPath = window.location.pathname.replace(/^\/+/, '');
-    window.history.replaceState({ page: initialPath || 'home' }, '');
-  }
+    if (typeof window !== 'undefined') {
+      window.addEventListener('popstate', handleBackButton);
+      if (!window.history.state) {
+        window.history.replaceState({ page: initialPath || 'home' }, '');
+      }
+    }
 
-  return () => window.removeEventListener('popstate', handleBackButton);
-}, []);
+    return () => {
+      if (typeof window !== 'undefined') window.removeEventListener('popstate', handleBackButton);
+    };
+  }, []);
 
   const go = useCallback((newPage) => {
     setPage(newPage);
@@ -128,7 +133,6 @@ export default function App() {
 
   const noChrome = ["login", "signup", "admin"].includes(page);
 
-  // ✅ UPVC, WPVC, Glass, Plywood & Perambur Keywords Added
   const getPageSEO = () => {
     const titles = {
       en: {
@@ -165,7 +169,7 @@ export default function App() {
     } else if (page.startsWith("product-")) {
       currentTitle = isTamil ? "தயாரிப்பு விவரங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Product Details | UPVC & WPVC Suppliers";
     } else if (page.startsWith("gallery-")) {
-      currentTitle = isTamil ? "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Gallery | Sree Meenakshi Glass & Plywoods";
+      currentTitle = isTamil ? "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிவைவுட்ஸ்" : "Gallery | Sree Meenakshi Glass & Plywoods";
     } else if (page.startsWith("search-")) {
       currentTitle = isTamil ? "தேடல் முடிவுகள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Search Results | Sree Meenakshi Glass & Plywoods";
     }
@@ -178,7 +182,6 @@ export default function App() {
 
   const { currentTitle, canonicalUrl } = getPageSEO();
 
-  // ✅ FAQ Schema for Google Rich Snippets (AEO Magic)
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -242,8 +245,6 @@ export default function App() {
     return <HomePage go={go} t={t} lang={lang} />;
   };
 
-  //if (loading) return <Loader done={() => setLoading(false)} />;
-
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }}>
       <Helmet key={page}>
@@ -256,7 +257,6 @@ export default function App() {
         )}
       </Helmet>
 
-      {/* ✅ லோடரை வெப்சைட்டின் கட்டமைப்பை உடைக்காமல் இப்படி Overlay-ஆகக் காட்டவும் */}
       {loading && <Loader done={() => setLoading(false)} />}
 
       {!noChrome && <Navbar page={page} go={go} lang={lang} setLang={setLang} t={t} />}
