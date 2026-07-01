@@ -94,7 +94,9 @@ export default function Services({  t }) {
             
             {/* Modal Header */}
             <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ color: '#fff', margin: 0, fontSize: 20, fontWeight: 700, fontFamily: "'Cormorant Garamond', serif" }}>{selectedCategory} - {isTamil ? "சைட் ஒர்க் கேலரி" : "Our Live Installations"}</h3>
+              <h3 style={{ color: '#fff', margin: 0, fontSize: 20, fontWeight: 700, fontFamily: "'Cormorant Garamond', serif" }}>
+                {selectedCategory} - {t.nav?.gallery || "Gallery"}
+              </h3>
               <button onClick={() => setModalOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}><X size={24} /></button>
             </div>
 
