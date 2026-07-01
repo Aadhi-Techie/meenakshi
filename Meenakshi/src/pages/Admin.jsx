@@ -464,6 +464,150 @@ function AnalyticsDashboard({ productsList, enquiriesList }) {
   );
 }
 
+// ✅ 🌟 🌟 புதிய சேர்க்கை: Project Gallery Management Component 🌟 🌟
+function GalleryTab({ galleryList, onRefresh, compressFn }) {
+  const [gTitle, setGTitle] = useState('');
+  const [gCategory, setGCategory] = useState('upv');
+  const [gMediaType, setGMediaType] = useState('image');
+  const [gFile, setGFile] = useState(null);
+  const [gStatus, setGStatus] = useState('');
+  const [gSaving, setGSaving] = useState(false);
+
+  const handleGallerySubmit = async (e) => {
+    e.preventDefault();
+    if (!gTitle.trim() || !gFile) { setGStatus('❌ Title and File are required!'); return; }
+    setGSaving(true);
+    setGStatus('⏳ Processing upload...');
+    try {
+      let fileToUpload = gFile;
+      if (gMediaType === 'image') {
+        setGStatus('📸 Compressing image and converting to WebP...');
+        fileToUpload = await compressFn(gFile);
+      }
+
+      const fileExt = gMediaType === 'image' ? 'webp' : gFile.name.split('.').pop();
+      const uniqueFileName = `${Date.now()}_gallery.${fileExt}`;
+
+      setGStatus('🚀 Uploading to Supabase Storage bucket (project-media)...');
+      const { error: uploadError } = await supabase.storage
+        .from('project-media')
+        .upload(uniqueFileName, fileToUpload);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('project-media')
+        .getPublicUrl(uniqueFileName);
+
+      setGStatus('💾 Saving entries to project_gallery table...');
+      const { error: dbError } = await supabase.from('project_gallery').insert([
+        {
+          title: gTitle.trim(),
+          category_id: gCategory,
+          media_url: publicUrl,
+          media_type: gMediaType
+        }
+      ]);
+
+      if (dbError) throw dbError;
+
+      setGStatus('✅ Successfully uploaded and saved to Gallery!');
+      setGTitle('');
+      setGFile(null);
+      if (document.getElementById('galleryFileInput')) document.getElementById('galleryFileInput').value = '';
+      onRefresh();
+    } catch (err) {
+      setGStatus(`❌ Error: ${err.message}`);
+    } finally {
+      setGSaving(false);
+    }
+  };
+
+  const handleDeleteGallery = async (id, title) => {
+    if (!window.confirm(`Delete "${title}" from gallery?`)) return;
+    const { error } = await supabase.from('project_gallery').delete().eq('id', id);
+    if (error) { alert("Error: " + error.message); return; }
+    onRefresh();
+  };
+
+  const inp = { width: "100%", padding: 12, background: "rgba(255,255,255,0.02)", border: "1px solid var(--brd)", borderRadius: 8, color: "#fff" };
+
+  return (
+    <div style={{ animation: "fadeUp .4s ease" }}>
+      <div className="g" style={{ padding: 32, borderRadius: 16, marginBottom: 32, border: "1px solid var(--brd)" }}>
+        <div style={{ fontSize: 18, fontWeight: 700, color: "var(--o)", marginBottom: 20, display: "flex", alignItems: "center", gap: 10 }}>
+          <PlusCircle size={20} /> Add Work to Project Gallery (Photos / Videos)
+        </div>
+        <form onSubmit={handleGallerySubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div>
+              <label style={{ fontSize: 13, color: "var(--sl3)", display: "block", marginBottom: 6, fontWeight: 600 }}>Category *</label>
+              <select value={gCategory} onChange={e => setGCategory(e.target.value)} style={{ ...inp, background: "#121214" }}>
+                <option value="upv">UPVC Windows & Doors</option>
+                <option value="glass">Premium Glass Works</option>
+                <option value="ply">Plywood / Interiors</option>
+              </select>
+            </div>
+            <div>
+              <label style={{ fontSize: 13, color: "var(--sl3)", display: "block", marginBottom: 6, fontWeight: 600 }}>Media Type *</label>
+              <select value={gMediaType} onChange={e => { setGMediaType(e.target.value); setGFile(null); }} style={{ ...inp, background: "#121214" }}>
+                <option value="image">Photo (Auto-compressed to WebP)</option>
+                <option value="video">Video (Upload compressed MP4)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label style={{ fontSize: 13, color: "var(--sl3)", display: "block", marginBottom: 6, fontWeight: 600 }}>Title / SEO Name *</label>
+            <input style={inp} value={gTitle} onChange={e => setGTitle(e.target.value)} placeholder="e.g. Premium Toughened Glass Shower Cubicle Enclosure" />
+          </div>
+          <div style={{ background: "rgba(255,255,255,0.01)", border: "1px dashed var(--brd)", padding: 20, borderRadius: 12, textAlign: "center" }}>
+            <input id="galleryFileInput" type="file" accept={gMediaType === 'image' ? 'image/*' : 'video/*'} onChange={e => setGFile(e.target.files[0])} required style={{ color: "#fff" }} />
+            {gMediaType === 'video' && <div style={{ fontSize: 11, color: "var(--sl)", marginTop: 6 }}>💡 Max 10MB recommended. Compress via FreeConvert first.</div>}
+          </div>
+          {gStatus && <div style={{ padding: 12, background: "rgba(255,255,255,0.03)", border: "1px solid var(--brd)", borderRadius: 8, fontSize: 14, color: gStatus.includes('❌') ? '#ef4444' : gStatus.includes('✅') ? '#22c55e' : 'var(--o)' }}>{gStatus}</div>}
+          <button type="submit" disabled={gSaving} className="bo" style={{ padding: 14, borderRadius: 10, fontWeight: 700, cursor: gSaving ? "not-allowed" : "pointer", opacity: gSaving ? 0.6 : 1 }}>Upload to Gallery</button>
+        </form>
+      </div>
+
+      <div className="g" style={{ padding: 24, borderRadius: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 20, borderBottom: "1px solid var(--brd)", paddingBottom: 12 }}>Gallery Items ({galleryList.length})</h2>
+        {galleryList.length === 0 ? <div style={{ textAlign: "center", padding: 30, color: "var(--sl)" }}>No items in gallery.</div> : (
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", textAlign: "left", borderCollapse: "collapse" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid var(--brd)", color: "var(--sl3)", fontSize: 14 }}>
+                  <th style={{ padding: "12px 8px" }}>Preview</th>
+                  <th style={{ padding: "12px 8px" }}>Title & Category</th>
+                  <th style={{ padding: "12px 8px" }}>Type</th>
+                  <th style={{ padding: "12px 8px", textAlign: "right" }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {galleryList.map(item => (
+                  <tr key={item.id} style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <td style={{ padding: "12px 8px" }}>
+                      {item.media_type === 'video' ? (
+                        <div style={{ width: 50, height: 50, background: "#000", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#fff" }}>🎬 VIDEO</div>
+                      ) : (
+                        <img src={item.media_url} alt="" style={{ width: 50, height: 50, objectFit: "cover", borderRadius: 8 }} />
+                      )}
+                    </td>
+                    <td style={{ padding: "12px 8px", fontWeight: 600 }}>{item.title}<div style={{ fontSize: 11, color: "var(--sl)", marginTop: 4 }}>Category ID: {item.category_id}</div></td>
+                    <td style={{ padding: "12px 8px" }}><span style={{ textTransform: "uppercase", fontSize: 11, background: "rgba(255,255,255,0.05)", padding: "3px 6px", borderRadius: 4 }}>{item.media_type}</span></td>
+                    <td style={{ padding: "12px 8px", textAlign: "right" }}>
+                      <button onClick={() => handleDeleteGallery(item.id, item.title)} style={{ background: "rgba(239,68,68,0.1)", color: "#ef4444", border: "none", padding: "8px 12px", borderRadius: 6, cursor: "pointer" }}><Trash2 size={15} /></button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Admin({ go }) {
   const [session, setSession] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
@@ -493,6 +637,7 @@ export default function Admin({ go }) {
   const [productsList, setProductsList] = useState([]);
   const [enquiriesList, setEnquiriesList] = useState([]);
   const [reviewsList, setReviewsList] = useState([]);
+  const [galleryList, setGalleryList] = useState([]); // 👈 புதிய ஸ்டேட் சேர்க்கப்பட்டுள்ளது
   const [loadingData, setLoadingData] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -550,6 +695,12 @@ export default function Admin({ go }) {
       const { data: rData, error: rError } = await supabase.from('reviews').select('*').order('created_at', { ascending: false });
       if (rError) console.error("Reviews Error:", rError.message);
       if (rData) setReviewsList(rData);
+
+      // 👈 புதிய சேர்க்கை: project_gallery டேட்டாவை சுபாபேஸிலிருந்து இழுத்தல்
+      const { data: gData, error: gError } = await supabase.from('project_gallery').select('*').order('id', { ascending: false });
+      if (gError) console.error("Gallery Error:", gError.message);
+      if (gData) setGalleryList(gData);
+
     } catch (err) {
       console.error("Error:", err.message);
     } finally {
@@ -796,12 +947,13 @@ export default function Admin({ go }) {
               </div>
             </div>
 
-            {/* ✅ TABS — 4 tabs: Products, Enquiries, Reviews, Analytics */}
+            {/* ✅ TABS — 5 tabs: Products, Enquiries, Reviews, Project Gallery, Analytics */}
             <div style={{ display: "flex", gap: 8, marginBottom: 32, borderBottom: "1px solid var(--brd)", paddingBottom: 16, flexWrap: "wrap" }}>
               {[
                 { key: 'products', icon: <Package size={16} />, label: 'Manage Products' },
                 { key: 'enquiries', icon: <MessageSquare size={16} />, label: 'Customer Enquiries', badge: enquiriesList.filter(e => e.status !== 'completed').length },
                 { key: 'reviews', icon: <Star size={16} />, label: 'Reviews', badge: reviewsList.length },
+                { key: 'gallery', icon: <Image size={16} />, label: 'Project Gallery', badge: galleryList.length }, // 👈 புதிய டேப் பட்டன்
                 { key: 'analytics', icon: <BarChart2 size={16} />, label: 'Analytics' },
               ].map(tab => (
                 <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
@@ -825,6 +977,9 @@ export default function Admin({ go }) {
 
             {/* ✅ REVIEWS TAB */}
             {activeTab === 'reviews' && <ReviewsTab reviewsList={reviewsList} onRefresh={fetchData} />}
+
+            {/* ✅ 🌟 புதிய சேர்க்கை: PROJECT GALLERY TAB 🌟 */}
+            {activeTab === 'gallery' && <GalleryTab galleryList={galleryList} onRefresh={fetchData} compressFn={compressAndConvertToWebP} />}
 
             {activeTab === 'products' && (
               <div style={{ animation: "fadeUp .4s ease" }}>
@@ -893,7 +1048,7 @@ export default function Admin({ go }) {
                       <input type="text" value={thickness} onChange={e => setThickness(e.target.value)} placeholder="e.g. 8mm" style={{ width: "100%", padding: 12, background: "rgba(255,255,255,0.02)", border: "1px solid var(--brd)", borderRadius: 8, color: "#fff" }} />
                     </div>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", background: inStock ? "rgba(34,197,94,0.05)" : "rgba(239,68,68,0.05)", border: `1px solid ${inStock ? "rgba(34,197,94,0.2)" : "rgba(239,68,68,0.2)"}`, borderRadius: 12 }}>
+                  <div style={{ display: "flex", alignItems: "center", justifycontent: "space-between", padding: "16px 20px", background: inStock ? "rgba(34,197,94,0.05)" : "rgba(239,68,68,0.05)", border: `1px solid ${inStock ? "rgba(34,197,94,0.2)" : "rgba(239,68,68,0.2)"}`, borderRadius: 12 }}>
                     <div>
                       <div style={{ fontSize: 14, fontWeight: 700, color: "var(--w)", marginBottom: 2 }}>Stock Availability</div>
                       <div style={{ fontSize: 12, color: "var(--sl3)" }}>{inStock ? "✅ Product is available for customers" : "❌ Product is out of stock"}</div>
