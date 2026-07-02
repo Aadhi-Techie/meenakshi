@@ -183,7 +183,7 @@ export default function Navbar({ page, go, lang, setLang, t }) {
         inert={!mob}
         style={{ display: mob ? 'block' : 'none' }}
       >
-        <div style={{ display: "flex", alignItems: "center", justifycontent: "space-between", padding: "20px 22px", borderBottom: "1px solid var(--brd)" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 22px", borderBottom: "1px solid var(--brd)" }}>
           <div style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 700, fontSize: 18, color: "var(--w)" }}>SreeMeenakshi</div>
           <button onClick={() => setMob(false)} aria-label="Close Mobile Menu" style={{ background: "rgba(255,255,255,.07)", border: "1px solid var(--brd)", color: "var(--w)", padding: 7, borderRadius: 8, cursor: "pointer" }}><X size={16} /></button>
         </div>

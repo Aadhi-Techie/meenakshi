@@ -1,4 +1,4 @@
-import React from 'react'; 
+
 import './BrandSlider.css';
 
 // 🌟 லோக்கல் ஃபோல்டரில் உள்ள படங்களை இணைப்பது

@@ -21,24 +21,21 @@ export default function Hero({ go, t }) {
   const fallbackImageUrl = "/assets/hero-bg.jpg";
 
   useEffect(() => {
-    
     const fetchImages = async () => {
       try {
+        // 🌟 திருத்தம்: ப்ராடக்ட் பக்கத்திற்குச் செல்ல 'id' காலமையும் சேர்த்து எடுக்கிறோம்
         const { data, error } = await supabase
           .from('products')
-          .select('category, subcategory, image_url')
+          .select('id, category, subcategory, image_url')
           .not('image_url', 'is', null);
 
         if (error) throw error;
         
         if (data && data.length > 0) {
-          // இங்கேதான் நாம் மேஜிக் செய்யப் போகிறோம்!
-          // UPVC மற்றும் WPVC ஆகியவற்றை முதலில் வைக்கும் வரிசைப்படுத்துதல்
           const sortedData = data.sort((a, b) => {
             const catA = a.category.toLowerCase();
             const catB = b.category.toLowerCase();
             
-            // UPVC அல்லது WPVC முன்னுரிமை (Priority)
             const isPriorityA = (catA.includes('upvc') || catA.includes('wpvc')) ? 0 : 1;
             const isPriorityB = (catB.includes('upvc') || catB.includes('wpvc')) ? 0 : 1;
             
@@ -53,6 +50,7 @@ export default function Hero({ go, t }) {
     };
     fetchImages();
   }, []);
+
   useEffect(() => {
     if (slideImages.length > 0) {
       const timer = setInterval(() => {
@@ -62,17 +60,49 @@ export default function Hero({ go, t }) {
     }
   }, [slideImages]);
 
-  const defaultSlide = { category: isTamil ? "பிரீமியம்" : "Premium", subcategory: defaultSubTxt, image_url: fallbackImageUrl };
+  const defaultSlide = { id: null, category: isTamil ? "பிரீமியம்" : "Premium", subcategory: defaultSubTxt, image_url: fallbackImageUrl };
   const currentSlide = slideImages.length > 0 ? slideImages[currentIndex] : defaultSlide;
 
   return (
-    <section aria-labelledby="hero-heading" style={{ paddingTop: "120px", paddingBottom: "60px", background: "var(--bg)", position: "relative", overflow: "hidden" }}>
+    <section aria-labelledby="hero-heading" style={{ paddingTop: "clamp(100px, 12vw, 140px)", paddingBottom: "60px", background: "var(--bg)", position: "relative", overflow: "hidden" }}>
+
+      {/* ── 🌟 INJECTING RESPONSIVE LAYOUT FIX CSS ── */}
+      <style>{`
+        .hero-wrap-container {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 40px;
+        }
+        .hero-right-card {
+          flex: 1 1 400px;
+          z-index: 1;
+          animation: fadeUp 1s ease;
+          width: 100%;
+        }
+        @media (max-width: 768px) {
+          .hero-wrap-container {
+            flex-direction: column-reverse !important; /* மொபைலில் ஸ்லைடர் மேலே வர */
+            gap: 28px !important;
+          }
+          .hero-right-card {
+            flex: 1 1 100% !important;
+          }
+          .hero-card-padding {
+            padding: 16px !important; /* மொபைலில் கார்டு கட் ஆகாமல் தடுக்க சுருக்கப்பட்ட அளவு */
+            border-radius: 24px !important;
+          }
+          .hero-slider-img-box {
+            height: 240px !important; /* மொபைல் திரைக்கு ஏற்ற கச்சிதமான உயரம் */
+          }
+        }
+      `}</style>
 
       {/* Background glow */}
       <div style={{ position: "absolute", top: "10%", left: "5%", width: 300, height: 300, background: "var(--o)", filter: "blur(150px)", opacity: 0.15, borderRadius: "50%", pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: "10%", right: "5%", width: 300, height: 300, background: "#38bdf8", filter: "blur(150px)", opacity: 0.1, borderRadius: "50%", pointerEvents: "none" }} />
 
-      <div className="wrap" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "40px" }}>
+      <div className="hero-wrap-container wrap">
 
         {/* Left Content */}
         <div style={{ flex: "1 1 400px", zIndex: 1, animation: "fadeUp .8s ease" }}>
@@ -80,69 +110,78 @@ export default function Hero({ go, t }) {
             <Star size={14} fill="var(--o)" aria-hidden="true" /> {badgeTxt}
           </div>
 
-          <h1 id="hero-heading" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(48px, 6vw, 72px)", fontWeight: 800, lineHeight: 1.1, color: "var(--w)", marginBottom: 24, whiteSpace: "pre-line" }}>
+          <h1 id="hero-heading" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(42px, 5.5vw, 68px)", fontWeight: 800, lineHeight: 1.15, color: "var(--w)", marginBottom: 24, whiteSpace: "pre-line" }}>
             <span style={{ color: "var(--o)" }}>{headLine1}</span><br />
             {headLine2}
           </h1>
 
-          <p style={{ color: "var(--sl3)", fontSize: "clamp(16px, 2vw, 18px)", lineHeight: 1.6, marginBottom: 40, maxWidth: 480 }}>
+          <p style={{ color: "var(--sl3)", fontSize: "clamp(15px, 1.8vw, 17px)", lineHeight: 1.6, marginBottom: 32, maxWidth: 480 }}>
             {t?.hS}
           </p>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-            <button className="bo" aria-label={t?.hBtn1} onClick={() => go('gallery')} style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12, display: "flex", alignItems: "center", gap: 8 }}>
+            <button className="bo" aria-label={t?.hBtn1} onClick={() => go('gallery')} style={{ padding: "14px 28px", fontSize: 15, borderRadius: 12, display: "flex", alignItems: "center", gap: 8 }}>
               {t?.hBtn1} <ArrowRight size={18} aria-hidden="true" />
             </button>
-            <button className="bw" aria-label={t?.hBtn2} onClick={() => go('contact')} style={{ padding: "16px 32px", fontSize: 16, borderRadius: 12 }}>
+            <button className="bw" aria-label={t?.hBtn2} onClick={() => go('contact')} style={{ padding: "14px 28px", fontSize: 15, borderRadius: 12 }}>
               {t?.hBtn2}
             </button>
           </div>
         </div>
 
         {/* Right Slider */}
-        <div style={{ flex: "1 1 400px", zIndex: 1, animation: "fadeUp 1s ease" }}>
-          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--brd)", borderRadius: 32, padding: 24, display: "flex", flexDirection: "column", gap: 24, backdropFilter: "blur(10px)" }}>
+        <div className="hero-right-card">
+          <div className="hero-card-padding" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--brd)", borderRadius: 32, padding: 24, display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(10px)" }}>
 
-            {/* Image */}
-            <div style={{ width: "100%", height: "300px", borderRadius: 20, background: "var(--bg2)", position: "relative", overflow: "hidden", border: "1px solid rgba(255,255,255,0.05)" }}>
+            {/* Image Box ➡️ 🌟 கிளிக் செய்தால் ப்ராடக்ட் விவரப் பக்கத்திற்குச் செல்லும் ட்ரிக் */}
+            <div 
+              onClick={() => {
+                if (currentSlide.id) {
+                  go(`product-${currentSlide.id}`); // 🔗 ஐடி இருந்தால் நேரடி ப்ராடக்ட் பக்கம்!
+                } else if (currentSlide.category) {
+                  go(`category-${currentSlide.category.toLowerCase()}`); // சேஃப்பஸ்ட் ஃபால்பேக் கேட்டகிரி
+                }
+              }} 
+              className="hero-slider-img-box"
+              style={{ width: "100%", height: "300px", borderRadius: 20, background: "var(--bg2)", position: "relative", overflow: "hidden", border: "1px solid rgba(255,255,255,0.05)", cursor: "pointer", transition: "transform 0.3s ease" }}
+              onMouseEnter={e => e.currentTarget.style.transform = "scale(1.01)"}
+              onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
+            >
               <img
                 src={currentSlide.image_url}
                 alt={`${currentSlide.category || 'Premium'} ${showroomTxt} - Sree Meenakshi Glass and Plywoods`}
                 fetchPriority="high"
                 decoding="async"
-                width="400"
-                height="300"
-                // ✅ FIX WARN 4: fallback on broken image
                 onError={(e) => { e.target.onerror = null; e.target.src = fallbackImageUrl; }}
                 style={{ width: "100%", height: "100%", objectFit: "cover", transition: "opacity 0.5s ease" }}
               />
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "40px 20px 20px", background: "linear-gradient(to top, rgba(0,0,0,0.9), transparent)", textAlign: "center" }}>
-                <h2 style={{ color: "var(--w)", fontSize: 22, fontWeight: 700, fontFamily: "'Cormorant Garamond', serif", margin: 0 }}>
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "40px 20px 20px", background: "linear-gradient(to top, rgba(0,0,0,0.95), transparent)", textAlign: "center" }}>
+                <h2 style={{ color: "var(--w)", fontSize: 20, fontWeight: 700, fontFamily: "'Cormorant Garamond', serif", margin: 0 }}>
                   {currentSlide.category} {showroomTxt}
                 </h2>
-                <p style={{ color: "var(--sl)", fontSize: 13, marginTop: 4 }}>
+                <p style={{ color: "var(--sl)", fontSize: 12, marginTop: 4, margin: 0 }}>
                   {currentSlide.subcategory || defaultSubTxt}
                 </p>
               </div>
             </div>
 
-            {/* ✅ FIX FAIL 3: Slider dots → interactive buttons */}
+            {/* Slider dots */}
             <div role="group" aria-label="Image Slider Controls" style={{ display: "flex", justifyContent: "center", gap: 8 }}>
-              {slideImages.length > 0 ? slideImages.map((slide, i) => (
+              {slideImages.length > 0 ? slideImages.slice(0, 10).map((slide, i) => ( // 💡 மேக்ஸிமம் 10 டாட்டுகள் மட்டும் மொபைலில் கச்சிதமாக தெரிய
                 <button
                   key={i}
                   onClick={() => setCurrentIndex(i)}
-                  aria-label={`Go to slide ${i + 1}: ${slide.category || ''}`}
+                  aria-label={`Go to slide ${i + 1}`}
                   aria-current={i === currentIndex ? "true" : undefined}
-                  style={{ width: i === currentIndex ? 24 : 8, height: 8, borderRadius: 4, background: i === currentIndex ? "var(--o)" : "var(--sl3)", transition: "all 0.3s ease", border: "none", cursor: "pointer", padding: 0 }}
+                  style={{ width: i === currentIndex ? 20 : 7, height: 7, borderRadius: 4, background: i === currentIndex ? "var(--o)" : "var(--sl3)", transition: "all 0.3s ease", border: "none", cursor: "pointer", padding: 0 }}
                 />
               )) : (
-                <div style={{ width: 24, height: 8, borderRadius: 4, background: "var(--o)" }} />
+                <div style={{ width: 24, height: 7, borderRadius: 4, background: "var(--o)" }} />
               )}
             </div>
 
             {/* Category Buttons */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               {[
                 { name: catNames[0], route: "glass",    icon: "🪟" },
                 { name: catNames[1], route: "plywoods", icon: "🪵" },
@@ -153,11 +192,11 @@ export default function Hero({ go, t }) {
                   key={cat.route}
                   aria-label={`View ${cat.name} category`}
                   onClick={() => go(`category-${cat.route}`)}
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--brd)", padding: 12, borderRadius: 12, display: "flex", alignItems: "center", gap: 12, color: "var(--sl3)", fontSize: 14, fontWeight: 600, cursor: "pointer", transition: "all 0.2s" }}
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--brd)", padding: "10px 12px", borderRadius: 12, display: "flex", alignItems: "center", gap: 10, color: "var(--sl3)", fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.2s" }}
                   onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = "var(--w)"; }}
                   onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.03)"; e.currentTarget.style.color = "var(--sl3)"; }}
                 >
-                  <span style={{ fontSize: 18 }} aria-hidden="true">{cat.icon}</span> {cat.name}
+                  <span style={{ fontSize: 16 }} aria-hidden="true">{cat.icon}</span> {cat.name}
                 </button>
               ))}
             </div>

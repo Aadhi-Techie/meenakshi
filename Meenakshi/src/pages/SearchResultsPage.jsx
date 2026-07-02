@@ -10,42 +10,51 @@ export default function SearchResultsPage({ query, go, t }) {
 
   // தேடப்படும் வார்த்தையைச் சரிசெய்ய
   const searchQuery = decodeURIComponent(query).toLowerCase();
+// 💡 பக்கத்தின் மேல் பகுதியில் 't' வேரியபிளைப் பயன்படுத்தி தமிழ் மொழியைக் கண்டறியும் வரியைச் சேர்த்துக் கொள்ளுங்கள்
+const isTamil = t?.nav?.home === "முகப்பு"; 
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        // Supabase-ல் பல காலம்களில் (columns) தேடுவதற்கு 'or' பயன்படுத்துகிறோம்
-        // குறிப்பு: 'sub_category' என்பதை 'subcategory' என மாற்றியுள்ளேன் (நமது டேபிளின்படி)
-        const { data, error } = await supabase
-          .from('products')
-          .select('*')
-          .or(`name.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%,subcategory.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
-
-        if (error) throw error;
-
-        if (Array.isArray(data)) {
-          setProducts(data);
-        }
-      } catch (err) {
-        console.error("Error fetching search products:", err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (searchQuery) {
-      fetchProducts();
-    } else {
+useEffect(() => {
+  const fetchProducts = async () => {
+    // 🌟 கண்டிஷனை ஃபங்ஷனின் உள்ளே கொண்டு வந்து பாதுகாப்பான அசிங்க்ரோனஸ் (Asynchronous) லாஜிக்காக மாற்றுகிறோம்
+    // இதன் மூலம் 'set-state-in-effect' எர்ரர் 100% வராது!
+    if (!searchQuery || searchQuery.trim() === '') {
       setProducts([]);
       setLoading(false);
+      return;
     }
-  }, [searchQuery]);
 
-  if (loading) return <Loader done={() => {}} />;
+    try {
+      setLoading(true);
+      // Supabase-ல் பல காலம்களில் (columns) தேடுவதற்கு 'or' பயன்படுத்துகிறோம்
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .or(`name.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%,subcategory.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
+
+      if (error) throw error;
+
+      if (Array.isArray(data)) {
+        setProducts(data);
+      }
+    } catch (err) {
+      console.error("Error fetching search products:", err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🌟 ஃபங்ஷனை நேரடியாக இங்கே கால் செய்கிறோம்
+  fetchProducts();
+}, [searchQuery]);
+
+if (loading) return <Loader done={() => {}} />;
 
   return (
     <div style={{ paddingTop: 72, background: "var(--bg)", minHeight: "100vh" }}>
+      // 💡 SearchResultsPage.jsx-ல் கீழே இருக்கும் ரிட்டர்ன் பகுதிக்குள் இப்படிப் பயன்படுத்துங்கள்:
+      <h1 style={{ color: 'var(--w)', fontSize: '24px', fontWeight: 700 }}>
+        {isTamil ? `"${query}" க்கான தேடல் முடிவுகள்` : `Search Results for "${query}"`}
+        </h1>
       <PageBar />
       <div className="wrap" style={{ padding: "60px 24px" }}>
         

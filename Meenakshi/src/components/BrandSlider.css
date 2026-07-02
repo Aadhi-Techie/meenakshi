@@ -23,7 +23,7 @@
   /* Fixed width-ஐ எடுத்துவிட்டு padding மூலம் இடைவெளி கொடுத்துள்ளோம் */
   display: flex;
   align-items: center;
-  justify-content: center;
+  justifyContent: center;
   padding: 0 40px; 
 }
 
