@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet-async';
 const tData = {
   en: {
     visit_us: "Visit Our Perambur Showroom", call: "Call Sree Meenakshi", email: "Email", hours: "Opening Hours",
-    hours_mon_sat: "Mon-Sat: 8.30 AM - 9 PM", hours_sun: "Sunday: 10 AM - 5 PM",
+    hours_mon_sat: "Mon-Sat: 8:30 AM - 9:00 PM", hours_sun: "Sunday: 10:00 AM - 5:00 PM",
     call_now: "Call Now", whatsapp_us: "WhatsApp Us",
     send_enquiry: "Enquiry | UPVC, WPVC & Plywood Shop in Perambur",
     form_title: "Sree Meenakshi Glass & Plywoods, Perambur",
@@ -25,7 +25,7 @@ const tData = {
   },
   ta: {
     visit_us: "எங்கள் பெரம்பூர் கிளைக்கு வருகை தாருங்கள்", call: "அழைக்க", email: "மின்னஞ்சல்", hours: "வேலை நேரம்",
-    hours_mon_sat: "திங்கள்-சனி: காலை 8.30 - இரவு 9 மணி", hours_sun: "ஞாயிறு: காலை 10 - மாலை 5 மணி",
+    hours_mon_sat: "திங்கள்-சனி: காலை 8:30  - இரவு 9:00 மணி", hours_sun: "ஞாயிறு: காலை 10:00 AM - மாலை 5:00 PM   மணி",
     call_now: "அழைக்க", whatsapp_us: "வாட்ஸ்அப்",
     send_enquiry: "விசாரணை | பெரம்பூர் கிளாஸ் & பிளைவுட் கடை",
     form_title: "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ், பெரம்பூர்",
