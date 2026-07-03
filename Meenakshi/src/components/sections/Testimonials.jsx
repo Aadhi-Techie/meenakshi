@@ -40,7 +40,7 @@ export default function Testimonials({ t }) {
     {
       name: "Lakshmi Devi",
       role: isTamil ? "கட்டிடக்கலை நிபுணர்" : "Architect",
-      rating: 4,
+      rating: 5,
       review_text: isTamil
         ? "கட்டிடக்கலை வரைபடங்களைச் சரியாகப் புரிந்துகொள்ளும் ப்ரொபஷனல் அணி. அவர்களின் அலுமினியம் ஃபேப்ரிகேஷன் மிகச் சிறப்பாக இருந்தது."
         : "Professional team that understands architectural specifications. Their aluminium curtain wall system was fabricated perfectly.",
