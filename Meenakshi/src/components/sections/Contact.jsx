@@ -5,7 +5,9 @@ import { Helmet } from 'react-helmet-async';
 
 const tData = {
   en: {
-    visit_us: "Visit Our Perambur Showroom", call: "Call Sree Meenakshi", email: "Email", hours: "Opening Hours",
+    visit_us: "Visit Our Perambur Showroom", 
+    new_address: "Our New Address", // 👈 புதிய ஆங்கிலத் தலைப்பு
+    call: "Call Sree Meenakshi", email: "Email", hours: "Opening Hours",
     hours_mon_sat: "Mon-Sat: 8:30 AM - 9:00 PM", hours_sun: "Sunday: 10:00 AM - 5:00 PM",
     call_now: "Call Now", whatsapp_us: "WhatsApp Us",
     send_enquiry: "Enquiry | UPVC, WPVC & Plywood Shop in Perambur",
@@ -24,11 +26,13 @@ const tData = {
     ph_message: "Tell us about your requirement..."
   },
   ta: {
-    visit_us: "எங்கள் பெரம்பூர் கிளைக்கு வருகை தாருங்கள்", call: "அழைக்க", email: "மின்னஞ்சல்", hours: "வேலை நேரம்",
+    visit_us: "எங்கள் பெரம்பூர் கிளைக்கு வருகை தாருங்கள்",
+    new_address: "எங்கள் புதிய முகவரி", // 👈 புதிய தமிழ்த் தலைப்பு
+    call: "அழைக்க", email: "மின்னஞ்சல்", hours: "வேலை நேரம்",
     hours_mon_sat: "திங்கள்-சனி: காலை 8:30  - இரவு 9:00 மணி", hours_sun: "ஞாயிறு: காலை 10:00 AM - மாலை 5:00 PM   மணி",
     call_now: "அழைக்க", whatsapp_us: "வாட்ஸ்அப்",
     send_enquiry: "விசாரணை | பெரம்பூர் கிளாஸ் & பிளைவுட் கடை",
-    form_title: "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ், பெரம்பூர்",
+    form_title: "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ், பேரம்பூர்",
     form_subtitle: "மொத்த விலைப் பட்டியலுக்கு தொடர்பு கொள்ளுங்கள்",
     full_name: "முழு பெயர்", email_address: "மின்னஞ்சல்",
     phone_number: "தொலைபேசி எண்", product_interest: "தேவைப்படும் பொருள்", your_message: "உங்கள் கருத்து",
@@ -155,15 +159,25 @@ export default function Contact({ currentLang = 'ta' }) {
             
             {/* Left: Info Cards */}
             <div style={{ flex: '1 1 340px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+              
+              {/* ── NEW ADDRESS CARD ── */}
+              <div style={cardStyle}>
+                <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
+                <div>
+                  <p style={labelStyle}>{t('new_address')}</p>
+                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
+                    Tiru Vi Ka Nagar, Perambur,<br />Chennai, Greater Chennai, Tamil Nadu 600011
+                  </p>
+                </div>
+              </div>
+
+              {/* ── OLD ADDRESS CARD ── */}
               <div style={cardStyle}>
                 <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
                 <div>
                   <p style={labelStyle}>{t('visit_us')}</p>
                   <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
-                    Tiru Vi Ka Nagar<br />Perambur, Chennai, Greater Chennai, Tamil Nadu-600011
-                  </p>
-                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
-                    No 26, Narayana Street, Pallavan Salai<br/> opposite to Essensuals Hair Dressing, Tiru Vi Ka Nagar<br />Perambur, Chennai, Tamil Nadu 600011
+                    No:26/23, Sathiya Narayanan Street, Palavan Salai,<br />Perambur, Chennai – 600011, Tamil Nadu.
                   </p>
                 </div>
               </div>
