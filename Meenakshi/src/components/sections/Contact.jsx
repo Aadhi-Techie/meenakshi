@@ -160,7 +160,10 @@ export default function Contact({ currentLang = 'ta' }) {
                 <div>
                   <p style={labelStyle}>{t('visit_us')}</p>
                   <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
-                    No:26/23, Sathiya Narayanan Street, Palavan Salai,<br />Perambur, Chennai – 600011, Tamil Nadu.
+                    Tiru Vi Ka Nagar<br />Perambur, Chennai, Greater Chennai, Tamil Nadu-600011
+                  </p>
+                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
+                    No 26, Narayana Street, Pallavan Salai<br/> opposite to Essensuals Hair Dressing, Tiru Vi Ka Nagar<br />Perambur, Chennai, Tamil Nadu 600011
                   </p>
                 </div>
               </div>
