@@ -5,8 +5,8 @@ import { Helmet } from 'react-helmet-async';
 
 const tData = {
   en: {
-    visit_us: "Visit Our Perambur Showroom", 
-    new_address: "Our New Address", // 👈 புதிய ஆங்கிலத் தலைப்பு
+    visit_us: "Our Old Showroom",
+    new_address: "Our New Address",
     call: "Call Sree Meenakshi", email: "Email", hours: "Opening Hours",
     hours_mon_sat: "Mon-Sat: 8:30 AM - 9:00 PM", hours_sun: "Sunday: 10:00 AM - 5:00 PM",
     call_now: "Call Now", whatsapp_us: "WhatsApp Us",
@@ -26,13 +26,13 @@ const tData = {
     ph_message: "Tell us about your requirement..."
   },
   ta: {
-    visit_us: "எங்கள் பெரம்பூர் கிளைக்கு வருகை தாருங்கள்",
-    new_address: "எங்கள் புதிய முகவரி", // 👈 புதிய தமிழ்த் தலைப்பு
+    visit_us: "எங்கள் பழைய ஷோரூம்",
+    new_address: "எங்கள் புதிய முகவரி",
     call: "அழைக்க", email: "மின்னஞ்சல்", hours: "வேலை நேரம்",
     hours_mon_sat: "திங்கள்-சனி: காலை 8:30  - இரவு 9:00 மணி", hours_sun: "ஞாயிறு: காலை 10:00 AM - மாலை 5:00 PM   மணி",
     call_now: "அழைக்க", whatsapp_us: "வாட்ஸ்அப்",
     send_enquiry: "விசாரணை | பெரம்பூர் கிளாஸ் & பிளைவுட் கடை",
-    form_title: "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ், பேரம்பூர்",
+    form_title: "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ், பெரம்பூர்",
     form_subtitle: "மொத்த விலைப் பட்டியலுக்கு தொடர்பு கொள்ளுங்கள்",
     full_name: "முழு பெயர்", email_address: "மின்னஞ்சல்",
     phone_number: "தொலைபேசி எண்", product_interest: "தேவைப்படும் பொருள்", your_message: "உங்கள் கருத்து",
@@ -107,6 +107,7 @@ export default function Contact({ currentLang = 'ta' }) {
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
 
+  // 3 எண்களும் வரிசையாக இங்கே அப்டேட் செய்யப்பட்டுள்ளது நண்பா
   const adminNumbers = ["919790923750", "919884822999", "919940504234"];
 
   const t = (key) => tData[currentLang]?.[key] || tData['en']?.[key] || key;
@@ -157,10 +158,10 @@ export default function Contact({ currentLang = 'ta' }) {
           {/* ── TOP ROW: Info Cards (Left) & Form (Right) ── */}
           <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'flex-start' }}>
             
-            {/* Left: Info Cards */}
+            {/* Left: Individual Info Cards */}
             <div style={{ flex: '1 1 340px', display: 'flex', flexDirection: 'column', gap: 14 }}>
               
-              {/* ── NEW ADDRESS CARD ── */}
+              {/* 1. புதிய முகவரி கார்டு */}
               <div style={cardStyle}>
                 <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
                 <div>
@@ -171,7 +172,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 </div>
               </div>
 
-              {/* ── OLD ADDRESS CARD ── */}
+              {/* 2. பழைய முகவரி கார்டு */}
               <div style={cardStyle}>
                 <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
                 <div>
@@ -182,16 +183,24 @@ export default function Contact({ currentLang = 'ta' }) {
                 </div>
               </div>
 
+              {/* 3. முதலாவது போன் கார்டு */}
               <div style={cardStyle}>
                 <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
                 <div style={{ width: '100%' }}>
-                  <p style={labelStyle}>{t('call')}</p>
+                  <p style={labelStyle}>{t('call')} 1</p>
                   <a href={`tel:${adminNumbers[0]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[0].slice(-10)}</a>
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                     <a href={`tel:${adminNumbers[0]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
                     <a href={`https://wa.me/${adminNumbers[0]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
                   </div>
-                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', margin: '14px 0' }} />
+                </div>
+              </div>
+
+              {/* 4. இரண்டாவது போன் கார்டு */}
+              <div style={cardStyle}>
+                <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
+                <div style={{ width: '100%' }}>
+                  <p style={labelStyle}>{t('call')} 2</p>
                   <a href={`tel:${adminNumbers[1]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[1].slice(-10)}</a>
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                     <a href={`tel:${adminNumbers[1]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
@@ -200,6 +209,20 @@ export default function Contact({ currentLang = 'ta' }) {
                 </div>
               </div>
 
+              {/* 5. மூன்றாவது புதிய போன் கார்டு (99405 04234) */}
+              <div style={cardStyle}>
+                <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
+                <div style={{ width: '100%' }}>
+                  <p style={labelStyle}>{t('call')} 3</p>
+                  <a href={`tel:${adminNumbers[2]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[2].slice(-10)}</a>
+                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                    <a href={`tel:${adminNumbers[2]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
+                    <a href={`https://wa.me/${adminNumbers[2]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
+                  </div>
+                </div>
+              </div>
+
+              {/* 6. மின்னஞ்சல் கார்டு */}
               <div style={cardStyle}>
                 <div style={iconBadge}><Mail size={20} color="var(--o)" /></div>
                 <div>
@@ -208,6 +231,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 </div>
               </div>
 
+              {/* 7. வேலை நேர கார்டு */}
               <div style={cardStyle}>
                 <div style={iconBadge}><Clock size={20} color="var(--o)" /></div>
                 <div>
