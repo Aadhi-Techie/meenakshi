@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer' // 👈 இதோ புதிய இம்போர்ட்
 
 export default defineConfig({
   base: './', 
@@ -33,6 +34,15 @@ export default defineConfig({
           }
         ]
       }
+    }),
+    // 👈 இதோ புதிய இமேஜ் ஆப்டிமைசர் பிளகின் (பழைய கோடு அப்படியே கீழே தொடர்கிறது)
+    ViteImageOptimizer({
+      test: /\.(jpe?g|png|gif|tiff|webp|svg)$/i,
+      includePublic: true,
+      logStats: true,
+      png: { quality: 75 },
+      jpeg: { quality: 75 },
+      webp: { quality: 70 }
     })
   ]
 })
