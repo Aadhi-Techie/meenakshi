@@ -103,7 +103,7 @@ const fieldLabelStyle = {
 const inputStyle = {
   width: '100%',
   padding: '12px 14px',
-  background: 'var(--bg2)',
+  background: 'var(--bg)',
   border: '1px solid var(--brd)',
   borderRadius: 10,
   color: 'var(--w)',
@@ -161,7 +161,7 @@ export default function Contact({ currentLang = 'ta' }) {
     <>
       <Helmet><title>Contact Us | Sree Meenakshi Glass & Plywoods – Perambur</title></Helmet>
 
-      <section style={{ padding: '72px 24px', background: 'var(--bg)' }}>
+      <section style={{ padding: '72px 24px', background: 'var(--bg)', transition: 'background 0.3s ease' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
 
           {/* ── TOP ROW: Info Cards (Left) & Form + Shop Image (Right) ── */}
@@ -199,7 +199,7 @@ export default function Contact({ currentLang = 'ta' }) {
                   <p style={labelStyle}>{t('call')} 1</p>
                   <a href={`tel:${adminNumbers[0]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: 'var(--w)', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[0].slice(-10)}</a>
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                    <a href={`tel:${adminNumbers[0]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: 'var(--w)', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
+                    <a href={`tel:${adminNumbers[0]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
                     <a href={`https://wa.me/${adminNumbers[0]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
                   </div>
                 </div>
@@ -212,7 +212,7 @@ export default function Contact({ currentLang = 'ta' }) {
                   <p style={labelStyle}>{t('call')} 2</p>
                   <a href={`tel:${adminNumbers[1]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: 'var(--w)', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[1].slice(-10)}</a>
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                    <a href={`tel:${adminNumbers[1]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: 'var(--w)', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
+                    <a href={`tel:${adminNumbers[1]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
                     <a href={`https://wa.me/${adminNumbers[1]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
                   </div>
                 </div>
@@ -236,7 +236,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 <div style={iconBadge}><Mail size={20} color="var(--o)" /></div>
                 <div>
                   <p style={labelStyle}>{t('email')}</p>
-                  <a href="mailto:srimeenakshiglassandplywoods@gmail.com" style={{ fontSize: 13, color: 'var(--w)', textDecoration: 'none', wordBreak: 'break-all' }}>srimeenakshiglassandplywoods@gmail.com</a>
+                  <a href="mailto:srimeenakshiglassandplywoods@gmail.com" style={{ fontSize: 13, color: 'var(--sl)', textDecoration: 'none', wordBreak: 'break-all' }}>srimeenakshiglassandplywoods@gmail.com</a>
                 </div>
               </div>
 
@@ -256,19 +256,19 @@ export default function Contact({ currentLang = 'ta' }) {
             <div style={{ flex: '1 1 500px', display: 'flex', flexDirection: 'column', gap: 24 }}>
 
               {/* Form */}
-              <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 18, border: '1px solid rgba(255,255,255,0.07)', padding: '36px 32px' }}>
+              <div style={{ background: 'var(--bg2)', borderRadius: 18, border: '1px solid var(--brd)', padding: '36px 32px' }}>
                 <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 700, color: 'var(--w)', lineHeight: 1.3 }}>{t('form_title')}</h2>
                 <p style={{ margin: '0 0 28px', fontSize: 16, color: 'var(--o)', fontWeight: 600 }}>{t('form_subtitle')}</p>
                 <form onSubmit={handleEnquirySubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                   <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                    <div><label style={fieldLabelStyle}>{t('full_name')} <span style={{ color: 'var(--o)' }}>*</span></label><input name="name" placeholder={t('ph_name')} value={formData.name} onChange={set('name')} required style={inputStyle} /></div>
-                    <div><label style={fieldLabelStyle}>{t('email_address')}</label><input name="email" placeholder={t('ph_email')} value={formData.email} onChange={set('email')} style={inputStyle} /></div>
+                    <div><label style={fieldLabelStyle}>{t('full_name')} <span style={{ color: 'var(--o)' }}>*</span></label><input name="name" className="inp" placeholder={t('ph_name')} value={formData.name} onChange={set('name')} required style={inputStyle} /></div>
+                    <div><label style={fieldLabelStyle}>{t('email_address')}</label><input name="email" className="inp" placeholder={t('ph_email')} value={formData.email} onChange={set('email')} style={inputStyle} /></div>
                   </div>
                   <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                    <div><label style={fieldLabelStyle}>{t('phone_number')} <span style={{ color: 'var(--o)' }}>*</span></label><input name="phone" placeholder={t('ph_phone')} value={formData.phone} onChange={set('phone')} required style={inputStyle} /></div>
-                    <div><label style={fieldLabelStyle}>{t('product_interest')}</label><input name="interest" placeholder={t('ph_interest')} value={formData.interest} onChange={set('interest')} style={inputStyle} /></div>
+                    <div><label style={fieldLabelStyle}>{t('phone_number')} <span style={{ color: 'var(--o)' }}>*</span></label><input name="phone" className="inp" placeholder={t('ph_phone')} value={formData.phone} onChange={set('phone')} required style={inputStyle} /></div>
+                    <div><label style={fieldLabelStyle}>{t('product_interest')}</label><input name="interest" className="inp" placeholder={t('ph_interest')} value={formData.interest} onChange={set('interest')} style={inputStyle} /></div>
                   </div>
-                  <div><label style={fieldLabelStyle}>{t('your_message')} <span style={{ color: 'var(--o)' }}>*</span></label><textarea name="message" placeholder={t('ph_message')} value={formData.message} onChange={set('message')} rows={4} required style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }} /></div>
+                  <div><label style={fieldLabelStyle}>{t('your_message')} <span style={{ color: 'var(--o)' }}>*</span></label><textarea name="message" className="inp" placeholder={t('ph_message')} value={formData.message} onChange={set('message')} rows={4} required style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }} /></div>
                   <button type="submit" disabled={loading} style={{ padding: '14px 24px', background: loading ? 'rgba(237,108,2,0.5)' : 'var(--o)', color: '#fff', borderRadius: 12, border: 'none', cursor: loading ? 'not-allowed' : 'pointer', fontSize: 15, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'opacity 0.2s' }}>
                     <MessageCircle size={16} />{loading ? t('sending') : t('send_message')}
                   </button>
@@ -276,8 +276,8 @@ export default function Contact({ currentLang = 'ta' }) {
                 {statusMessage && <p style={{ marginTop: 16, fontSize: 14, color: statusMessage.startsWith('✅') ? '#4ade80' : statusMessage.startsWith('⏳') ? 'var(--o)' : '#f87171' }}>{statusMessage}</p>}
               </div>
 
-              {/* Shop Image — form கீழே empty space-ல */}
-              <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+              {/* Shop Image */}
+              <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid var(--brd)' }}>
                 <img
                   src="/assets/About-Image.webp"
                   alt="Sree Meenakshi Glass and Plywoods Shop Front"
@@ -299,7 +299,7 @@ export default function Contact({ currentLang = 'ta' }) {
           <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
 
             {/* Map 1 — முதல் ஷோரூம் */}
-            <div style={{ flex: '1 1 340px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20 }}>
+            <div style={{ flex: '1 1 340px', background: 'var(--bg2)', border: '1px solid var(--brd)', borderRadius: 16, padding: 20 }}>
               <p style={mapLabelStyle}>
                 <MapPin size={15} color="var(--o)" />
                 {currentLang === 'ta' ? 'எங்கள் முதல் ஷோரூம்' : 'Our First Showroom'}
@@ -326,7 +326,7 @@ export default function Contact({ currentLang = 'ta' }) {
             </div>
 
             {/* Map 2 — இரண்டாவது ஷோரூம் */}
-            <div style={{ flex: '1 1 340px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20 }}>
+            <div style={{ flex: '1 1 340px', background: 'var(--bg2)', border: '1px solid var(--brd)', borderRadius: 16, padding: 20 }}>
               <p style={mapLabelStyle}>
                 <MapPin size={15} color="var(--o)" />
                 {currentLang === 'ta' ? 'எங்கள் இரண்டாவது ஷோரூம்' : 'Our Second Showroom'}
