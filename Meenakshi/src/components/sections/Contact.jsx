@@ -5,8 +5,8 @@ import { Helmet } from 'react-helmet-async';
 
 const tData = {
   en: {
-    visit_us: "Our First Showroom",
-    new_address: "Our Second Showroom",
+    visit_us: "Our Second Showroom",
+    new_address: "Our First Showroom",
     call: "Call Sree Meenakshi", email: "Email", hours: "Opening Hours",
     hours_mon_sat: "Mon-Sat: 8:30 AM - 9:00 PM", hours_sun: "Sunday: 10:00 AM - 5:00 PM",
     call_now: "Call Now", whatsapp_us: "WhatsApp Us",
@@ -26,8 +26,8 @@ const tData = {
     ph_message: "Tell us about your requirement..."
   },
   ta: {
-    visit_us: "எங்கள் முதல் ஷோரூம்",
-    new_address: "எங்கள் இரண்டாவது ஷோரூம்",
+    visit_us: "எங்கள் இரண்டாவது ஷோரூம்",
+    new_address: "எங்கள் முதல் ஷோரூம்",
     call: "அழைக்க", email: "மின்னஞ்சல்", hours: "வேலை நேரம்",
     hours_mon_sat: "திங்கள்-சனி: காலை 8:30  - இரவு 9:00 மணி", hours_sun: "ஞாயிறு: காலை 10:00 AM - மாலை 5:00 PM   மணி",
     call_now: "அழைக்க", whatsapp_us: "வாட்ஸ்அப்",
