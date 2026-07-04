@@ -10,7 +10,7 @@ const tData = {
     call: "Call Sree Meenakshi", email: "Email", hours: "Opening Hours",
     hours_mon_sat: "Mon-Sat: 8:30 AM - 9:00 PM", hours_sun: "Sunday: 10:00 AM - 5:00 PM",
     call_now: "Call Now", whatsapp_us: "WhatsApp Us",
-    send_enquiry: "Enquiry | UPVC, WPC & Plywood Shop in Perambur",
+    send_enquiry: "Sree Meenakshi | UPVC, WPC & Plywood Shop in Perambur",
     form_title: "Sree Meenakshi Glass & Plywoods, Perambur",
     form_subtitle: "Contact us for wholesale price list",
     full_name: "Full Name", email_address: "Email Address",
@@ -31,7 +31,7 @@ const tData = {
     call: "அழைக்க", email: "மின்னஞ்சல்", hours: "வேலை நேரம்",
     hours_mon_sat: "திங்கள்-சனி: காலை 8:30  - இரவு 9:00 மணி", hours_sun: "ஞாயிறு: காலை 10:00 AM - மாலை 5:00 PM   மணி",
     call_now: "அழைக்க", whatsapp_us: "வாட்ஸ்அப்",
-    send_enquiry: "விசாரணை | பெரம்பூர் கிளாஸ் & பிளைவுட் கடை",
+    send_enquiry: "ஸ்ரீ மீனாட்சி | பெரம்பூர் கிளாஸ் & பிளைவுட் கடை",
     form_title: "ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ், பெரம்பூர்",
     form_subtitle: "மொத்த விலைப் பட்டியலுக்கு தொடர்பு கொள்ளுங்கள்",
     full_name: "முழு பெயர்", email_address: "மின்னஞ்சல்",
@@ -150,7 +150,7 @@ export default function Contact({ currentLang = 'ta' }) {
 
   return (
     <>
-      <Helmet><title>{`${t('send_enquiry')} | Sree Meenakshi Glass & Plywoods`}</title></Helmet>
+      <Helmet><title>Contact Us | Sree Meenakshi Glass & Plywoods – Perambur</title></Helmet>
 
       <section style={{ padding: '72px 24px', background: 'var(--bg)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
