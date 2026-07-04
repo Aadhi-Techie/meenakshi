@@ -5,8 +5,8 @@ import { Helmet } from 'react-helmet-async';
 
 const tData = {
   en: {
-    visit_us: "Our Old Showroom",
-    new_address: "Our New Address",
+    visit_us: "Our First Showroom",
+    new_address: "Our Second Showroom",
     call: "Call Sree Meenakshi", email: "Email", hours: "Opening Hours",
     hours_mon_sat: "Mon-Sat: 8:30 AM - 9:00 PM", hours_sun: "Sunday: 10:00 AM - 5:00 PM",
     call_now: "Call Now", whatsapp_us: "WhatsApp Us",
@@ -26,8 +26,8 @@ const tData = {
     ph_message: "Tell us about your requirement..."
   },
   ta: {
-    visit_us: "எங்கள் பழைய ஷோரூம்",
-    new_address: "எங்கள் புதிய முகவரி",
+    visit_us: "எங்கள் முதல் ஷோரூம்",
+    new_address: "எங்கள் இரண்டாவது ஷோரூம்",
     call: "அழைக்க", email: "மின்னஞ்சல்", hours: "வேலை நேரம்",
     hours_mon_sat: "திங்கள்-சனி: காலை 8:30  - இரவு 9:00 மணி", hours_sun: "ஞாயிறு: காலை 10:00 AM - மாலை 5:00 PM   மணி",
     call_now: "அழைக்க", whatsapp_us: "வாட்ஸ்அப்",
@@ -267,24 +267,23 @@ export default function Contact({ currentLang = 'ta' }) {
           {/* ── BOTTOM ROW: Shop Image (Left) & Map (Right) ── */}
           <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
             
-            {/* Bottom Left: Shop Image */}
-            <div style={{ flex: '1 1 340px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, height: 350 }}>
+            
               {/* Bottom Left: Shop Image */}
-<div style={{ flex: '1 1 340px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, height: 350 }}>
-  <img 
-    src="assets/About-Image.webp" // 👈 முதலில் இருந்த '/' தூக்கியாச்சு (Relative Path Fix)
-    alt="Sree Meenakshi Glass and Plywoods Shop Front" 
-    style={{ width: '100%', height: '100%', borderRadius: 12, objectFit: 'cover' }} 
-    onError={(e) => { 
-      // 👈 ஒருவேளை Linux சர்வர்ல சிறிய எழுத்துக்களில் ஃபைல் பெயர் இருந்தால் அதையும் இது ஆட்டோமேட்டிக்கா சரி செய்திடும்!
-      if (!e.target.src.includes('about-image.webp')) {
-        e.target.src = "assets/about-image.webp"; // 👈 Lowercase fallback
-      } else {
-        e.target.style.display = 'none';
-      }
-    }}
-  />
-</div>
+              <div style={{ flex: '1 1 340px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, height: 350 }}>
+                <img
+                src="/assets/About-Image.webp" // 👈 முதலில் இருந்த '/' தூக்கியாச்சு (Relative Path Fix)
+                alt="Sree Meenakshi Glass and Plywoods Shop Front"
+                style={{ width: '100%', height: '100%', borderRadius: 12, objectFit: 'cover' }}
+                onError={(e) => { 
+                  // 👈 ஒருவேளை Linux சர்வர்ல சிறிய எழுத்துக்களில் ஃபைல் பெயர் இருந்தால் அதையும் இது ஆட்டோமேட்டிக்கா சரி செய்திடும்!
+                  if (!e.target.src.includes('about-image.webp')) {
+                    e.target.src = "/assets/about-image.webp"; // 👈 Lowercase fallback
+                     } else {
+                      e.target.style.display = 'none';
+                    }
+                  }}
+                  />
+                </div>
             </div>
 
             {/* Bottom Right: Map with Shop Name Fix */}
@@ -303,7 +302,7 @@ export default function Contact({ currentLang = 'ta' }) {
 
           </div>
 
-        </div>
+        
       </section>
 
       {/* Mobile responsive */}
