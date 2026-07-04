@@ -164,13 +164,13 @@ export default function Contact({ currentLang = 'ta' }) {
       <section style={{ padding: '72px 24px', background: 'var(--bg)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
 
-          {/* ── TOP ROW: Info Cards (Left) & Form (Right) ── */}
+          {/* ── TOP ROW: Info Cards (Left) & Form + Shop Image (Right) ── */}
           <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'flex-start' }}>
 
             {/* Left: Info Cards */}
             <div style={{ flex: '1 1 340px', display: 'flex', flexDirection: 'column', gap: 14 }}>
 
-              {/* 1. முதல் ஷோரூம் — புதிய முகவரி */}
+              {/* 1. முதல் ஷோரூம் */}
               <div style={cardStyle}>
                 <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
                 <div>
@@ -181,7 +181,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 </div>
               </div>
 
-              {/* 2. இரண்டாவது ஷோரூம் — பழைய முகவரி */}
+              {/* 2. இரண்டாவது ஷோரூம் */}
               <div style={cardStyle}>
                 <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
                 <div>
@@ -252,25 +252,46 @@ export default function Contact({ currentLang = 'ta' }) {
 
             </div>
 
-            {/* Right: Form */}
-            <div style={{ flex: '1 1 500px', background: 'rgba(255,255,255,0.03)', borderRadius: 18, border: '1px solid rgba(255,255,255,0.07)', padding: '36px 32px' }}>
-              <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>{t('form_title')}</h2>
-              <p style={{ margin: '0 0 28px', fontSize: 16, color: 'var(--o)', fontWeight: 600 }}>{t('form_subtitle')}</p>
-              <form onSubmit={handleEnquirySubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                  <div><label style={fieldLabelStyle}>{t('full_name')} <span style={{ color: 'var(--o)' }}>*</span></label><input name="name" placeholder={t('ph_name')} value={formData.name} onChange={set('name')} required style={inputStyle} /></div>
-                  <div><label style={fieldLabelStyle}>{t('email_address')}</label><input name="email" placeholder={t('ph_email')} value={formData.email} onChange={set('email')} style={inputStyle} /></div>
-                </div>
-                <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                  <div><label style={fieldLabelStyle}>{t('phone_number')} <span style={{ color: 'var(--o)' }}>*</span></label><input name="phone" placeholder={t('ph_phone')} value={formData.phone} onChange={set('phone')} required style={inputStyle} /></div>
-                  <div><label style={fieldLabelStyle}>{t('product_interest')}</label><input name="interest" placeholder={t('ph_interest')} value={formData.interest} onChange={set('interest')} style={inputStyle} /></div>
-                </div>
-                <div><label style={fieldLabelStyle}>{t('your_message')} <span style={{ color: 'var(--o)' }}>*</span></label><textarea name="message" placeholder={t('ph_message')} value={formData.message} onChange={set('message')} rows={4} required style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }} /></div>
-                <button type="submit" disabled={loading} style={{ padding: '14px 24px', background: loading ? 'rgba(237,108,2,0.5)' : 'var(--o)', color: '#fff', borderRadius: 12, border: 'none', cursor: loading ? 'not-allowed' : 'pointer', fontSize: 15, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'opacity 0.2s' }}>
-                  <MessageCircle size={16} />{loading ? t('sending') : t('send_message')}
-                </button>
-              </form>
-              {statusMessage && <p style={{ marginTop: 16, fontSize: 14, color: statusMessage.startsWith('✅') ? '#4ade80' : statusMessage.startsWith('⏳') ? 'var(--o)' : '#f87171' }}>{statusMessage}</p>}
+            {/* Right: Form + Shop Image */}
+            <div style={{ flex: '1 1 500px', display: 'flex', flexDirection: 'column', gap: 24 }}>
+
+              {/* Form */}
+              <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 18, border: '1px solid rgba(255,255,255,0.07)', padding: '36px 32px' }}>
+                <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>{t('form_title')}</h2>
+                <p style={{ margin: '0 0 28px', fontSize: 16, color: 'var(--o)', fontWeight: 600 }}>{t('form_subtitle')}</p>
+                <form onSubmit={handleEnquirySubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                  <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                    <div><label style={fieldLabelStyle}>{t('full_name')} <span style={{ color: 'var(--o)' }}>*</span></label><input name="name" placeholder={t('ph_name')} value={formData.name} onChange={set('name')} required style={inputStyle} /></div>
+                    <div><label style={fieldLabelStyle}>{t('email_address')}</label><input name="email" placeholder={t('ph_email')} value={formData.email} onChange={set('email')} style={inputStyle} /></div>
+                  </div>
+                  <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                    <div><label style={fieldLabelStyle}>{t('phone_number')} <span style={{ color: 'var(--o)' }}>*</span></label><input name="phone" placeholder={t('ph_phone')} value={formData.phone} onChange={set('phone')} required style={inputStyle} /></div>
+                    <div><label style={fieldLabelStyle}>{t('product_interest')}</label><input name="interest" placeholder={t('ph_interest')} value={formData.interest} onChange={set('interest')} style={inputStyle} /></div>
+                  </div>
+                  <div><label style={fieldLabelStyle}>{t('your_message')} <span style={{ color: 'var(--o)' }}>*</span></label><textarea name="message" placeholder={t('ph_message')} value={formData.message} onChange={set('message')} rows={4} required style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }} /></div>
+                  <button type="submit" disabled={loading} style={{ padding: '14px 24px', background: loading ? 'rgba(237,108,2,0.5)' : 'var(--o)', color: '#fff', borderRadius: 12, border: 'none', cursor: loading ? 'not-allowed' : 'pointer', fontSize: 15, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'opacity 0.2s' }}>
+                    <MessageCircle size={16} />{loading ? t('sending') : t('send_message')}
+                  </button>
+                </form>
+                {statusMessage && <p style={{ marginTop: 16, fontSize: 14, color: statusMessage.startsWith('✅') ? '#4ade80' : statusMessage.startsWith('⏳') ? 'var(--o)' : '#f87171' }}>{statusMessage}</p>}
+              </div>
+
+              {/* Shop Image — form கீழே empty space-ல */}
+              <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <img
+                  src="/assets/About-Image.webp"
+                  alt="Sree Meenakshi Glass and Plywoods Shop Front"
+                  style={{ width: '100%', height: 280, objectFit: 'cover', display: 'block' }}
+                  onError={(e) => {
+                    if (!e.target.src.includes('about-image.webp')) {
+                      e.target.src = "/assets/about-image.webp";
+                    } else {
+                      e.target.parentElement.style.display = 'none';
+                    }
+                  }}
+                />
+              </div>
+
             </div>
           </div>
 
