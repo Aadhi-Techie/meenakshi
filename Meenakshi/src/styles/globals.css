@@ -155,7 +155,7 @@ a {
   display:         inline-flex;
   align-items:     center;
   gap:             8px;
-  justifyContent: center;
+  justify-content: center;
   background:      linear-gradient(135deg, var(--o), var(--o2));
   color:           #fff;
   border:          none;
@@ -174,7 +174,7 @@ a {
   display:         inline-flex;
   align-items:     center;
   gap:             8px;
-  justifyContent: center;
+  justify-content: center;
   background:      transparent;
   color:           #fff;
   border:          1.5px solid rgba(255, 255, 255, 0.25);
@@ -432,7 +432,7 @@ a {
 .gi          { border-radius: 14px; overflow: hidden; cursor: pointer; position: relative; transition: transform 0.32s; }
 .gi:hover    { transform: scale(1.04); z-index: 2; }
 .gi:hover .gio { opacity: 1; }
-.gio         { position: absolute; inset: 0; background: rgba(249, 115, 22, 0.2); opacity: 0; transition: opacity 0.28s; display: flex; align-items: center; justifyContent: center; }
+.gio         { position: absolute; inset: 0; background: rgba(249, 115, 22, 0.2); opacity: 0; transition: opacity 0.28s; display: flex; align-items: center; justify-content: center; }
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -509,7 +509,7 @@ a {
   backdrop-filter: blur(16px);
   display:        flex;
   align-items:    center;
-  justifyContent: center;
+  justify-content: center;
   animation:      fadeIn 0.25s ease;
 }
 .lbxi {
