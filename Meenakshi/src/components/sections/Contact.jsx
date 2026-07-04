@@ -80,6 +80,16 @@ const labelStyle = {
   marginBottom: 6,
 };
 
+const mapLabelStyle = {
+  fontSize: 13,
+  fontWeight: 700,
+  color: 'rgba(255,255,255,0.75)',
+  marginBottom: 10,
+  display: 'flex',
+  alignItems: 'center',
+  gap: 6,
+};
+
 const fieldLabelStyle = {
   fontSize: 11,
   fontWeight: 700,
@@ -107,7 +117,6 @@ export default function Contact({ currentLang = 'ta' }) {
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
 
-  // 3 எண்களும் வரிசையாக இங்கே அப்டேட் செய்யப்பட்டுள்ளது நண்பா
   const adminNumbers = ["919790923750", "919884822999", "919940504234"];
 
   const t = (key) => tData[currentLang]?.[key] || tData['en']?.[key] || key;
@@ -157,22 +166,22 @@ export default function Contact({ currentLang = 'ta' }) {
 
           {/* ── TOP ROW: Info Cards (Left) & Form (Right) ── */}
           <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-            
-            {/* Left: Individual Info Cards */}
+
+            {/* Left: Info Cards */}
             <div style={{ flex: '1 1 340px', display: 'flex', flexDirection: 'column', gap: 14 }}>
-              
-              {/* 1. புதிய முகவரி கார்டு */}
+
+              {/* 1. முதல் ஷோரூம் — புதிய முகவரி */}
               <div style={cardStyle}>
                 <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
                 <div>
                   <p style={labelStyle}>{t('new_address')}</p>
                   <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
-                    Tiru Vi Ka Nagar, Perambur,<br />Chennai, Greater Chennai, Tamil Nadu 600011
+                    Tiru Vi Ka Nagar, Perambur,<br />Chennai, Greater Chennai,<br />Tamil Nadu 600011
                   </p>
                 </div>
               </div>
 
-              {/* 2. பழைய முகவரி கார்டு */}
+              {/* 2. இரண்டாவது ஷோரூம் — பழைய முகவரி */}
               <div style={cardStyle}>
                 <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
                 <div>
@@ -183,7 +192,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 </div>
               </div>
 
-              {/* 3. முதலாவது போன் கார்டு */}
+              {/* 3. Phone 1 */}
               <div style={cardStyle}>
                 <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
                 <div style={{ width: '100%' }}>
@@ -196,7 +205,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 </div>
               </div>
 
-              {/* 4. இரண்டாவது போன் கார்டு */}
+              {/* 4. Phone 2 */}
               <div style={cardStyle}>
                 <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
                 <div style={{ width: '100%' }}>
@@ -209,7 +218,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 </div>
               </div>
 
-              {/* 5. மூன்றாவது புதிய போன் கார்டு (99405 04234) */}
+              {/* 5. Phone 3 */}
               <div style={cardStyle}>
                 <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
                 <div style={{ width: '100%' }}>
@@ -222,7 +231,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 </div>
               </div>
 
-              {/* 6. மின்னஞ்சல் கார்டு */}
+              {/* 6. Email */}
               <div style={cardStyle}>
                 <div style={iconBadge}><Mail size={20} color="var(--o)" /></div>
                 <div>
@@ -231,7 +240,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 </div>
               </div>
 
-              {/* 7. வேலை நேர கார்டு */}
+              {/* 7. Hours */}
               <div style={cardStyle}>
                 <div style={iconBadge}><Clock size={20} color="var(--o)" /></div>
                 <div>
@@ -240,6 +249,7 @@ export default function Contact({ currentLang = 'ta' }) {
                   <p style={{ margin: 0, fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>{t('hours_sun')}</p>
                 </div>
               </div>
+
             </div>
 
             {/* Right: Form */}
@@ -264,45 +274,66 @@ export default function Contact({ currentLang = 'ta' }) {
             </div>
           </div>
 
-          {/* ── BOTTOM ROW: Shop Image (Left) & Map (Right) ── */}
+          {/* ── BOTTOM ROW: Two Maps Side by Side ── */}
           <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
-            
-            
-              {/* Bottom Left: Shop Image */}
-              <div style={{ flex: '1 1 340px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, height: 350 }}>
-                <img
-                src="/assets/About-Image.webp" // 👈 முதலில் இருந்த '/' தூக்கியாச்சு (Relative Path Fix)
-                alt="Sree Meenakshi Glass and Plywoods Shop Front"
-                style={{ width: '100%', height: '100%', borderRadius: 12, objectFit: 'cover' }}
-                onError={(e) => { 
-                  // 👈 ஒருவேளை Linux சர்வர்ல சிறிய எழுத்துக்களில் ஃபைல் பெயர் இருந்தால் அதையும் இது ஆட்டோமேட்டிக்கா சரி செய்திடும்!
-                  if (!e.target.src.includes('about-image.webp')) {
-                    e.target.src = "/assets/about-image.webp"; // 👈 Lowercase fallback
-                     } else {
-                      e.target.style.display = 'none';
-                    }
-                  }}
-                  />
-                </div>
+
+            {/* Map 1 — முதல் ஷோரூம் */}
+            <div style={{ flex: '1 1 340px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20 }}>
+              <p style={mapLabelStyle}>
+                <MapPin size={15} color="var(--o)" />
+                {currentLang === 'ta' ? 'எங்கள் முதல் ஷோரூம்' : 'Our First Showroom'}
+              </p>
+              <iframe
+                src="https://maps.google.com/maps?q=Sree+Meenakshi+Glass+and+Plywoods+Tiru+Vi+Ka+Nagar+Perambur&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="300"
+                style={{ border: 0, borderRadius: 12, display: 'block' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="First Showroom Location"
+              ></iframe>
+              <a
+                href="https://maps.app.goo.gl/78uYFBgwiX9KH27c8"
+                target="_blank"
+                rel="noreferrer"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 12, padding: '10px 16px', background: 'rgba(237,108,2,0.15)', border: '1px solid rgba(237,108,2,0.3)', borderRadius: 9, color: 'var(--o)', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}
+              >
+                <MapPin size={14} />
+                {currentLang === 'ta' ? 'Google Maps-ல் திற' : 'Open in Google Maps'}
+              </a>
             </div>
 
-            {/* Bottom Right: Map with Shop Name Fix */}
-            <div style={{ flex: '1 1 500px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, height: 350 }}>
-              <iframe 
-                src="https://maps.google.com/maps?q=Sree%20Meenakshi%20Glass%20and%20Plywoods%20Perambur&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0, borderRadius: 12 }} 
-                allowFullScreen 
-                loading="lazy" 
+            {/* Map 2 — இரண்டாவது ஷோரூம் */}
+            <div style={{ flex: '1 1 340px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20 }}>
+              <p style={mapLabelStyle}>
+                <MapPin size={15} color="var(--o)" />
+                {currentLang === 'ta' ? 'எங்கள் இரண்டாவது ஷோரூம்' : 'Our Second Showroom'}
+              </p>
+              <iframe
+                src="https://maps.google.com/maps?q=Sree+Meenakshi+Glass+and+Plywoods+Sathiya+Narayanan+Street+Perambur&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="300"
+                style={{ border: 0, borderRadius: 12, display: 'block' }}
+                allowFullScreen
+                loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Location Map"
+                title="Second Showroom Location"
               ></iframe>
+              <a
+                href="https://maps.app.goo.gl/DsMgqTztD1HzqeSc8"
+                target="_blank"
+                rel="noreferrer"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 12, padding: '10px 16px', background: 'rgba(237,108,2,0.15)', border: '1px solid rgba(237,108,2,0.3)', borderRadius: 9, color: 'var(--o)', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}
+              >
+                <MapPin size={14} />
+                {currentLang === 'ta' ? 'Google Maps-ல் திற' : 'Open in Google Maps'}
+              </a>
             </div>
 
           </div>
 
-        
+        </div>
       </section>
 
       {/* Mobile responsive */}

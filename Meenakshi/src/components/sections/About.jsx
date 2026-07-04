@@ -126,7 +126,7 @@ export default function About({ go, t }) {
               <Award size={14} aria-hidden="true" /> GSTIN: 338UWPMD566N1ZW
             </div>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", background: "rgba(234, 179, 8, 0.1)", border: "1px solid rgba(234, 179, 8, 0.2)", borderRadius: 100, color: "#eab308", fontSize: 12, fontWeight: 700 }}>
-              <Star size={14} fill="#eab308" aria-hidden="true" /> {isTamil ? "5 கூகுள் ரேட்டிங்" : "5 Google Reviews"}
+              <Star size={14} fill="#eab308" aria-hidden="true" /> {isTamil ? "5* கூகுள் ரேட்டிங்" : "5* Google Reviews"}
             </div>
           </div>
 
