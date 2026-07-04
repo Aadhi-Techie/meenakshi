@@ -22,7 +22,7 @@ import { MessageCircle } from 'lucide-react';
 import BrandSlider from './components/BrandSlider';
 import { PROD_LIST as PL } from './constants/data';
 import BulkOrder from './pages/BulkOrder';
-
+import  useTheme  from './hooks/useTheme';
 // --- AEO (AI Optimization) FAQ Component ---
 const FAQSection = () => (
   <section style={{ padding: "60px 24px", background: "var(--bg)", color: "var(--w)", borderTop: "1px solid var(--b)" }}>
@@ -90,6 +90,7 @@ export default function App() {
   return 'home';
 });
   const [lang, setLang]       = useState("en");
+  const { theme } = useTheme();
 
   const t = LANG[lang];
 
@@ -117,6 +118,7 @@ export default function App() {
         setPage(path || 'home');
       }
     };
+    
 
     if (typeof window !== 'undefined') {
       window.addEventListener('popstate', handleBackButton);
@@ -141,6 +143,16 @@ export default function App() {
       }
     };
   }, []);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const root = window.document.documentElement;
+      if (theme === 'light') {
+        root.classList.add('light');
+      } else {
+        root.classList.remove('light');
+      }
+    }
+  }, [theme]);
 
   const noChrome = ["login", "signup", "admin"].includes(page);
 
