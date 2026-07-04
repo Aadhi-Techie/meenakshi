@@ -106,7 +106,7 @@ const inputStyle = {
   background: 'var(--bg2)',
   border: '1px solid var(--brd)',
   borderRadius: 10,
-  color: '#fff',
+  color: 'var(--w)',
   fontSize: 14,
   outline: 'none',
   boxSizing: 'border-box',
@@ -175,7 +175,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
                 <div>
                   <p style={labelStyle}>{t('new_address')}</p>
-                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
+                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'var(--sl)' }}>
                     Tiru Vi Ka Nagar, Perambur,<br />Chennai, Greater Chennai,<br />Tamil Nadu 600011
                   </p>
                 </div>
@@ -186,7 +186,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 <div style={iconBadge}><MapPin size={20} color="var(--o)" /></div>
                 <div>
                   <p style={labelStyle}>{t('visit_us')}</p>
-                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
+                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'var(--sl)' }}>
                     No:26/23, Sathiya Narayanan Street, Palavan Salai,<br />Perambur, Chennai – 600011, Tamil Nadu.
                   </p>
                 </div>
@@ -197,9 +197,9 @@ export default function Contact({ currentLang = 'ta' }) {
                 <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
                 <div style={{ width: '100%' }}>
                   <p style={labelStyle}>{t('call')} 1</p>
-                  <a href={`tel:${adminNumbers[0]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[0].slice(-10)}</a>
+                  <a href={`tel:${adminNumbers[0]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: 'var(--w)', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[0].slice(-10)}</a>
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                    <a href={`tel:${adminNumbers[0]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
+                    <a href={`tel:${adminNumbers[0]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: 'var(--w)', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
                     <a href={`https://wa.me/${adminNumbers[0]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
                   </div>
                 </div>
@@ -210,9 +210,9 @@ export default function Contact({ currentLang = 'ta' }) {
                 <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
                 <div style={{ width: '100%' }}>
                   <p style={labelStyle}>{t('call')} 2</p>
-                  <a href={`tel:${adminNumbers[1]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[1].slice(-10)}</a>
+                  <a href={`tel:${adminNumbers[1]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: 'var(--w)', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[1].slice(-10)}</a>
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                    <a href={`tel:${adminNumbers[1]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
+                    <a href={`tel:${adminNumbers[1]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: 'var(--w)', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
                     <a href={`https://wa.me/${adminNumbers[1]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
                   </div>
                 </div>
@@ -223,7 +223,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 <div style={iconBadge}><Phone size={20} color="var(--o)" /></div>
                 <div style={{ width: '100%' }}>
                   <p style={labelStyle}>{t('call')} 3</p>
-                  <a href={`tel:${adminNumbers[2]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: '#fff', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[2].slice(-10)}</a>
+                  <a href={`tel:${adminNumbers[2]}`} style={{ display: 'block', fontSize: 15, fontWeight: 700, color: 'var(--w)', textDecoration: 'none', marginBottom: 10 }}>+91 {adminNumbers[2].slice(-10)}</a>
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                     <a href={`tel:${adminNumbers[2]}`} style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: 'var(--o)', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Phone size={14} /> {t('call_now')}</a>
                     <a href={`https://wa.me/${adminNumbers[2]}`} target="_blank" rel="noreferrer" style={{ flex: 1, minWidth: 90, padding: '9px 14px', background: '#25D366', color: '#fff', borderRadius: 9, textDecoration: 'none', fontSize: 13, fontWeight: 600, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MessageCircle size={14} /> {t('whatsapp_us')}</a>
@@ -236,7 +236,7 @@ export default function Contact({ currentLang = 'ta' }) {
                 <div style={iconBadge}><Mail size={20} color="var(--o)" /></div>
                 <div>
                   <p style={labelStyle}>{t('email')}</p>
-                  <a href="mailto:srimeenakshiglassandplywoods@gmail.com" style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', textDecoration: 'none', wordBreak: 'break-all' }}>srimeenakshiglassandplywoods@gmail.com</a>
+                  <a href="mailto:srimeenakshiglassandplywoods@gmail.com" style={{ fontSize: 13, color: 'var(--w)', textDecoration: 'none', wordBreak: 'break-all' }}>srimeenakshiglassandplywoods@gmail.com</a>
                 </div>
               </div>
 
@@ -245,8 +245,8 @@ export default function Contact({ currentLang = 'ta' }) {
                 <div style={iconBadge}><Clock size={20} color="var(--o)" /></div>
                 <div>
                   <p style={labelStyle}>{t('hours')}</p>
-                  <p style={{ margin: '0 0 4px', fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>{t('hours_mon_sat')}</p>
-                  <p style={{ margin: 0, fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>{t('hours_sun')}</p>
+                  <p style={{ margin: '0 0 4px', fontSize: 14, color: 'var(--sl)' }}>{t('hours_mon_sat')}</p>
+                  <p style={{ margin: 0, fontSize: 14, color: 'var(--sl)' }}>{t('hours_sun')}</p>
                 </div>
               </div>
 
@@ -257,7 +257,7 @@ export default function Contact({ currentLang = 'ta' }) {
 
               {/* Form */}
               <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 18, border: '1px solid rgba(255,255,255,0.07)', padding: '36px 32px' }}>
-                <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>{t('form_title')}</h2>
+                <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 700, color: 'var(--w)', lineHeight: 1.3 }}>{t('form_title')}</h2>
                 <p style={{ margin: '0 0 28px', fontSize: 16, color: 'var(--o)', fontWeight: 600 }}>{t('form_subtitle')}</p>
                 <form onSubmit={handleEnquirySubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                   <div className="contact-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>

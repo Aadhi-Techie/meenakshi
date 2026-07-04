@@ -176,8 +176,8 @@ a {
   gap:             8px;
   justify-content: center;
   background:      transparent;
-  color:           #fff;
-  border:          1.5px solid rgba(255, 255, 255, 0.25);
+  color:           var(--w);
+  border:          1.5px solid var(--brd);
   cursor:          pointer;
   font-family:     'Outfit', sans-serif;
   font-weight:     600;
