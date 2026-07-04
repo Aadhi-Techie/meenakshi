@@ -31,7 +31,7 @@ export default function GalleryPreview({ go, t }) {
             else if (catDb.includes('plywood') && !imageMap['plywoods']) imageMap['plywoods'] = item.image_url;
             else if (catDb.includes('aluminium') && !imageMap['aluminium']) imageMap['aluminium'] = item.image_url;
             else if (catDb.includes('upvc') && !imageMap['upvc']) imageMap['upvc'] = item.image_url;
-            else if (catDb.includes('WPC') && !imageMap['WPC']) imageMap['WPC'] = item.image_url;
+            else if (catDb.includes('wpc') && !imageMap['wpc']) imageMap['wpc'] = item.image_url;
             else if (catDb.includes('hardware') && !imageMap['hardwares']) imageMap['hardwares'] = item.image_url;
           });
           
@@ -47,11 +47,11 @@ export default function GalleryPreview({ go, t }) {
 
   // Bilingual Category Data
   const categories = [
-    { id: 'glass', name: isTamil ? 'கண்ணாடி ஷோரூம்' : 'Glass Showroom', fallbackIcon: '🪟' },
-    { id: 'plywoods', name: isTamil ? 'பிளைவுட் ஸ்டாக்' : 'Plywood Stock', fallbackIcon: '🪵' },
-    { id: 'aluminium', name: isTamil ? 'அலுமினியம் வேலைகள்' : 'Aluminium Works', fallbackIcon: '⚙️' },
-    { id: 'upvc', name: isTamil ? 'UPVC விண்டோ சிஸ்டம்ஸ்' : 'UPVC Window Systems', fallbackIcon: '🏗️' },
-    { id: 'WPC', name: isTamil ? 'WPC ஷோரூம்' : 'WPC Showroom', fallbackIcon: '🚪' }
+    { id: 'glass', name: isTamil ? 'கண்ணாடி ஷோரூம்' : 'Glass Showroom', fallbackImg: '/assets/categories/glass.webp' },
+    { id: 'plywoods', name: isTamil ? 'பிளைவுட் ஸ்டாக்' : 'Plywood Stock', fallbackImg: '/assets/categories/plywood.webp' },
+    { id: 'aluminium', name: isTamil ? 'அலுமினியம் வேலைகள்' : 'Aluminium Works', fallbackImg: '/assets/categories/aluminium.webp' },
+    { id: 'upvc', name: isTamil ? 'UPVC விண்டோ சிஸ்டம்ஸ்' : 'UPVC Window Systems', fallbackImg: '/assets/categories/upvc.webp' },
+    { id: 'wpc', name: isTamil ? 'WPC ஷோரூம்' : 'WPC Showroom', fallbackImg: '/assets/categories/wpc.webp' }
   ];
 
   return (
