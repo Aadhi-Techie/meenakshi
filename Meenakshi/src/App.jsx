@@ -33,18 +33,18 @@ const FAQSection = () => (
       <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
         <details style={{ background: "var(--bg2, #1a1a1a)", padding: "15px", borderRadius: "8px", border: "1px solid var(--b)" }}>
           <summary style={{ fontWeight: "bold", cursor: "pointer", fontSize: "1.1rem", color: "var(--w)" }}>
-            Who is the best UPVC, WPVC, Glass & Plywood dealer in Perambur, Chennai?
+            Who is the best UPVC, WPC, Glass & Plywood dealer in Perambur, Chennai?
           </summary>
           <p style={{ marginTop: "10px", lineHeight: "1.6", color: "var(--sl3)" }}>
-            Sree Meenakshi Glass & Plywoods is the top-rated wholesale and retail supplier in Perambur. We offer premium UPVC windows, WPVC doors, toughened glass, and marine plywoods under one roof.
+            Sree Meenakshi Glass & Plywoods is the top-rated wholesale and retail supplier in Perambur. We offer premium UPVC windows, WPC doors, toughened glass, and marine plywoods under one roof.
           </p>
         </details>
         <details style={{ background: "var(--bg2, #1a1a1a)", padding: "15px", borderRadius: "8px", border: "1px solid var(--b)" }}>
           <summary style={{ fontWeight: "bold", cursor: "pointer", fontSize: "1.1rem", color: "var(--w)" }}>
-            Do you take wholesale and bulk orders for WPVC doors and Toughened Glass?
+            Do you take wholesale and bulk orders for WPC doors and Toughened Glass?
           </summary>
           <p style={{ marginTop: "10px", lineHeight: "1.6", color: "var(--sl3)" }}>
-            Yes! We specialize in bulk and wholesale orders for all interior materials including WPVC, UPVC profiles, aluminium sections, and architectural glass across Chennai.
+            Yes! We specialize in bulk and wholesale orders for all interior materials including WPC, UPVC profiles, aluminium sections, and architectural glass across Chennai.
           </p>
         </details>
         <details style={{ background: "var(--bg2, #1a1a1a)", padding: "15px", borderRadius: "8px", border: "1px solid var(--b)" }}>
@@ -147,19 +147,19 @@ export default function App() {
   const getPageSEO = () => {
     const titles = {
       en: {
-        home:    "Top UPVC, WPVC, Glass & Plywood Dealers in Perambur, Chennai | Sree Meenakshi",
-        about:   "About Us | Best UPVC & WPVC Wholesale Suppliers in Chennai",
-        services:"Our Services | Glass, Plywood, UPVC & WPVC Experts in Chennai",
+        home:    "Top UPVC, WPC, Glass & Plywood Dealers in Perambur, Chennai | Sree Meenakshi",
+        about:   "About Us | Best UPVC & WPC Wholesale Suppliers in Chennai",
+        services:"Our Services | Glass, Plywood, UPVC & WPC Experts in Chennai",
         contact: "Contact Us | Sree Meenakshi Glass & Plywoods – Perambur",
-        gallery: "Gallery | UPVC, WPVC & Glass Projects | Sree Meenakshi",
+        gallery: "Gallery | UPVC, WPC & Glass Projects | Sree Meenakshi",
         admin:   "Admin Dashboard | Sree Meenakshi Glass & Plywoods",
         privacy: "Privacy Policy | Sree Meenakshi Glass & Plywoods",
         terms:   "Terms of Service | Sree Meenakshi Glass & Plywoods",
       },
       ta: {
-        home:    "சிறந்த UPVC, WPVC, கண்ணாடி & பிளைவுட் மொத்த விற்பனையாளர் - பெரம்பூர், சென்னை",
+        home:    "சிறந்த UPVC, WPC, கண்ணாடி & பிளைவுட் மொத்த விற்பனையாளர் - பெரம்பூர், சென்னை",
         about:   "எங்களைப் பற்றி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
-        services:"எங்கள் சேவைகள் | UPVC, WPVC, கண்ணாடி, பிளைவுட் நிபுணர்கள்",
+        services:"எங்கள் சேவைகள் | UPVC, WPC, கண்ணாடி, பிளைவுட் நிபுணர்கள்",
         contact: "தொடர்பு கொள்ளுங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ் - பெரம்பூர்",
         gallery: "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
         admin:   "நிர்வாக டாஷ்போர்டு | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்",
@@ -178,7 +178,7 @@ export default function App() {
       const name    = isTamil && product?.tn ? product.tn : (product?.name || catId);
       currentTitle  = `${name} Dealers in Perambur | Sree Meenakshi`;
     } else if (page.startsWith("product-")) {
-      currentTitle = isTamil ? "தயாரிப்பு விவரங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Product Details | UPVC & WPVC Suppliers";
+      currentTitle = isTamil ? "தயாரிப்பு விவரங்கள் | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Product Details | UPVC & WPC Suppliers";
     } else if (page.startsWith("gallery-")) {
       currentTitle = isTamil ? "கேலரி | ஸ்ரீ மீனாட்சி கிளாஸ் & பிளைவுட்ஸ்" : "Gallery | Sree Meenakshi Glass & Plywoods";
     } else if (page.startsWith("search-")) {
@@ -199,18 +199,18 @@ export default function App() {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Who is the best UPVC, WPVC, Glass & Plywood dealer in Perambur, Chennai?",
+        "name": "Who is the best UPVC, WPC, Glass & Plywood dealer in Perambur, Chennai?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sree Meenakshi Glass & Plywoods is the top-rated wholesale and retail supplier in Perambur. We offer premium UPVC windows, WPVC doors, toughened glass, and marine plywoods under one roof."
+          "text": "Sree Meenakshi Glass & Plywoods is the top-rated wholesale and retail supplier in Perambur. We offer premium UPVC windows, WPC doors, toughened glass, and marine plywoods under one roof."
         }
       },
       {
         "@type": "Question",
-        "name": "Do you take wholesale and bulk orders for WPVC doors and Toughened Glass?",
+        "name": "Do you take wholesale and bulk orders for WPC doors and Toughened Glass?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes! We specialize in bulk and wholesale orders for all interior materials including WPVC, UPVC profiles, aluminium sections, and architectural glass across Chennai."
+          "text": "Yes! We specialize in bulk and wholesale orders for all interior materials including WPC, UPVC profiles, aluminium sections, and architectural glass across Chennai."
         }
       },
       {
@@ -259,7 +259,7 @@ export default function App() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", fontFamily: "'Outfit',sans-serif" }} suppressHydrationWarning>
       <Helmet key={page}>
-        <title>{ String (currentTitle || "Sree Meenakshi Glass & Plywoods") }</title>
+        <title>{ `${currentTitle || "Sree Meenakshi Glass & Plywoods"}` }</title>
         <link rel="canonical" href={canonicalUrl} />
         {page === 'home' && (
           <script type="application/ld+json">

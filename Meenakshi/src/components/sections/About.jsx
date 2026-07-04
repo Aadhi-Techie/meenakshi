@@ -2,7 +2,7 @@ import { ArrowRight, Award, ShieldCheck, Zap, Handshake, Star, Store } from 'luc
 import { Helmet } from 'react-helmet-async';
 
 export default function About({ go, t }) {
-  const shopImageUrl = "/assets/About-Image.webp";
+  const shopImageUrl = "/assets/About-Image.png"; // Replace with your actual image path
 
   const isTamil = t.nav?.home === "முகப்பு";
 
@@ -26,7 +26,7 @@ export default function About({ go, t }) {
   const journeyData = [
     { year: "2007", desc: isTamil ? "பெரம்பூரில் கண்ணாடி மற்றும் பிளைவுட் வியாபாரத்துடன் தொடக்கம்" : "Founded in Perambur with glass & plywood focus" },
     { year: "2010", desc: isTamil ? "அலுமினியம் ஃபேப்ரிகேஷன் மற்றும் ஹார்டுவேர்ஸிற்கு விரிவாக்கம்" : "Expanded to aluminium fabrication & hardware" },
-    { year: "2016", desc: isTamil ? "UPVC மற்றும் WPVC தயாரிப்புகள் அறிமுகம்" : "Introduced UPVC & WPVC product lines" },
+    { year: "2016", desc: isTamil ? "UPVC மற்றும் WPC தயாரிப்புகள் அறிமுகம்" : "Introduced UPVC & WPC product lines" },
     { year: "2020", desc: isTamil ? "அனைத்து தயாரிப்புகளுக்கும் ISI சான்றிதழ் பெறப்பட்டது" : "Achieved ISI certification across all product lines" },
     { year: "2025", desc: isTamil ? "தமிழ்நாடு முழுவதும் 2000+ வாடிக்கையாளர்களுக்கு சேவை" : "Serving 2000+ clients across Tamil Nadu" }
   ];

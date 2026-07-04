@@ -112,17 +112,17 @@ export const PRODS = {
     gallery: ["🏗️", "🏢", "🏨", "🏫", "🏥", "🏠"],
   },
 
-  wpvc: {
-    id: "wpvc", name: "WPVC", tn: "WPVC", icon: "🚪",
+  WPC: {
+    id: "WPC", name: "WPC", tn: "WPC", icon: "🚪",
     tag: "Weather-Proof Excellence",
     clr: "#a78bfa", ga: "#1e0a42", gb: "#100522",
     desc:
-      "Engineered WPVC door & panel solutions built for Chennai's coastal humidity " +
+      "Engineered WPC door & panel solutions built for Chennai's coastal humidity " +
       "and harsh monsoon conditions. Low maintenance, high durability, lasting beauty.",
     full:
-      "WPVC profiles are specially formulated for tropical and coastal climates. " +
-      "Unlike wood that swells or metal that rusts, WPVC maintains its form through " +
-      "monsoons, salty sea air and intense heat. Our WPVC doors are ideal for " +
+      "WPC profiles are specially formulated for tropical and coastal climates. " +
+      "Unlike wood that swells or metal that rusts, WPC maintains its form through " +
+      "monsoons, salty sea air and intense heat. Our WPC doors are ideal for " +
       "bathrooms, kitchens and exterior applications where traditional materials " +
       "fail within years.",
     feats: [
@@ -368,12 +368,12 @@ export const GALLERY = [
   { ic: "🏗️", l: "UPVC Window Systems",      cat: "upvc",      span: "1/1", h: 200, bg: "rgba(52,211,153,.07)",  c: "#34d399" },
   { ic: "🔩", l: "Hardware Collection",      cat: "hardwares", span: "1/1", h: 200, bg: "rgba(251,191,36,.07)",  c: "#fbbf24" },
   { ic: "✨", l: "Premium Showroom",         cat: "all",       span: "2/1", h: 240, bg: "rgba(249,115,22,.07)",  c: "#f97316" },
-  { ic: "🚪", l: "WPVC Door Showcase",       cat: "wpvc",      span: "1/1", h: 200, bg: "rgba(167,139,250,.07)", c: "#a78bfa" },
+  { ic: "🚪", l: "WPC Door Showcase",       cat: "WPC",      span: "1/1", h: 200, bg: "rgba(167,139,250,.07)", c: "#a78bfa" },
   { ic: "🏠", l: "Interior Projects",        cat: "all",       span: "1/1", h: 200, bg: "rgba(56,189,248,.05)",  c: "#38bdf8" },
   { ic: "🏢", l: "Commercial Installations", cat: "aluminium", span: "1/2", h: 240, bg: "rgba(148,163,184,.06)", c: "#94a3b8" },
   { ic: "🔧", l: "On-Site Fabrication",      cat: "all",       span: "1/1", h: 190, bg: "rgba(249,115,22,.06)",  c: "#f97316" },
 ];
 
 export const GAL_CATS = [
-  "All", "Glass", "Plywoods", "UPVC", "WPVC", "Aluminium", "Hardwares",
+  "All", "Glass", "Plywoods", "UPVC", "WPC", "Aluminium", "Hardwares",
 ];

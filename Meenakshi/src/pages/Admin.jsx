@@ -24,7 +24,7 @@ const CATEGORY_DATA = {
     "Profiles & Accessories": ["Frames", "Sashes", "Beading"],
     Other: ["Custom / Other"]
   },
-  WPVC: {
+  WPC: {
     "Doors": ["Solid Door", "Carved / Designer Door", "Plain Door"],
     "Frames (Chaukhat)": ["Standard Frame", "Custom Frame"],
     "Boards & Panels": ["Solid Board", "Foam Board"],

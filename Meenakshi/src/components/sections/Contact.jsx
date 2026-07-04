@@ -10,7 +10,7 @@ const tData = {
     call: "Call Sree Meenakshi", email: "Email", hours: "Opening Hours",
     hours_mon_sat: "Mon-Sat: 8:30 AM - 9:00 PM", hours_sun: "Sunday: 10:00 AM - 5:00 PM",
     call_now: "Call Now", whatsapp_us: "WhatsApp Us",
-    send_enquiry: "Enquiry | UPVC, WPVC & Plywood Shop in Perambur",
+    send_enquiry: "Enquiry | UPVC, WPC & Plywood Shop in Perambur",
     form_title: "Sree Meenakshi Glass & Plywoods, Perambur",
     form_subtitle: "Contact us for wholesale price list",
     full_name: "Full Name", email_address: "Email Address",
@@ -150,7 +150,7 @@ export default function Contact({ currentLang = 'ta' }) {
 
   return (
     <>
-      <Helmet><title>{t('send_enquiry')} | Sree Meenakshi Glass & Plywoods</title></Helmet>
+      <Helmet><title>{`${t('send_enquiry')} | Sree Meenakshi Glass & Plywoods`}</title></Helmet>
 
       <section style={{ padding: '72px 24px', background: 'var(--bg)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
@@ -269,12 +269,22 @@ export default function Contact({ currentLang = 'ta' }) {
             
             {/* Bottom Left: Shop Image */}
             <div style={{ flex: '1 1 340px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, height: 350 }}>
-              <img 
-                src="/assets/About-Image.webp" 
-                alt="Sree Meenakshi Glass and Plywoods Shop Front" 
-                style={{ width: '100%', height: '100%', borderRadius: 12, objectFit: 'cover' }} 
-                onError={(e) => { e.target.style.display = 'none'; }}
-              />
+              {/* Bottom Left: Shop Image */}
+<div style={{ flex: '1 1 340px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, height: 350 }}>
+  <img 
+    src="assets/About-Image.webp" // 👈 முதலில் இருந்த '/' தூக்கியாச்சு (Relative Path Fix)
+    alt="Sree Meenakshi Glass and Plywoods Shop Front" 
+    style={{ width: '100%', height: '100%', borderRadius: 12, objectFit: 'cover' }} 
+    onError={(e) => { 
+      // 👈 ஒருவேளை Linux சர்வர்ல சிறிய எழுத்துக்களில் ஃபைல் பெயர் இருந்தால் அதையும் இது ஆட்டோமேட்டிக்கா சரி செய்திடும்!
+      if (!e.target.src.includes('about-image.webp')) {
+        e.target.src = "assets/about-image.webp"; // 👈 Lowercase fallback
+      } else {
+        e.target.style.display = 'none';
+      }
+    }}
+  />
+</div>
             </div>
 
             {/* Bottom Right: Map with Shop Name Fix */}

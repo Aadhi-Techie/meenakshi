@@ -17,7 +17,7 @@ export default function Services({ t }) {
     { id: 'glass', name: isTamil ? "பிரீமியம் கண்ணாடி" : "Premium Glass Supply", desc: isTamil ? "பெரம்பூரில் தரமான கண்ணாடி வேலைகள்." : "High-quality toughened glass solutions in Perambur.", img: "https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?auto=format&fit=crop&q=80&w=400&h=400" },
     { id: 'ply', name: isTamil ? "மொத்த விலை பிளைவுட்" : "Wholesale Plywoods", desc: isTamil ? "நீடித்த உழைக்கும் பிளைவுட் ரகங்கள்." : "Durable and premium plywoods for interior projects.", img: "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?auto=format&fit=crop&q=80&w=400&h=400" },
     { id: 'upv', name: isTamil ? "UPVC விண்டோ சிஸ்டம்ஸ்" : "UPVC Window Systems", desc: isTamil ? "சிறந்த ஆற்றல் சேமிப்பு கொண்ட UPVC." : "Energy-efficient UPVC windows in Chennai & Perambur.", img: "https://images.unsplash.com/photo-1604014237800-1c9102c219da?auto=format&fit=crop&q=80&w=400&h=400" },
-    { id: 'wpv', name: isTamil ? "WPVC கதவுகள்" : "WPVC Doors & Panels", desc: isTamil ? "நீர்ப்புகா மற்றும் நவீன WPVC கதவுகள்." : "Waterproof and modern WPVC doors and panels.", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=400&h=400" },
+    { id: 'wpv', name: isTamil ? "WPC கதவுகள்" : "WPC Doors & Panels", desc: isTamil ? "நீர்ப்புகா மற்றும் நவீன WPC கதவுகள்." : "Waterproof and modern WPC doors and panels.", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=400&h=400" },
     { id: 'alu', name: isTamil ? "அலுமினியம் தீர்வுகள்" : "Aluminium Solutions", desc: isTamil ? "அலுமினியம் செக்ஷன் வேலைகள்." : "Custom aluminium sections for commercial spaces.", img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&q=80&w=400&h=400" },
     { id: 'hdw', name: isTamil ? "ஹார்டுவேர் பொருட்கள்" : "Hardwares & Fittings", desc: isTamil ? "சிறந்த தரமான இன்டீரியர் ஹார்டுவேர்." : "Premium interior hardware and fittings supplier.", img: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&q=80&w=400&h=400" }
   ];
@@ -104,7 +104,7 @@ export default function Services({ t }) {
               {isTamil ? "பெரம்பூர், சென்னையில்\nமுழுமையான கட்டிட பொருட்கள்" : "Building Material Suppliers\nin Perambur, Chennai"}
             </h2>
             <p style={{ color: "var(--sl3)", fontSize: 16, lineHeight: 1.7, margin: 0, maxWidth: 550 }}>
-              {isTamil ? "பெரம்பூர் மற்றும் சென்னையைச் சுற்றியுள்ள பகுதிகளில் பிரீமியம் கண்ணாடி, பிளைவுட், UPVC விண்டோஸ் மற்றும் WPVC கதவுகளுக்கான முன்னணி மொத்த விற்பனையாளர்." : "Leading wholesale and retail suppliers of premium Glass, Plywoods, UPVC Windows, and WPVC Doors in Perambur, Chennai."}
+              {isTamil ? "பெரம்பூர் மற்றும் சென்னையைச் சுற்றியுள்ள பகுதிகளில் பிரீமியம் கண்ணாடி, பிளைவுட், UPVC விண்டோஸ் மற்றும் WPC கதவுகளுக்கான முன்னணி மொத்த விற்பனையாளர்." : "Leading wholesale and retail suppliers of premium Glass, Plywoods, UPVC Windows, and WPC Doors in Perambur, Chennai."}
             </p>
           </div>
 

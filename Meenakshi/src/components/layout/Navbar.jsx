@@ -50,9 +50,31 @@ export default function Navbar({ page, go, lang, setLang, t }) {
 
           <div style={{ maxWidth: 1280, margin: "0 auto", height: NAV_H, display: "flex", alignItems: "center", gap: 18 }}>
 
-            {/* Logo */}
+            {/* ── LOGO SECTION WITH AUTOMATIC OPTIMIZATION ── */}
             <a href="/" onClick={(e) => { e.preventDefault(); go("home"); }} style={{ cursor: "pointer", display: "flex", alignItems: "center", flexShrink: 0, textDecoration: "none" }} aria-label="Sree Meenakshi Glass and Plywoods - Home" title="Sree Meenakshi Glass and Plywoods - Home">
-              <img src="/apple-touch-icon.webp" alt="Sree Meenakshi Glass and Plywoods" style={{ height: 65, width: "auto", objectFit: "contain", borderRadius: 8 }} />
+              <img 
+                src="/fav.webp" 
+                alt="Sree Meenakshi Glass and Plywoods" 
+                style={{ 
+                  height: 66, 
+                  width: "auto", 
+                  maxWidth: "100%",
+                  objectFit: "contain",
+                  // 🔥 டார்க் தீமில் லோகோ மறையாமல் இருக்க வெள்ளை நிற Drop Shadow மற்றும் பிரைட்னஸ் கூட்டப்பட்டுள்ளது!
+                  filter: theme === 'dark' 
+                    ? 'drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.8)) brightness(1.15)' 
+                    : 'none',
+                  transition: 'filter 0.3s ease'
+                }} 
+                // மொபைல் மற்றும் லேப்டாப் ஸ்கிரீன்களுக்கு தகுந்தவாறு பிக்சலை மாற்றித் தரும் srcSet அம்சம்
+                srcSet="fav.webp 1200w,  fav.webp 600w"
+                sizes="(max-width: 768px) 150px, 240px"
+                onError={(e) => {
+                  if (!e.target.src.includes('fav.webp')) {
+                    e.target.src = "fav.webp"; // Fallback to PNG if WebP fails      
+                  }
+                }}
+              />
             </a>
 
             {/* Desktop Nav */}
@@ -62,7 +84,6 @@ export default function Navbar({ page, go, lang, setLang, t }) {
                 {t.nav.home}
               </a>
 
-              {/* ✅ FIX WARN 2: span → button for keyboard accessibility */}
               <div className="dd">
                 <button className={`nl ${page.startsWith("category-") ? "on" : ""}`} style={{ display: "flex", alignItems: "center", gap: 4, background: "none", border: "none", cursor: "pointer", padding: 0, font: "inherit" }}>
                   {t.nav.prods} <ChevronDown size={13} />
@@ -95,7 +116,7 @@ export default function Navbar({ page, go, lang, setLang, t }) {
               <a href="/contact" className={`nl ${page === "contact" ? "on" : ""}`} onClick={(e) => { e.preventDefault(); go("contact"); }} style={{ textDecoration: "none" }}>
                 {t.nav.contact}
               </a>
-              {/* Bulk Order Link */}
+              
               <a href="/bulk-order" className={`nl ${page === "bulk-order" ? "on" : ""}`} onClick={(e) => { e.preventDefault(); go("bulk-order"); }} style={{ textDecoration: "none", color: "var(--o)", fontWeight: 700 }}>
                  Bulk Order
               </a>
@@ -128,7 +149,6 @@ export default function Navbar({ page, go, lang, setLang, t }) {
                 {qFocus && (
                   <div className="gd" style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, borderRadius: 12, overflow: "hidden", zIndex: 700, background: "var(--bg)", border: "1px solid var(--brd)" }}>
                     {res.length > 0 ? res.map(p => (
-                      // ✅ FIX FAIL 1: onKeyDown Enter added for keyboard accessibility
                       <a key={p.id} href={`/category-${p.id}`}
                         onMouseDown={(e) => { e.preventDefault(); go(`category-${p.id}`); setQ(""); }}
                         onKeyDown={(e) => { if (e.key === 'Enter') { go(`category-${p.id}`); setQ(""); setQFocus(false); } }}
@@ -172,10 +192,9 @@ export default function Navbar({ page, go, lang, setLang, t }) {
         </nav>
       </header>
 
-      {/* ✅ FIX FAIL 2: aria-hidden on backdrop */}
       <div className={`mmo ${mob ? "open" : ""}`} onClick={() => setMob(false)} aria-hidden="true" />
 
-      {/* Mobile Menu ➡️ ✅ 🌟 திருத்தப்பட்ட பகுதி: display மற்றும் inert இணைக்கப்பட்டுள்ளது */}
+      {/* Mobile Menu */}
       <div 
         id="mobile-menu" 
         className={`mm gd ${mob ? "open" : ""}`} 
@@ -222,7 +241,6 @@ export default function Navbar({ page, go, lang, setLang, t }) {
             {t.nav.home}
           </a>
 
-          {/* ✅ FIX WARN 3: div → button for mobile accordion */}
           <div>
             <button onClick={() => setMobProd(!mobProd)} aria-expanded={mobProd} style={{ width: "100%", padding: "14px 22px", borderTop: "none", borderLeft: "none", borderRight: "none", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page.startsWith("category-") ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", textAlign: "left" }}>
               <span>{t.nav.prods}</span>
@@ -260,7 +278,7 @@ export default function Navbar({ page, go, lang, setLang, t }) {
           <a href="/contact" onClick={(e) => { e.preventDefault(); go("contact"); setMob(false); }} style={{ textDecoration: "none", display: "block", padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page === "contact" ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 500 }}>
             {t.nav.contact}
           </a>
-          {/* Bulk Order Mobile */}
+          
           <a href="/bulk-order" onClick={(e) => { e.preventDefault(); go("bulk-order"); setMob(false); }} style={{ textDecoration: "none", display: "block", padding: "14px 22px", borderBottom: "1px solid var(--brd)", cursor: "pointer", color: page === "bulk-order" ? "var(--o)" : "var(--sl)", fontSize: 15, fontWeight: 700 }}>
             Bulk Order
           </a>

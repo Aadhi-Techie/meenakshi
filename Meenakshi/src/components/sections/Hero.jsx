@@ -9,8 +9,8 @@ export default function Hero({ go, t }) {
   const isTamil = t?.nav?.home === "முகப்பு";
 
   const catNames = isTamil
-    ? ["கண்ணாடி", "பிளைவுட்", "UPVC", "WPVC"]
-    : ["Glass", "Plywoods", "UPVC", "WPVC"];
+    ? ["கண்ணாடி", "பிளைவுட்", "UPVC", "WPC"]
+    : ["Glass", "Plywoods", "UPVC", "WPC"];
 
   const showroomTxt  = isTamil ? "ஷோரூம்" : "Showroom";
   const defaultSubTxt = isTamil ? "சிறந்த தரமான கலெக்‌ஷன்ஸ்" : "Premium Quality Collections";
@@ -36,8 +36,8 @@ export default function Hero({ go, t }) {
             const catA = a.category.toLowerCase();
             const catB = b.category.toLowerCase();
             
-            const isPriorityA = (catA.includes('upvc') || catA.includes('wpvc')) ? 0 : 1;
-            const isPriorityB = (catB.includes('upvc') || catB.includes('wpvc')) ? 0 : 1;
+            const isPriorityA = (catA.includes('upvc') || catA.includes('WPC')) ? 0 : 1;
+            const isPriorityB = (catB.includes('upvc') || catB.includes('WPC')) ? 0 : 1;
             
             return isPriorityA - isPriorityB;
           });
@@ -183,24 +183,54 @@ export default function Hero({ go, t }) {
             {/* Category Buttons */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               {[
-                { name: catNames[0], route: "glass",    icon: "🪟" },
-                { name: catNames[1], route: "plywoods", icon: "🪵" },
-                { name: catNames[2], route: "upvc",     icon: "🏗️" },
-                { name: catNames[3], route: "wpvc",     icon: "🚪" }
+                { name: catNames[0], route: "glass",    img: "/assets/categories/window.webp" },
+                { name: catNames[1], route: "plywoods", img: "/assets/categories/plywoods.webp" },
+                { name: catNames[2], route: "upvc",     img: "/assets/categories/UPVC.webp" },
+                { name: catNames[3], route: "WPC",     img: "/assets/categories/wpc.webp" }
               ].map(cat => (
-                <button
-                  key={cat.route}
-                  aria-label={`View ${cat.name} category`}
-                  onClick={() => go(`category-${cat.route}`)}
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--brd)", padding: "10px 12px", borderRadius: 12, display: "flex", alignItems: "center", gap: 10, color: "var(--sl3)", fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.2s" }}
-                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = "var(--w)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.03)"; e.currentTarget.style.color = "var(--sl3)"; }}
-                >
-                  <span style={{ fontSize: 16 }} aria-hidden="true">{cat.icon}</span> {cat.name}
-                </button>
-              ))}
+              <button
+              key={cat.route}
+              aria-label={`View ${cat.name} category`}
+              onClick={() => go(`category-${cat.route}`)}
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid var(--brd)",
+                padding: "8px 12px",
+                borderRadius: 12,
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                color: "var(--sl3)",
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.2s"
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                e.currentTarget.style.color = "var(--w)";
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+                e.currentTarget.style.color = "var(--sl3)";
+              }}
+              >
+                <img
+                src={cat.img}
+                alt={cat.name}
+                style={{
+                width: 36,
+                height: 36,
+                borderRadius: 8,
+                objectFit: "cover",
+                border: "1px solid rgba(255,255,255,0.1)",
+                flexShrink: 0
+              }}
+              />
+              {cat.name}
+              </button>
+            ))}
             </div>
-
           </div>
         </div>
 
