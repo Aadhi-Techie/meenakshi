@@ -53,9 +53,9 @@ const cardStyle = {
   alignItems: 'flex-start',
   gap: 16,
   padding: '20px 24px',
-  background: 'rgba(255,255,255,0.04)',
+  background: 'var(--bg2)',
   borderRadius: 14,
-  border: '1px solid rgba(255,255,255,0.07)',
+  border: '1px solid var(--brd)',
 };
 
 const iconBadge = {
@@ -74,7 +74,7 @@ const labelStyle = {
   fontSize: 11,
   fontWeight: 700,
   letterSpacing: '0.12em',
-  color: 'rgba(255,255,255,0.45)',
+  color: 'var(--sl2)',
   textTransform: 'uppercase',
   margin: 0,
   marginBottom: 6,
@@ -83,7 +83,7 @@ const labelStyle = {
 const mapLabelStyle = {
   fontSize: 13,
   fontWeight: 700,
-  color: 'rgba(255,255,255,0.75)',
+  color: 'var(--w)',
   marginBottom: 10,
   display: 'flex',
   alignItems: 'center',
@@ -94,7 +94,7 @@ const fieldLabelStyle = {
   fontSize: 11,
   fontWeight: 700,
   letterSpacing: '0.1em',
-  color: 'rgba(255,255,255,0.5)',
+  color: 'var(--sl2)',
   textTransform: 'uppercase',
   marginBottom: 6,
   display: 'block',
@@ -103,8 +103,8 @@ const fieldLabelStyle = {
 const inputStyle = {
   width: '100%',
   padding: '12px 14px',
-  background: 'rgba(255,255,255,0.06)',
-  border: '1px solid rgba(255,255,255,0.1)',
+  background: 'var(--bg2)',
+  border: '1px solid var(--brd)',
   borderRadius: 10,
   color: '#fff',
   fontSize: 14,
