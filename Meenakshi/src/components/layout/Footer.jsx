@@ -134,7 +134,7 @@ export default function Footer({ go, t }) {
               </a>
             </div>
             <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, color: "var(--sl)" }}>{isTamil ? "பணம் செலுத்தும் முறைகள்" : "Payment Modes"}</div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, maginTop: 4 }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", background: "rgba(255,255,255,0.03)", borderRadius: 4, fontSize: 11, color: "var(--sl3)", border: "1px solid var(--brd)" }}><CreditCard size={12} color="#3b82f6" /> Visa/Master</span>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", background: "rgba(255,255,255,0.03)", borderRadius: 4, fontSize: 11, color: "var(--sl3)", border: "1px solid var(--brd)" }}><Banknote size={12} color="#10b981" /> Cash</span>
             </div>
