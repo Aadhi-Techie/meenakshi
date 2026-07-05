@@ -7,11 +7,9 @@ export default function Testimonials({ t }) {
   const [idx, setIdx] = useState(0);
   const [auto, setAuto] = useState(true);
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const isTamil = t.nav?.home === "முகப்பு";
 
-  // Fallback hardcoded data (Supabase empty ஆனா இது show ஆகும்)
   const FALLBACK = useMemo(() => [
     {
       name: "Rajesh Kumar",
@@ -61,46 +59,49 @@ export default function Testimonials({ t }) {
         ? "இவர்களின் ஹார்டுவேர் கலெக்‌ஷன் சென்னையில் மிகச் சிறந்தது. உடனடி டெலிவரி பல அவசர ப்ராஜெக்ட்களில் எங்களுக்கு உதவியது."
         : "Their hardware range is unmatched in Chennai. Same-day delivery saved us on multiple urgent projects.",
     },
-  ], [isTamil]); 
+  ], [isTamil]);
 
   useEffect(() => {
+    // ✅ FIX: FALLBACK-ஐ initial state-ஆவே போடு, effect-ல setState இல்லை
     const fetchReviews = async () => {
       try {
         const { data, error } = await supabase
           .from('reviews')
           .select('*')
-          .eq('is_visible', true)
           .order('created_at', { ascending: false });
 
         if (error) throw error;
-        setReviews(data && data.length > 0 ? data : FALLBACK);
+
+        // JS-ல is_visible filter பண்றோம்
+        const visible = data
+          ? data.filter(r => r.is_visible === true || r.is_visible == null)
+          : [];
+
+        // Supabase-ல data இருந்தா மட்டும் replace பண்ணு
+        if (visible.length > 0) {
+          setReviews(visible);
+        }
+        // இல்லன்னா FALLBACK அப்படியே இருக்கும் (initial state)
       } catch (err) {
         console.error('Reviews fetch error:', err.message);
-        setReviews(FALLBACK);
-      } finally {
-        setLoading(false);
+        // error-லயும் FALLBACK அப்படியே இருக்கும்
       }
     };
+
     fetchReviews();
-  }, [isTamil, FALLBACK]);
+  }, [isTamil]); // FALLBACK dependency இல்லாம — infinite loop வராது
+
+  // ✅ KEY FIX: useState-ல நேரடியா FALLBACK initial value-ஆ போடு
+  // reviews empty-ஆ இருந்தா FALLBACK use பண்ணு
+  const displayReviews = reviews.length > 0 ? reviews : FALLBACK;
 
   useEffect(() => {
-    if (!auto || reviews.length === 0) return;
-    const tm = setInterval(() => setIdx(i => (i + 1) % reviews.length), 5000);
+    if (!auto || displayReviews.length === 0) return;
+    const tm = setInterval(() => setIdx(i => (i + 1) % displayReviews.length), 5000);
     return () => clearInterval(tm);
-  }, [auto, reviews.length]);
+  }, [auto, displayReviews.length]);
 
   const sel = (i) => { setIdx(i); setAuto(false); };
-
-  const TESTS = reviews;
-
-  if (loading) return (
-    <section className="sec" style={{ background: "var(--bg)" }}>
-      <div className="wrap" style={{ textAlign: "center", padding: "60px 0", color: "var(--sl3)" }}>
-        Loading reviews...
-      </div>
-    </section>
-  );
 
   return (
     <section className="sec" aria-label={t.tsH || "Testimonials"} style={{ background: "var(--bg)" }}>
@@ -113,7 +114,7 @@ export default function Testimonials({ t }) {
           aria-roledescription="carousel"
           aria-live={auto ? "off" : "polite"}
         >
-          {TESTS.map((r, i) => (
+          {displayReviews.map((r, i) => (
             <div
               key={r.id || i}
               className={`ts ${i === idx ? "on" : ""}`}
@@ -143,7 +144,7 @@ export default function Testimonials({ t }) {
         </div>
 
         <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" }} role="tablist">
-          {TESTS.map((r, i) => (
+          {displayReviews.map((r, i) => (
             <button
               key={r.id || i}
               role="tab"
